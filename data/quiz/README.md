@@ -7,11 +7,19 @@
 `b8594f81a89752241442f2ce267d6f66f96704ee`，来源仓库采用 MIT 许可证。
 许可证副本见 `LICENSE.chinese-poetry`。
 
+`geography-gb2260-2025.seed.json` 由 `scripts/generate-geography-quiz.mjs` 从
+`xihan123/gb2260` 的 2025 年有效行政区划记录确定性生成，固定上游提交为
+`aa9f31b3a8b1dff06e815b7612f4a9e5c02a5bff`。生成时只使用来源标记为
+`areacodes` 的记录；规范化产物和该上游均采用 CC0 1.0。许可证副本见
+`LICENSE.gb2260`。
+
 生成命令：
 
 ```powershell
 npm.cmd install
 npm.cmd run quiz:generate -- --source=.tmp/chinese-poetry/tang300.json --count=600
+npm.cmd run quiz:generate:geography -- --source=.tmp/gb2260-archive/gb2260-master/data/build/areas.json --count=250
+npm.cmd run quiz:audit:geography
 ```
 
 导入开发数据库：
@@ -22,6 +30,8 @@ npm.cmd run prisma:generate
 npm.cmd run prisma:deploy
 npm.cmd run quiz:check
 npm.cmd run quiz:import
+npm.cmd run quiz:check:geography
+npm.cmd run quiz:import:geography
 ```
 
 ## 发布约束

@@ -12,9 +12,19 @@ type SeedQuestion = {
 };
 
 const prisma = new PrismaClient();
-const bankPath = path.resolve(process.cwd(), "../data/quiz/poetry-tang-300.seed.json");
-const bank = JSON.parse(fs.readFileSync(bankPath, "utf8")) as {questions: SeedQuestion[]};
-const expectedByKey = new Map(bank.questions.map((question) => [question.externalKey, question]));
+const bankDirectory = path.resolve(process.cwd(), "../data/quiz");
+const bankFiles = fs.readdirSync(bankDirectory)
+  .filter((file) => file.endsWith(".seed.json"))
+  .sort();
+const bankQuestions = bankFiles.flatMap((file) => {
+  const bankPath = path.join(bankDirectory, file);
+  const bank = JSON.parse(fs.readFileSync(bankPath, "utf8")) as {questions: SeedQuestion[]};
+  return bank.questions;
+});
+const expectedByKey = new Map(bankQuestions.map((question) => [question.externalKey, question]));
+if (expectedByKey.size !== bankQuestions.length) {
+  throw new Error("题库之间存在重复 externalKey，无法执行数据库审计");
+}
 const stable = (value: unknown) => JSON.stringify(value);
 
 async function main() {
@@ -75,7 +85,7 @@ async function main() {
   const published = questions.filter((question) => question.status === "PUBLISHED" && question.reviewStatus === "APPROVED").length;
   const failures = [...questionFailures, ...snapshotFailures, ...gradingFailures];
   const retired = questions.filter((question) => !expectedByKey.has(question.externalKey)).length;
-  console.log(JSON.stringify({questions: questions.length, published, retired, snapshots: snapshots.length, answeredSnapshots: snapshots.filter((snapshot) => snapshot.isCorrect !== null).length, failed: failures.length, failures: failures.slice(0, 20)}, null, 2));
+  console.log(JSON.stringify({banks: bankFiles, expectedQuestions: expectedByKey.size, questions: questions.length, published, retired, snapshots: snapshots.length, answeredSnapshots: snapshots.filter((snapshot) => snapshot.isCorrect !== null).length, failed: failures.length, failures: failures.slice(0, 20)}, null, 2));
   if (failures.length) process.exitCode = 1;
 }
 
