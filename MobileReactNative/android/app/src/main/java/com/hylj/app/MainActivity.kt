@@ -1,4 +1,4 @@
-package com.clound.note
+package com.hylj.app
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

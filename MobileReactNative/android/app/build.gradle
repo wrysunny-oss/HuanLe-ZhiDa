@@ -126,7 +126,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.clound.note"
+    namespace "com.hylj.app"
     buildFeatures {
         buildConfig true
     }

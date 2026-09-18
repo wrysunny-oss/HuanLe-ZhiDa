@@ -1,4 +1,4 @@
-package com.clound.note
+package com.hylj.app
 
 import android.app.Application
 import com.facebook.react.PackageList
