@@ -71,6 +71,7 @@ export function QuizPlayScreen() {
           <Text style={styles.counter}>{question.position}<Text style={styles.counterMuted}> / {session.totalQuestions}</Text></Text>
         </View>
         <KnowledgeRail progress={progress} />
+        <View style={styles.questionBadge}><Text style={styles.questionBadgeText}>QUESTION {question.position}</Text></View>
         <Text style={styles.prompt}>{question.prompt}</Text>
         <Text style={styles.helper}>选择你认为正确的一项</Text>
 
@@ -123,10 +124,12 @@ const styles = StyleSheet.create({
   screen: {paddingHorizontal: 0},
   content: {paddingHorizontal: spacing.lg, paddingTop: spacing.lg, paddingBottom: 120},
   metaRow: {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.lg},
-  category: {color: colors.primary, ...typography.label},
+  category: {color: colors.secondary, ...typography.label},
   counter: {color: colors.text, fontSize: 17, fontWeight: '800'},
   counterMuted: {color: colors.subtle, fontSize: 13, fontWeight: '500'},
-  prompt: {color: colors.text, fontSize: 25, lineHeight: 36, fontWeight: '800', marginTop: 42},
+  questionBadge: {alignSelf: 'flex-start', marginTop: 38, backgroundColor: colors.warningSoft, borderRadius: 9, paddingHorizontal: 10, paddingVertical: 5, transform: [{rotate: '-2deg'}]},
+  questionBadgeText: {color: colors.warning, fontSize: 10, lineHeight: 14, fontWeight: '800', letterSpacing: 1.2},
+  prompt: {color: colors.text, fontSize: 25, lineHeight: 36, fontWeight: '800', marginTop: spacing.md},
   helper: {color: colors.muted, ...typography.body, marginTop: spacing.sm},
   options: {gap: spacing.md, marginTop: spacing.xl},
   option: {minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderRadius: radii.lg, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface, paddingHorizontal: spacing.lg, paddingVertical: spacing.md},

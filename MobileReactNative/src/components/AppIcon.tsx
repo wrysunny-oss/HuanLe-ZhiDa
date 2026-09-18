@@ -45,7 +45,7 @@ export type AppIconName =
  */
 export function AppIcon({
   name,
-  color = '#F5F6F8',
+  color = '#29263E',
   size = 24,
   strokeWidth = 2,
   filled = false,

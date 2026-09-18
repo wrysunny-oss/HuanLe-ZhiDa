@@ -100,7 +100,7 @@ export function ProfileScreen() {
                   <Text style={styles.avatarText}>{user?.nickname?.slice(0, 1) || '幻'}</Text>
                 </View>
               )}
-              <View style={styles.editBadge}><AppIcon name="edit" color="#1B1609" size={11} /></View>
+              <View style={styles.editBadge}><AppIcon name="edit" color={colors.onPrimary} size={11} /></View>
             </Pressable>
             <View style={styles.profileBody}>
               <View style={styles.nameRow}>
@@ -161,11 +161,11 @@ const styles = StyleSheet.create({
   heading: {color: colors.text, ...typography.title, flex: 1},
   settingsButton: {width: 44, height: 44, borderRadius: 22, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center'},
   pressed: {opacity: 0.68, transform: [{scale: 0.98}]},
-  profileCard: {borderRadius: radii.xl, padding: spacing.lg},
+  profileCard: {borderRadius: radii.xl, padding: spacing.lg, borderColor: colors.secondarySoft},
   profileRow: {flexDirection: 'row', alignItems: 'center'},
   avatar: {width: 68, height: 68, borderRadius: 34, backgroundColor: colors.surfaceAlt},
   avatarFallback: {width: 68, height: 68, borderRadius: 34, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center'},
-  avatarText: {color: '#1B1609', fontSize: 27, fontWeight: '800'},
+  avatarText: {color: colors.onPrimary, fontSize: 27, fontWeight: '800'},
   editBadge: {position: 'absolute', right: -2, bottom: 0, width: 22, height: 22, borderRadius: 11, backgroundColor: colors.primary, borderWidth: 2, borderColor: colors.surface, alignItems: 'center', justifyContent: 'center'},
   profileBody: {flex: 1, marginLeft: spacing.lg},
   nameRow: {flexDirection: 'row', alignItems: 'center', gap: spacing.sm},
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   metricBar: {flexDirection: 'row', marginTop: spacing.xl, paddingTop: spacing.lg, borderTopWidth: 1, borderTopColor: colors.divider},
   divider: {width: 1, height: 34, backgroundColor: colors.divider, alignSelf: 'center'},
   sectionTitle: {color: colors.text, ...typography.section, marginTop: spacing.xl, marginBottom: spacing.md},
-  quickCard: {padding: spacing.md, flexDirection: 'row'},
+  quickCard: {padding: spacing.md, flexDirection: 'row', backgroundColor: colors.secondarySoft, borderColor: colors.secondarySoft},
   quickItem: {flex: 1, alignItems: 'center', paddingVertical: spacing.sm},
   quickLabel: {color: colors.text, ...typography.caption, fontWeight: '600', marginTop: spacing.sm},
   listCard: {paddingVertical: 0},

@@ -75,6 +75,7 @@ export function QuizHomeScreen() {
         </View>
 
         <View style={styles.hero}>
+          <View style={styles.heroSticker}><AppIcon name="sparkles" color={colors.secondary} size={14} /><Text style={styles.heroStickerText}>今天也涨知识</Text></View>
           <View style={styles.heroHeading}>
             <View>
               <Text style={styles.heroLabel}>每日知识挑战</Text>
@@ -141,8 +142,10 @@ const styles = StyleSheet.create({
   topbar: {flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing.xl},
   eyebrow: {color: colors.primary, fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 1.8},
   title: {color: colors.text, fontSize: 25, lineHeight: 34, fontWeight: '800', marginTop: 4},
-  brandMark: {width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.primarySoft, borderWidth: 1, borderColor: colors.border},
-  hero: {backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radii.xl, padding: spacing.xl},
+  brandMark: {width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.primarySoft, transform: [{rotate: '4deg'}]},
+  hero: {backgroundColor: colors.secondarySoft, borderWidth: 1, borderColor: colors.secondarySoft, borderRadius: radii.xl, padding: spacing.xl, paddingTop: 42, transform: [{rotate: '-0.5deg'}]},
+  heroSticker: {position: 'absolute', top: -11, left: spacing.lg, minHeight: 30, borderRadius: 10, backgroundColor: colors.warningSoft, paddingHorizontal: spacing.md, flexDirection: 'row', alignItems: 'center', gap: spacing.xs, transform: [{rotate: '2deg'}]},
+  heroStickerText: {color: colors.text, ...typography.caption, fontWeight: '700'},
   heroHeading: {flexDirection: 'row', justifyContent: 'space-between', gap: spacing.md},
   heroLabel: {color: colors.muted, ...typography.label},
   heroTitle: {color: colors.text, fontSize: 25, lineHeight: 34, fontWeight: '800', marginTop: 3},
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
   sectionHint: {color: colors.muted, ...typography.caption},
   categoryGrid: {flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md},
   categorySkeleton: {height: 104, flexBasis: '47%', flexGrow: 1},
-  category: {minHeight: 112, flexBasis: '47%', flexGrow: 1, backgroundColor: colors.surfaceAlt, borderWidth: 1, borderColor: colors.border, borderRadius: radii.lg, padding: spacing.lg},
+  category: {minHeight: 112, flexBasis: '47%', flexGrow: 1, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radii.lg, padding: spacing.lg},
   categoryActive: {backgroundColor: colors.primary, borderColor: colors.primary},
   categoryIcon: {width: 36, height: 36, borderRadius: 12, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center'},
   categoryIconActive: {backgroundColor: 'rgba(255,255,255,0.16)'},

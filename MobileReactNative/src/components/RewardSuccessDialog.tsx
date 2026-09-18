@@ -84,16 +84,16 @@ export function RewardSuccessDialog({
             <Animated.View style={[styles.particle, styles.particleRight, {
               opacity: burst.interpolate({inputRange: [0, 0.2, 0.8, 1], outputRange: [0, 1, 1, 0]}),
               transform: [{translateX: burst.interpolate({inputRange: [0, 1], outputRange: [0, 62]})}, {translateY: burst.interpolate({inputRange: [0, 1], outputRange: [0, -38]})}, {rotate: burst.interpolate({inputRange: [0, 1], outputRange: ['0deg', '40deg']})}],
-            }]}><AppIcon name="coins" color="#F8D77E" size={19} /></Animated.View>
+            }]}><AppIcon name="coins" color={colors.playful} size={19} /></Animated.View>
             <Animated.View style={[styles.iconWrap, {transform: [{rotate: burst.interpolate({inputRange: [0, 0.45, 1], outputRange: ['-8deg', '9deg', '0deg']})}]}]}>
-              <AppIcon name="coins" color="#1B1609" size={34} strokeWidth={2.2} />
+              <AppIcon name="coins" color={colors.text} size={34} strokeWidth={2.2} />
             </Animated.View>
             <View style={styles.titleRow}>
               <AppIcon name="sparkles" color={colors.primary} size={18} />
               <Text style={styles.title}>奖励已到账</Text>
               <AppIcon name="sparkles" color={colors.primary} size={18} />
             </View>
-            <Text style={styles.description}>{receipt?.description ?? '完整观看激励广告获得'}</Text>
+            <Text style={styles.description}>{receipt?.description ?? '完成任务获得'}</Text>
             <AnimatedCoinValue
               key={receipt ? `${receipt.awardedCoins}-${receipt.coinBalance}-${receipt.completedCount}` : 'empty'}
               value={receipt?.awardedCoins ?? 0}
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.xl,
     borderRadius: radii.xl,
-    borderColor: '#51421E',
+    borderColor: colors.warningSoft,
   },
   glow: {
     position: 'absolute',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.primary,
     borderWidth: 6,
-    borderColor: '#F8D77E',
+    borderColor: colors.playful,
   },
   titleRow: {
     flexDirection: 'row',

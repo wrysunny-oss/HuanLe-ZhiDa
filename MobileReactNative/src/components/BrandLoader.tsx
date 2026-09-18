@@ -30,7 +30,7 @@ export function ContentLoadingOverlay({
   );
 }
 
-/** 当前迁移基线的统一加载动画：旋转品牌环、播放标识呼吸光晕和错峰跳动圆点。 */
+/** 统一加载动画：知识卡片、进度环和错峰跳动圆点。 */
 export function BrandLoader({
   compact = false,
   fullScreen = false,

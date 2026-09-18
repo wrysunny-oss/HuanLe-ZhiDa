@@ -83,7 +83,7 @@ export function AuthScreen() {
           <View style={styles.brandArea}>
             <BrandMark size={68} style={styles.logo} />
             <Text style={styles.brand}>{brandConfig.name}</Text>
-            <Text style={styles.caption}>每一次滑动，都有值得停留的故事</Text>
+            <Text style={styles.caption}>把碎片时间，变成一点新知</Text>
           </View>
           <AppCard style={styles.formCard} elevated>
             <View style={styles.tabs}>
@@ -102,7 +102,7 @@ export function AuthScreen() {
             </View>
             {error ? <View style={styles.errorBox}><AppIcon name="info" color={colors.danger} size={16} /><Text style={styles.errorText}>{error}</Text></View> : null}
             <Pressable onPress={() => setAgreed(value => !value)} style={styles.agreement}>
-              <View style={[styles.checkbox, agreed && styles.checkboxChecked]}>{agreed ? <AppIcon name="check" color="#1B1609" size={12} strokeWidth={3} /> : null}</View>
+              <View style={[styles.checkbox, agreed && styles.checkboxChecked]}>{agreed ? <AppIcon name="check" color={colors.onPrimary} size={12} strokeWidth={3} /> : null}</View>
               <Text style={styles.agreementText}>我已阅读并同意 <Text style={styles.link}>《用户协议》</Text> 和 <Text style={styles.link}>《隐私政策》</Text></Text>
             </Pressable>
             <AppButton title={mode === 'login' ? '登录' : '注册并登录'} loading={busy} onPress={submit} style={styles.submit} />
@@ -115,8 +115,8 @@ export function AuthScreen() {
 }
 
 const styles = StyleSheet.create({
-  flex: {flex: 1}, content: {flexGrow: 1, justifyContent: 'center', paddingVertical: spacing.xxl}, brandArea: {alignItems: 'center', marginBottom: spacing.xxl}, logo: {shadowColor: colors.primary, shadowOpacity: 0.22, shadowRadius: 18, elevation: 5}, brand: {color: colors.text, ...typography.display, marginTop: spacing.lg}, caption: {color: colors.muted, ...typography.body, marginTop: spacing.xs},
-  formCard: {borderRadius: radii.xl, padding: spacing.xl}, tabs: {height: 44, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: colors.divider, marginBottom: spacing.xl}, tab: {flex: 1, alignItems: 'center'}, tabText: {color: colors.muted, fontSize: 16, lineHeight: 24, fontWeight: '600'}, tabTextActive: {color: colors.text}, tabIndicator: {position: 'absolute', bottom: -1, width: 40, height: 3, borderRadius: 2, backgroundColor: colors.primary}, fields: {gap: spacing.md},
+  flex: {flex: 1}, content: {flexGrow: 1, justifyContent: 'center', paddingVertical: spacing.xxl}, brandArea: {alignItems: 'center', marginBottom: spacing.xxl}, logo: {transform: [{rotate: '-3deg'}]}, brand: {color: colors.text, ...typography.display, marginTop: spacing.lg}, caption: {color: colors.muted, ...typography.body, marginTop: spacing.xs},
+  formCard: {borderRadius: radii.xl, padding: spacing.xl, borderColor: colors.secondarySoft, shadowColor: colors.secondary}, tabs: {height: 44, flexDirection: 'row', backgroundColor: colors.surfaceAlt, borderRadius: radii.md, padding: 4, marginBottom: spacing.xl}, tab: {flex: 1, alignItems: 'center', justifyContent: 'center'}, tabText: {color: colors.muted, fontSize: 15, lineHeight: 22, fontWeight: '600'}, tabTextActive: {color: colors.primary}, tabIndicator: {position: 'absolute', left: 8, right: 8, bottom: 0, height: 3, borderRadius: 2, backgroundColor: colors.primary}, fields: {gap: spacing.md},
   inputWrap: {height: 52, borderRadius: radii.md, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceAlt, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.md}, input: {flex: 1, color: colors.text, ...typography.body, paddingVertical: 0}, errorBox: {minHeight: 40, marginTop: spacing.md, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderRadius: radii.sm, backgroundColor: colors.dangerSoft, flexDirection: 'row', alignItems: 'center', gap: spacing.sm}, errorText: {color: colors.danger, ...typography.caption, flex: 1}, agreement: {flexDirection: 'row', alignItems: 'flex-start', marginTop: spacing.lg}, checkbox: {width: 19, height: 19, borderRadius: 6, borderWidth: 1, borderColor: colors.muted, alignItems: 'center', justifyContent: 'center', marginTop: 1}, checkboxChecked: {backgroundColor: colors.primary, borderColor: colors.primary}, agreementText: {color: colors.muted, ...typography.caption, flex: 1, marginLeft: spacing.sm}, link: {color: colors.primary}, submit: {marginTop: spacing.xl}, securityTip: {color: colors.subtle, ...typography.caption, textAlign: 'center', marginTop: spacing.lg},
-  smsRow: {flexDirection: 'row', gap: spacing.sm}, smsInput: {flex: 1}, smsButton: {width: 108, height: 52, borderRadius: radii.md, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center'}, smsButtonDisabled: {opacity: 0.55}, smsButtonPressed: {opacity: 0.8}, smsButtonText: {color: '#1B1609', fontSize: 14, fontWeight: '700'},
+  smsRow: {flexDirection: 'row', gap: spacing.sm}, smsInput: {flex: 1}, smsButton: {width: 108, height: 52, borderRadius: radii.md, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center'}, smsButtonDisabled: {opacity: 0.55}, smsButtonPressed: {opacity: 0.8}, smsButtonText: {color: colors.onPrimary, fontSize: 14, fontWeight: '700'},
 });

@@ -69,7 +69,7 @@ const s = StyleSheet.create({
     justifyContent: 'center',
     marginTop: spacing.lg,
   },
-  buttonText: {...typography.label, fontSize: 15, color: '#171000'},
+  buttonText: {...typography.label, fontSize: 15, color: colors.onPrimary},
   disabled: { opacity: 0.55 },
   pressed: {opacity: 0.82, transform: [{scale: 0.985}]},
 });

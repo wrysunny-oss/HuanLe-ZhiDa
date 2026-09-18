@@ -65,7 +65,7 @@ function MainTabs() {
     <Tab.Navigator screenOptions={({route}) => ({
       animation: 'none',
       headerShown: false,
-      tabBarStyle: {height: 76, paddingTop: 7, paddingBottom: 7, backgroundColor: colors.surface, borderTopColor: colors.border, borderTopWidth: 1, elevation: 0},
+      tabBarStyle: {height: 80, paddingTop: 8, paddingBottom: 8, backgroundColor: colors.surface, borderTopColor: 'transparent', borderTopWidth: 0, elevation: 10, shadowColor: colors.text, shadowOpacity: 0.08, shadowRadius: 14, shadowOffset: {width: 0, height: -4}},
       tabBarActiveTintColor: colors.primary,
       tabBarInactiveTintColor: colors.muted,
       tabBarIcon: tabIconRenderers[route.name],
@@ -104,7 +104,7 @@ export function RootNavigator() {
   if (!ready) return <BrandLoader fullScreen label="正在恢复登录状态" />;
   if (!user) return <AuthScreen />;
   return (
-    <Stack.Navigator screenOptions={{animation: 'slide_from_right', animationDuration: 240, headerStyle: {backgroundColor: colors.background}, headerTintColor: colors.text, headerTitleStyle: {fontWeight: '600'}, contentStyle: {backgroundColor: colors.background}}}>
+    <Stack.Navigator screenOptions={{animation: 'slide_from_right', animationDuration: 240, headerShadowVisible: false, headerStyle: {backgroundColor: colors.background}, headerTintColor: colors.text, headerTitleStyle: {fontWeight: '700'}, contentStyle: {backgroundColor: colors.background}}}>
       <Stack.Screen name="Main" component={MainTabs} options={{headerShown: false}} />
       {screens.map(([name, component, title]) => <Stack.Screen key={name} name={name} component={component} initialParams={name === 'History' ? {mode: 'history'} : name === 'Favorites' ? {mode: 'favorites'} : undefined} options={{title}} />)}
     </Stack.Navigator>
@@ -112,6 +112,6 @@ export function RootNavigator() {
 }
 
 const styles = StyleSheet.create({
-  tabIcon: {width: 40, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center'},
-  tabIconActive: {backgroundColor: colors.primarySoft},
+  tabIcon: {width: 44, height: 31, borderRadius: 12, alignItems: 'center', justifyContent: 'center'},
+  tabIconActive: {backgroundColor: colors.primarySoft, transform: [{rotate: '-2deg'}]},
 });

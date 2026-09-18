@@ -179,7 +179,7 @@ export function EarningsScreen() {
         <View style={styles.section}>
           <SectionHeader title="收益明细" description="收入为绿色，支出为红色" />
           {!loading && !ledgers.length ? (
-            <EmptyState title="暂无收益明细" description="完成签到、观看广告或邀请好友后，记录会显示在这里" icon="trend" />
+            <EmptyState title="暂无收益明细" description="完成签到、答题或邀请好友后，记录会显示在这里" icon="trend" />
           ) : (
             groups.map(group => (
               <View key={group.title} style={styles.group}>
@@ -217,10 +217,10 @@ const styles = StyleSheet.create({
   title: {color: colors.text, ...typography.title},
   subtitle: {color: colors.muted, ...typography.body, marginTop: spacing.xs},
   balanceSkeleton: {height: 190},
-  balanceCard: {backgroundColor: colors.primarySoft, borderColor: '#4A3C1B', borderRadius: radii.xl, gap: spacing.xl},
+  balanceCard: {backgroundColor: colors.warningSoft, borderColor: colors.warningSoft, borderRadius: radii.xl, gap: spacing.xl, transform: [{rotate: '-0.6deg'}]},
   balanceTop: {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start'},
-  balanceLabel: {color: '#C6B98F', ...typography.label},
-  balance: {color: colors.primary, fontSize: 38, lineHeight: 48, fontWeight: '800', marginTop: spacing.xs},
+  balanceLabel: {color: colors.warning, ...typography.label},
+  balance: {color: colors.text, fontSize: 38, lineHeight: 48, fontWeight: '800', marginTop: spacing.xs},
   estimate: {color: colors.muted, ...typography.caption, marginTop: spacing.xs},
   metrics: {flexDirection: 'row', marginTop: spacing.md, paddingVertical: spacing.lg},
   metricDivider: {width: 1, height: 36, alignSelf: 'center', backgroundColor: colors.divider},

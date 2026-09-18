@@ -24,6 +24,7 @@ export function QuizResultScreen() {
         <Text style={styles.subtitle}>{categoryName} · 本局完成</Text>
 
         <View style={styles.scoreStage}>
+          <View style={styles.scoreSticker}><AppIcon name="sparkles" color={colors.warning} size={18} /></View>
           <View style={styles.scoreHalo}>
             <Text style={styles.score}>{accuracy}</Text>
             <Text style={styles.percent}>%</Text>
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
   title: {color: colors.text, ...typography.title, textAlign: 'center', marginTop: spacing.sm},
   subtitle: {color: colors.muted, ...typography.body, textAlign: 'center', marginTop: spacing.xs},
   scoreStage: {alignItems: 'center', marginVertical: 38},
-  scoreHalo: {width: 156, height: 156, borderRadius: 78, backgroundColor: colors.surface, borderWidth: 10, borderColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'},
+  scoreSticker: {position: 'absolute', zIndex: 2, right: '25%', top: -8, width: 42, height: 42, borderRadius: 14, backgroundColor: colors.warningSoft, alignItems: 'center', justifyContent: 'center', transform: [{rotate: '8deg'}]},
+  scoreHalo: {width: 156, height: 156, borderRadius: 52, backgroundColor: colors.surface, borderWidth: 10, borderColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', transform: [{rotate: '-2deg'}]},
   score: {color: colors.text, fontSize: 54, lineHeight: 62, fontWeight: '900'},
   percent: {color: colors.primary, fontSize: 20, fontWeight: '800', alignSelf: 'center', marginTop: 22},
   scoreCaption: {color: colors.muted, ...typography.label, marginTop: spacing.md},

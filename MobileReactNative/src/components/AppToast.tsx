@@ -25,6 +25,6 @@ export function AppToastProvider({children}: {children: ReactNode}) {
 export const useAppToast = () => useContext(ToastContext);
 
 const styles = StyleSheet.create({
-  toast: {position: 'absolute', zIndex: 1000, left: spacing.xl, right: spacing.xl, bottom: 104, minHeight: 52, borderRadius: radii.md, borderWidth: 1, borderColor: colors.border, backgroundColor: '#1A202B', paddingHorizontal: spacing.md, flexDirection: 'row', alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 16, elevation: 10},
+  toast: {position: 'absolute', zIndex: 1000, left: spacing.xl, right: spacing.xl, bottom: 104, minHeight: 52, borderRadius: radii.md, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface, paddingHorizontal: spacing.md, flexDirection: 'row', alignItems: 'center', shadowColor: colors.text, shadowOpacity: 0.12, shadowRadius: 16, elevation: 10},
   icon: {width: 30, height: 30, borderRadius: 10, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center'}, success: {backgroundColor: colors.successSoft}, error: {backgroundColor: colors.dangerSoft}, text: {color: colors.text, ...typography.label, flex: 1, marginLeft: spacing.sm},
 });

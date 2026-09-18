@@ -567,7 +567,7 @@ export function TasksScreen() {
         <View style={styles.header}>
           <View>
             <Text style={styles.title}>福利中心</Text>
-            <Text style={styles.subtitle}>完成任务，让每次观看都有收获</Text>
+            <Text style={styles.subtitle}>完成每日小任务，把新知变成收获</Text>
           </View>
           <AppIcon name="gift" color={colors.primary} size={29} />
         </View>
@@ -627,7 +627,7 @@ export function TasksScreen() {
                         {done ? (
                           <AppIcon
                             name="check"
-                            color="#1B1609"
+                            color={colors.onPrimary}
                             size={13}
                             strokeWidth={3}
                           />
@@ -751,15 +751,15 @@ const styles = StyleSheet.create({
   balanceCard: {
     minHeight: 142,
     borderRadius: radii.xl,
-    backgroundColor: colors.primarySoft,
-    borderColor: '#4A3C1B',
+    backgroundColor: colors.warningSoft,
+    borderColor: colors.warningSoft,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  balanceLabel: { color: '#C8BA8C', ...typography.label },
+  balanceLabel: { color: colors.warning, ...typography.label },
   balance: {
-    color: colors.primary,
+    color: colors.text,
     fontSize: 34,
     lineHeight: 42,
     fontWeight: '800',

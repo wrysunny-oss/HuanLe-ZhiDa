@@ -24,7 +24,7 @@
 - Token ownership: 现有运行时令牌为权威来源，DESIGN.md 镜像已接受值。
 - APP runtime source: `MobileReactNative/src/theme/index.ts` 与共享组件。
 - Admin runtime source: Vben/Naive UI 现有主题和共享布局。
-- Supported themes: 当前正式产品只承诺深色主题。
+- Supported themes: 当前正式产品只承诺亮色主题；不提供未完成的主题切换入口。
 - Template UI policy: 现有主题只用于归档基线与迁移期；每个派生 APP 必须建立自己的 DESIGN.md 并重构移动端 UI，不能只换皮。
 
 ## Canonical UI Map
