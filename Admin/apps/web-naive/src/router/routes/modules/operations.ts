@@ -63,6 +63,13 @@ const routes: RouteRecordRaw[] = [
     redirect: `/finance/${String(financeChildren[0]?.path)}`,
     children: financeChildren,
   }] : []),
+  ...(contentType === 'quiz' ? [{
+    name: 'QuizManagement', path: '/quiz', redirect: '/quiz/questions',
+    meta: { authority: ['content:read'], icon: 'lucide:brain-circuit', order: 25, title: '题库管理' },
+    children: [
+      { name: 'QuizQuestions', path: 'questions', component: () => import('#/views/operations/quiz/index.vue'), meta: { authority: ['content:read'], title: '题目审核' } },
+    ],
+  }] : []),
   {
     name: 'OperationCenter', path: '/operations', redirect: '/operations/slots',
     meta: { authority: ['operation:read'], icon: 'lucide:panels-top-left', order: 30, title: '运营配置' },

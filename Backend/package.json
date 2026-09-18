@@ -17,11 +17,12 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
+    "db:create:local": "node src/scripts/create-local-database.mjs",
     "db:seed": "tsx prisma/seed.ts",
     "quiz:check": "tsx src/scripts/import-quiz-bank.ts ../data/quiz/poetry-tang-300.seed.json --dry-run",
     "quiz:import": "tsx src/scripts/import-quiz-bank.ts ../data/quiz/poetry-tang-300.seed.json",
     "reconcile": "node dist/src/scripts/reconcile.js",
-    "test": "npm run build && node --env-file=.env.example --test dist/src/middleware/auth.test.js dist/src/middleware/product-module.test.js dist/src/modules/withdrawal/withdrawal.schema.test.js dist/src/modules/withdrawal/alipay-payout.service.test.js dist/src/modules/admin/ad-reward.test.js dist/src/modules/content/content.schema.test.js dist/src/modules/library/library.schema.test.js dist/src/modules/notification/notification.schema.test.js dist/src/modules/operation/invite-page.test.js dist/src/modules/operation/rich-text.test.js dist/src/modules/reward/ad-reward-intent.test.js dist/src/modules/reward/golden-watch.test.js dist/src/modules/reward/invite-relations.test.js dist/src/modules/safety/device-risk.test.js dist/src/modules/safety/ticket.schema.test.js dist/src/modules/webhook/gromore-reward.test.js dist/src/services/local-image-storage.test.js"
+    "test": "npm run build && node --env-file=.env.example --test dist/src/middleware/auth.test.js dist/src/middleware/product-module.test.js dist/src/modules/withdrawal/withdrawal.schema.test.js dist/src/modules/withdrawal/alipay-payout.service.test.js dist/src/modules/admin/ad-reward.test.js dist/src/modules/content/content.schema.test.js dist/src/modules/library/library.schema.test.js dist/src/modules/notification/notification.schema.test.js dist/src/modules/operation/invite-page.test.js dist/src/modules/operation/rich-text.test.js dist/src/modules/quiz/quiz.admin.schema.test.js dist/src/modules/reward/ad-reward-intent.test.js dist/src/modules/reward/golden-watch.test.js dist/src/modules/reward/invite-relations.test.js dist/src/modules/safety/device-risk.test.js dist/src/modules/safety/ticket.schema.test.js dist/src/modules/webhook/gromore-reward.test.js dist/src/services/local-image-storage.test.js"
   },
   "dependencies": {
     "@alicloud/dysmsapi20170525": "^4.6.0",

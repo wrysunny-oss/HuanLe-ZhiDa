@@ -91,6 +91,49 @@ export interface Permission {
   name: string;
 }
 
+export type QuizPublishStatus = 'DRAFT' | 'OFFLINE' | 'PUBLISHED';
+export type QuizReviewStatus = 'APPROVED' | 'PENDING' | 'REJECTED';
+export interface QuizCategory {
+  code: string;
+  enabled: boolean;
+  id: string;
+  name: string;
+  sort: number;
+}
+export interface QuizQuestion {
+  answerIndexes: number[];
+  category: Pick<QuizCategory, 'code' | 'id' | 'name'>;
+  categoryId: string;
+  createdAt: string;
+  difficulty: number;
+  explanation?: null | string;
+  externalKey: string;
+  id: string;
+  options: string[];
+  prompt: string;
+  questionType: 'SINGLE_CHOICE' | 'TRUE_FALSE';
+  reviewedAt?: null | string;
+  reviewStatus: QuizReviewStatus;
+  sourceLicense: string;
+  sourceName: string;
+  sourceRecordId?: null | string;
+  sourceUrl: string;
+  status: QuizPublishStatus;
+  tags?: null | string[];
+  updatedAt: string;
+}
+export interface QuizQuestionListResult {
+  categories: QuizCategory[];
+  list: QuizQuestion[];
+  page: number;
+  pageSize: number;
+  summary: {
+    reviewGroups: Array<{ _count: number; reviewStatus: QuizReviewStatus }>;
+    statusGroups: Array<{ _count: number; status: QuizPublishStatus }>;
+  };
+  total: number;
+}
+
 export interface Role {
   _count: { users: number };
   code: string;
@@ -340,6 +383,29 @@ export const updateRolePermissionsApi = (id: number, permissionIds: number[]) =>
     requestClient.put<Role>(`/admin/roles/${id}/permissions`, { permissionIds }, { headers }),
   );
 export const getAdministratorsApi = () => requestClient.get<Array<AdminUser & { roles: Array<{ role: Role }> }>>('/admin/administrators');
+export const getQuizQuestionsApi = (params: {
+  categoryId?: string;
+  keyword?: string;
+  page: number;
+  pageSize: number;
+  reviewStatus?: QuizReviewStatus;
+  status?: QuizPublishStatus;
+}) => requestClient.get<QuizQuestionListResult>('/admin/quiz-questions', { params });
+export const updateQuizQuestionApi = (id: string, data: {
+  answerIndexes: number[];
+  categoryId: string;
+  difficulty: number;
+  explanation?: null | string;
+  options: string[];
+  prompt: string;
+  tags: string[];
+}) => requestClient.put<QuizQuestion>(`/admin/quiz-questions/${id}`, data);
+export const reviewQuizQuestionApi = (id: string, data: { action: 'APPROVE' | 'REJECT'; remark?: string }) =>
+  requestClient.post<{ count: number; reviewStatus: QuizReviewStatus }>(`/admin/quiz-questions/${id}/review`, data);
+export const bulkReviewQuizQuestionsApi = (data: { action: 'APPROVE' | 'REJECT'; ids: string[]; remark?: string }) =>
+  requestClient.post<{ count: number; reviewStatus: QuizReviewStatus }>('/admin/quiz-questions/bulk-review', data);
+export const updateQuizQuestionStatusApi = (id: string, status: 'OFFLINE' | 'PUBLISHED') =>
+  requestClient.request<QuizQuestion>(`/admin/quiz-questions/${id}/status`, { data: { status }, method: 'PATCH' });
 export const getRewardRulesApi = () => requestClient.get<RewardRule[]>('/admin/reward-rules');
 export interface AdRewardSettlement { id:string; requestId:string; userId:string; revenueMicros:string; baseUserCoins:string; awardedCoins:string; milestoneBonusCoins:string; directAwardedCoins:string; indirectAwardedCoins:string; commissionFunding:'PLATFORM_FUNDED'|'USER_DEDUCTED'; agentCommissions:Array<{id:string;depth:number;shareRateBps:number;awardedCoins:string;agent:{id:string;nickname:string;phone:string}}>; format:'CONTENT_UNLOCK'|'FEED'|'FULL_SCREEN'|'REWARD'|'SPLASH'; source:string; createdAt:string; user:{nickname:string;phone:string} }
 export interface AdRewardDashboard { count:number; revenueMicros:string; grossEquivalentCoins:string; baseUserCoins:string; awardedCoins:string; milestoneBonusCoins:string; directAwardedCoins:string; indirectAwardedCoins:string; agentAwardedCoins:string; platformRetainedCoins:string }

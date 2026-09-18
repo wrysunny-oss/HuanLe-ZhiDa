@@ -72,6 +72,16 @@ import { imageUpload, removeStoredImage, storeImage } from "../../services/local
 import { sendNotificationSchema } from "../notification/notification.schema.js";
 import * as notificationService from "../notification/notification.service.js";
 import { contentType, productModules } from "../../generated/product.generated.js";
+import {
+  bulkReviewQuizQuestionsSchema,
+  publishQuizQuestionSchema,
+  quizQuestionIdSchema,
+  quizQuestionListSchema,
+  reviewQuizQuestionSchema,
+  updateQuizQuestionSchema,
+  type QuizQuestionListQuery,
+} from "../quiz/quiz.admin.schema.js";
+import * as quizAdminService from "../quiz/quiz.admin.service.js";
 
 const router = Router();
 
@@ -87,6 +97,7 @@ router.use(denyAgentWrites);
 /** 后台菜单隐藏之外再做服务端兜底，防止通过旧书签或手工请求访问已关闭模块。 */
 const adminModuleRules: Array<{ enabled: boolean; paths: RegExp[] }> = [
   { enabled: contentType === "shortDrama", paths: [/^\/content-center(?:\/|$)/, /^\/sdk-health(?:\/|$)/] },
+  { enabled: contentType === "quiz", paths: [/^\/quiz-questions(?:\/|$)/] },
   { enabled: productModules.advertising, paths: [/^\/ad-(?:reward|callback|events|runtime)/, /^\/users\/[^/]+\/ad-share-rate$/] },
   { enabled: productModules.rewards, paths: [/^\/ad-reward/, /^\/coin-ledgers$/, /^\/reward-rules(?:\/|$)/, /^\/check-in-records(?:\/|$)/] },
   { enabled: productModules.invitations, paths: [/^\/agent-overview$/, /^\/invite-relations(?:\/|$)/, /^\/users\/[^/]+\/(?:agent-share-rate|team)$/] },
@@ -102,6 +113,62 @@ router.use((req, _res, next) => {
 router.get("/dashboard", permit("dashboard:read"), async (req, res) => {
   return ok(res, await adminService.getDashboard(req.auth!.accountType === "AGENT" ? req.auth!.userId : undefined));
 });
+
+/** 题库列表同时返回筛选分类和全量状态汇总，列表筛选与分页均由服务端处理。 */
+router.get(
+  "/quiz-questions",
+  permit("content:read"),
+  validate(quizQuestionListSchema, "query"),
+  async (_req, res) => ok(res, await quizAdminService.listQuizQuestions(res.locals.validatedQuery as QuizQuestionListQuery)),
+);
+
+/** 编辑题目后旧审核结论失效，服务端自动退回待审核草稿。 */
+router.put(
+  "/quiz-questions/:id",
+  permit("content:update"),
+  validate(quizQuestionIdSchema, "params"),
+  validate(updateQuizQuestionSchema),
+  async (req, res) => ok(
+    res,
+    await quizAdminService.updateQuizQuestion(req.auth!.userId, BigInt(String(req.params.id)), req.body, req),
+    "题目已保存并退回待审核",
+  ),
+);
+
+router.post(
+  "/quiz-questions/:id/review",
+  permit("content:update"),
+  validate(quizQuestionIdSchema, "params"),
+  validate(reviewQuizQuestionSchema),
+  async (req, res) => ok(
+    res,
+    await quizAdminService.reviewQuizQuestion(req.auth!.userId, BigInt(String(req.params.id)), req.body, req),
+    req.body.action === "APPROVE" ? "审核已通过" : "题目已拒绝",
+  ),
+);
+
+router.post(
+  "/quiz-questions/bulk-review",
+  permit("content:update"),
+  validate(bulkReviewQuizQuestionsSchema),
+  async (req, res) => ok(
+    res,
+    await quizAdminService.bulkReviewQuizQuestions(req.auth!.userId, req.body.ids, req.body, req),
+    "批量审核完成",
+  ),
+);
+
+router.patch(
+  "/quiz-questions/:id/status",
+  permit("content:update"),
+  validate(quizQuestionIdSchema, "params"),
+  validate(publishQuizQuestionSchema),
+  async (req, res) => ok(
+    res,
+    await quizAdminService.publishQuizQuestion(req.auth!.userId, BigInt(String(req.params.id)), req.body.status, req),
+    req.body.status === "PUBLISHED" ? "题目已发布" : "题目已下线",
+  ),
+);
 
 /** GET /content-center：分页查看本地短剧快照、第三方 ID 映射和播放边界。 */
 router.get("/content-center", permit("operation:read"), validate(adminDramaListQuerySchema, "query"), async (_req, res) =>

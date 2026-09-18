@@ -67,3 +67,12 @@
 - Module matrix: 至少验证 `shortDrama + gromore`、`none + gromore`、`none + none`，以及关闭邀请、提现、短信注册的组合。
 - Canonical sibling: APP 的 Profile 快捷入口、Tasks 任务入口和 RootNavigator 深层页面必须保持一致。
 - Failure path: 关闭模块后，直接请求相关 API 应返回 404，不能执行副作用。
+
+## 题库管理工作流
+
+- 权威实现：`Backend/src/modules/quiz/quiz.admin.service.ts` 与 `Backend/src/modules/quiz/quiz.admin.schema.ts`。
+- 题目编辑后必须自动变为 `DRAFT + PENDING`，旧审核结论不得继续用于发布。
+- 只有 `APPROVED` 题目可以进入 `PUBLISHED`；拒绝审核必须填写原因，并强制保持草稿状态。
+- 批量审核最多处理 100 道题，服务端再次校验权限、对象完整性和状态规则，前端隐藏按钮不构成鉴权。
+- 所有编辑、审核、发布与下线操作必须记录操作者、对象、时间、请求路径及必要变更摘要。
+- 列表使用服务端分页和筛选；搜索支持中文输入法、300ms 延迟和过期响应隔离，筛选条件写入 URL 以支持刷新恢复。
