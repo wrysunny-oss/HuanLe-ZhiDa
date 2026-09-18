@@ -89,7 +89,7 @@ export function AppButton({
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
-  const foreground = variant === 'primary' ? '#1B1609' : variant === 'danger' ? colors.danger : colors.text;
+  const foreground = variant === 'primary' ? colors.onPrimary : variant === 'danger' ? colors.danger : colors.text;
   return (
     <MotionPressable
       accessibilityRole="button"

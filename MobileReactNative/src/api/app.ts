@@ -31,6 +31,10 @@ import type {
   GoldenWatchProgressResult,
   InviteRelations,
   SdkLibrarySyncInput,
+  QuizCategory,
+  QuizSession,
+  QuizAnswerResult,
+  QuizHistory,
 } from '../types/api';
 import {appConfig} from '../config/app-config';
 
@@ -53,6 +57,15 @@ function normalizeAuthResult(result: AuthResult): AuthResult {
 }
 
 export const appApi = {
+  quizCategories: () => apiRequest<QuizCategory[]>('/quiz/categories'),
+  startQuizSession: (data: {requestId: string; categoryId?: string | number; questionCount?: number}) =>
+    apiRequest<QuizSession>('/quiz/sessions', {method: 'POST', data}),
+  quizSession: (id: string) =>
+    apiRequest<QuizSession>(`/quiz/sessions/${encodeURIComponent(id)}`),
+  submitQuizAnswer: (id: string, data: {position: number; selectedIndexes: number[]}) =>
+    apiRequest<QuizAnswerResult>(`/quiz/sessions/${encodeURIComponent(id)}/answers`, {method: 'POST', data}),
+  quizHistory: (page = 1, pageSize = 10) =>
+    apiRequest<QuizHistory>(`/quiz/history?page=${page}&pageSize=${pageSize}`),
   login: (phone: string, password: string) =>
     apiRequest<AuthResult>('/auth/login', {
       method: 'POST',

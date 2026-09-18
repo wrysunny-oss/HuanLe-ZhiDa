@@ -141,6 +141,12 @@ enum QuizReviewStatus {
   REJECTED
 }
 
+enum QuizSessionStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
 /// App 用户与后台管理员共用账号表，后台能力由 roles 关系决定，不使用固定身份字段。
 model User {
   id                        BigInt                    @id @default(autoincrement())
@@ -188,6 +194,7 @@ model User {
   adRewardSettlements       AdRewardSettlement[]
   agentCommissions          AgentAdCommission[]       @relation("AgentCommissionReceiver")
   generatedAgentCommissions AgentAdCommission[]       @relation("AgentCommissionSource")
+  quizSessions              QuizSession[]
 
   @@map("users")
 }
@@ -998,6 +1005,7 @@ model QuizCategory {
   createdAt DateTime       @default(now()) @map("created_at")
   updatedAt DateTime       @updatedAt @map("updated_at")
   questions QuizQuestion[]
+  sessions  QuizSession[]
 
   @@index([enabled, sort])
   @@map("quiz_categories")
@@ -1027,8 +1035,55 @@ model QuizQuestion {
   createdAt      DateTime         @default(now()) @map("created_at")
   updatedAt      DateTime         @updatedAt @map("updated_at")
   category       QuizCategory     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  sessionQuestions QuizSessionQuestion[]
 
   @@index([categoryId, status, reviewStatus])
   @@index([sourceName, sourceRecordId])
   @@map("quiz_questions")
+}
+
+/// 一局答题使用 requestId 保证断网重试不会重复创建；完成后只允许结算一次。
+model QuizSession {
+  id             String            @id @default(uuid()) @db.Char(36)
+  requestId      String            @map("request_id") @db.Char(36)
+  userId         BigInt            @map("user_id")
+  categoryId     BigInt?           @map("category_id")
+  status         QuizSessionStatus @default(IN_PROGRESS)
+  totalQuestions Int               @map("total_questions")
+  answeredCount  Int               @default(0) @map("answered_count")
+  correctCount   Int               @default(0) @map("correct_count")
+  rewardCoins    BigInt            @default(0) @map("reward_coins")
+  startedAt      DateTime          @default(now()) @map("started_at")
+  completedAt    DateTime?         @map("completed_at")
+  user           User              @relation(fields: [userId], references: [id], onDelete: Restrict)
+  category       QuizCategory?     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  questions      QuizSessionQuestion[]
+
+  @@unique([userId, requestId])
+  @@index([userId, startedAt])
+  @@index([status, startedAt])
+  @@map("quiz_sessions")
+}
+
+/// 开局时保存题干、选项、答案和解析快照，保证运营编辑不会改变进行中会话的判题结果。
+model QuizSessionQuestion {
+  id                  BigInt       @id @default(autoincrement())
+  sessionId           String       @map("session_id") @db.Char(36)
+  questionId          BigInt       @map("question_id")
+  position            Int
+  promptSnapshot      String       @map("prompt_snapshot") @db.Text
+  optionsSnapshot     Json         @map("options_snapshot")
+  answerIndexesSnapshot Json       @map("answer_indexes_snapshot")
+  explanationSnapshot String?      @map("explanation_snapshot") @db.Text
+  categoryNameSnapshot String      @map("category_name_snapshot") @db.VarChar(100)
+  selectedIndexes     Json?        @map("selected_indexes")
+  isCorrect           Boolean?     @map("is_correct")
+  answeredAt          DateTime?    @map("answered_at")
+  session             QuizSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question            QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Restrict)
+
+  @@unique([sessionId, position])
+  @@unique([sessionId, questionId])
+  @@index([questionId])
+  @@map("quiz_session_questions")
 }

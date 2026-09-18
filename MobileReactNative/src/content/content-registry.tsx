@@ -5,6 +5,7 @@ import {EmptyState} from '../components/DesignSystem';
 import {Screen} from '../components/Screen';
 import {contentType as configuredContentType} from '../config/modules';
 import {HomeScreen as ShortDramaHomeScreen} from '../features/home/HomeScreen';
+import {QuizHomeScreen} from '../features/quiz/QuizHomeScreen';
 
 export type ContentType = 'none' | 'shortDrama' | 'quiz' | 'novel' | 'music';
 
@@ -22,6 +23,7 @@ function UnconfiguredContentHome() {
 
 const contentHomeByType: Partial<Record<ContentType, ComponentType>> = {
   shortDrama: ShortDramaHomeScreen,
+  quiz: QuizHomeScreen,
 };
 
 /** 内容插件的 APP 首页注册点。新增内容类型时在这里接入，不修改通用导航。 */

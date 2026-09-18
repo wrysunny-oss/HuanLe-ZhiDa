@@ -38,6 +38,7 @@ const rewardRules = [
   ["SIGNIN_DAY_5", "连续签到第 5 天", 30n, "7 天为一个奖励周期"],
   ["SIGNIN_DAY_6", "连续签到第 6 天", 40n, "7 天为一个奖励周期"],
   ["SIGNIN_DAY_7", "连续签到第 7 天", 60n, "7 天为一个奖励周期"],
+  ["QUIZ_ROUND_COMPLETE", "完成一局答题", 10n, "完成答题且当日未超过奖励局数时发放"],
 ] as const;
 
 async function main() {

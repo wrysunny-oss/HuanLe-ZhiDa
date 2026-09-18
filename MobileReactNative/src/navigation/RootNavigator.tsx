@@ -20,6 +20,8 @@ import {AgreementScreen} from '../features/support/AgreementScreen';
 import {NotificationsScreen} from '../features/misc/NotificationsScreen';
 import {SearchScreen} from '../features/misc/SearchScreen';
 import {AboutScreen, SettingsScreen} from '../features/misc/SettingsScreen';
+import {QuizPlayScreen} from '../features/quiz/QuizPlayScreen';
+import {QuizResultScreen} from '../features/quiz/QuizResultScreen';
 import {brandConfig} from '../config/brand';
 import {isShortDramaEnabled, productModules} from '../config/modules';
 import {ContentHomeScreen} from '../content/content-registry';
@@ -33,7 +35,7 @@ import {
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 type TabIconProps = {color: string; focused: boolean; size: number};
-type TabIconName = 'home' | 'gift' | 'wallet' | 'user';
+type TabIconName = 'book-open' | 'gift' | 'wallet' | 'user';
 
 /** 选中图标使用轻量金色底，避免依赖字符图标导致设备间样式不一致。 */
 function TabIcon({name, color, focused}: TabIconProps & {name: TabIconName}) {
@@ -52,7 +54,7 @@ function TabIcon({name, color, focused}: TabIconProps & {name: TabIconName}) {
 }
 
 const tabIconRenderers: Record<string, (props: TabIconProps) => React.ReactNode> = {
-  首页: props => <TabIcon name="home" {...props} />,
+  答题: props => <TabIcon name="book-open" {...props} />,
   福利: props => <TabIcon name="gift" {...props} />,
   收益: props => <TabIcon name="wallet" {...props} />,
   我的: props => <TabIcon name="user" {...props} />,
@@ -69,7 +71,7 @@ function MainTabs() {
       tabBarIcon: tabIconRenderers[route.name],
       tabBarLabelStyle: {fontSize: 11, fontWeight: '600', marginTop: 1},
     })}>
-      <Tab.Screen name="首页" component={ContentHomeScreen} />
+      <Tab.Screen name="答题" component={ContentHomeScreen} />
       {productModules.rewards ? <Tab.Screen name="福利" component={TasksScreen} /> : null}
       {productModules.rewards ? <Tab.Screen name="收益" component={EarningsScreen} /> : null}
       <Tab.Screen name="我的" component={ProfileScreen} />
@@ -93,6 +95,8 @@ const screens: Array<[string, React.ComponentType<any>, string]> = [
   ['Notifications', NotificationsScreen, '通知中心'],
   ...(isShortDramaEnabled ? [['Search', SearchScreen, '搜索'] as [string, React.ComponentType<any>, string]] : []),
   ['About', AboutScreen, brandConfig.aboutTitle],
+  ['QuizPlay', QuizPlayScreen, '知识挑战'],
+  ['QuizResult', QuizResultScreen, '本局成绩'],
 ];
 
 export function RootNavigator() {

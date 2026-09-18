@@ -3,6 +3,7 @@ import Svg, {Circle, Line, Path, Polyline, Rect} from 'react-native-svg';
 
 export type AppIconName =
   | 'bell'
+  | 'book-open'
   | 'calendar-check'
   | 'check'
   | 'chevron-right'
@@ -34,7 +35,8 @@ export type AppIconName =
   | 'user-plus'
   | 'users'
   | 'wallet'
-  | 'wifi-off';
+  | 'wifi-off'
+  | 'x';
 
 /**
  * 项目统一线性图标。
@@ -66,6 +68,8 @@ export function AppIcon({
     switch (name) {
       case 'home':
         return <Path {...common} d="M3 11.5 12 4l9 7.5M5 10v10h14V10M9 20v-6h6v6" />;
+      case 'book-open':
+        return <Path {...common} d="M3 5.5A3.5 3.5 0 0 1 6.5 2H11v17H6.5A3.5 3.5 0 0 0 3 22V5.5Zm18 0A3.5 3.5 0 0 0 17.5 2H13v17h4.5A3.5 3.5 0 0 1 21 22V5.5Z" />;
       case 'gift':
         return (
           <>
@@ -172,6 +176,8 @@ export function AppIcon({
         return <Path {...common} d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-11v6m0-10h.01" />;
       case 'wifi-off':
         return <Path {...common} d="m2 2 20 20M8.5 8.5A9.8 9.8 0 0 1 12 8c3.1 0 5.8 1.4 7.7 3.5M5 12.5A10 10 0 0 0 3.5 14M9 16a4.5 4.5 0 0 1 6 0m-3 4h.01M2 8.8A15 15 0 0 1 5.2 6.6M14.8 5.3A14.7 14.7 0 0 1 22 8.8" />;
+      case 'x':
+        return <Path {...common} d="M6 6l12 12M18 6 6 18" />;
       default:
         return null;
     }

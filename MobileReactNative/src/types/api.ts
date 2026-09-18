@@ -9,6 +9,65 @@ export interface ApiEnvelope<T> {
   data: T;
   requestId?: string;
 }
+
+export interface QuizCategory {
+  id: string | number;
+  code: string;
+  name: string;
+  questionCount: number;
+}
+
+export interface QuizQuestion {
+  position: number;
+  prompt: string;
+  options: string[];
+  categoryName: string;
+}
+
+export interface QuizSession {
+  id: string;
+  status: 'IN_PROGRESS' | 'COMPLETED' | 'ABANDONED';
+  categoryName: string;
+  totalQuestions: number;
+  answeredCount: number;
+  correctCount: number;
+  rewardCoins: string | number;
+  startedAt: string;
+  completedAt?: string | null;
+  question: QuizQuestion | null;
+  duplicate?: boolean;
+}
+
+export interface QuizAnswerResult {
+  position: number;
+  correct: boolean;
+  selectedIndexes: number[];
+  correctAnswerIndexes: number[];
+  explanation?: string | null;
+  answeredCount: number;
+  correctCount: number;
+  completed: boolean;
+  rewardCoins: string | number;
+  nextQuestion: QuizQuestion | null;
+  duplicate?: boolean;
+}
+
+export interface QuizHistoryItem {
+  id: string;
+  totalQuestions: number;
+  correctCount: number;
+  rewardCoins: string | number;
+  completedAt: string;
+  category?: {name: string} | null;
+}
+
+export interface QuizHistory {
+  list: QuizHistoryItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+  dailyRewardLimit: number;
+}
 export interface AuthUser {
   id: string;
   phone: string;
