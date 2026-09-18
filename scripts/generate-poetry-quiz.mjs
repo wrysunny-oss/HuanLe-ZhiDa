@@ -56,6 +56,11 @@ function buildQuestion({ poem, kind, prompt, correct, optionPool, difficulty, ta
   const answerIndexes = [options.indexOf(correct)];
   const externalKey = `poetry:tang300:${poem.id}:${kind}`;
   const contentHash = crypto.createHash('sha256').update(JSON.stringify({ prompt, options, answerIndexes })).digest('hex');
+  const explanation = kind === 'author'
+    ? `《${poem.title}》的作者是${poem.author}。`
+    : kind === 'title'
+      ? `这句诗出自《${poem.title}》，作者是${poem.author}。`
+      : `原诗下一句是“${correct}”，出自${poem.author}的《${poem.title}》。`;
   return {
     externalKey,
     categoryCode: 'classical-poetry',
@@ -64,7 +69,7 @@ function buildQuestion({ poem, kind, prompt, correct, optionPool, difficulty, ta
     prompt,
     options,
     answerIndexes,
-    explanation: `《${poem.title}》的作者是${poem.author}。`,
+    explanation,
     difficulty,
     tags: ['唐诗', ...tags].slice(0, 20),
     status: 'DRAFT',
@@ -78,13 +83,21 @@ function buildQuestion({ poem, kind, prompt, correct, optionPool, difficulty, ta
 }
 
 export function generatePoetryQuestions(rawPoems, { count = 600, seed = 'huanle-zhida-poetry-v1' } = {}) {
-  const poems = rawPoems.map((poem) => ({
+  const normalizedPoems = rawPoems.map((poem) => ({
     id: String(poem.id),
     author: clean(poem.author),
     title: clean(poem.title),
     paragraphs: Array.isArray(poem.paragraphs) ? poem.paragraphs : [],
     tags: Array.isArray(poem.tags) ? poem.tags.map(clean).filter(Boolean) : [],
   })).filter((poem) => poem.id && poem.author && poem.title && verses(poem).length >= 2);
+  // 同一首句在开源语料中可能存在异作者、异篇名或异文记录。无法自动裁定时全部排除，
+  // 避免把数据源冲突包装成唯一正确答案。
+  const firstLineCounts = new Map();
+  for (const poem of normalizedPoems) {
+    const firstLine = verses(poem)[0];
+    firstLineCounts.set(firstLine, (firstLineCounts.get(firstLine) ?? 0) + 1);
+  }
+  const poems = normalizedPoems.filter((poem) => firstLineCounts.get(verses(poem)[0]) === 1);
   const random = seededRandom(seed);
   const authors = poems.map((poem) => poem.author);
   const titles = poems.map((poem) => poem.title);
