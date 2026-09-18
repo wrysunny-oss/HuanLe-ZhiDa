@@ -130,6 +130,17 @@ enum ReconciliationStatus {
   FAILED
 }
 
+enum QuizQuestionType {
+  SINGLE_CHOICE
+  TRUE_FALSE
+}
+
+enum QuizReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 /// App 用户与后台管理员共用账号表，后台能力由 roles 关系决定，不使用固定身份字段。
 model User {
   id                        BigInt                    @id @default(autoincrement())
@@ -975,4 +986,49 @@ model AuditLog {
   @@index([operatorId, createdAt])
   @@index([action, createdAt])
   @@map("audit_logs")
+}
+
+/// 答题分类与题目分离，便于运营排序、上下线和按分类组卷。
+model QuizCategory {
+  id        BigInt         @id @default(autoincrement())
+  code      String         @unique @db.VarChar(50)
+  name      String         @db.VarChar(100)
+  sort      Int            @default(0)
+  enabled   Boolean        @default(true)
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  questions QuizQuestion[]
+
+  @@index([enabled, sort])
+  @@map("quiz_categories")
+}
+
+/// 原始来源、许可证和审核状态随题保存；只有 APPROVED + PUBLISHED 可进入线上题池。
+model QuizQuestion {
+  id             BigInt           @id @default(autoincrement())
+  externalKey    String           @unique @map("external_key") @db.VarChar(160)
+  categoryId     BigInt           @map("category_id")
+  questionType   QuizQuestionType @default(SINGLE_CHOICE) @map("question_type")
+  prompt         String           @db.Text
+  options        Json
+  answerIndexes  Json             @map("answer_indexes")
+  explanation    String?          @db.Text
+  difficulty     Int              @default(1)
+  tags           Json?
+  status         PublishStatus    @default(DRAFT)
+  reviewStatus   QuizReviewStatus @default(PENDING) @map("review_status")
+  sourceName     String           @map("source_name") @db.VarChar(120)
+  sourceUrl      String           @map("source_url") @db.VarChar(1000)
+  sourceLicense  String           @map("source_license") @db.VarChar(80)
+  sourceRecordId String?          @map("source_record_id") @db.VarChar(160)
+  contentHash    String           @unique @map("content_hash") @db.Char(64)
+  reviewedById   BigInt?          @map("reviewed_by_id")
+  reviewedAt     DateTime?        @map("reviewed_at")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+  category       QuizCategory     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@index([categoryId, status, reviewStatus])
+  @@index([sourceName, sourceRecordId])
+  @@map("quiz_questions")
 }
