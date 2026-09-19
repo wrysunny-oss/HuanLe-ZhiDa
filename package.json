@@ -10,9 +10,11 @@
     "product:doctor": "node scripts/doctor-product.mjs",
     "quiz:generate": "node scripts/generate-poetry-quiz.mjs",
     "quiz:generate:geography": "node scripts/generate-geography-quiz.mjs",
+    "quiz:generate:idiom": "node scripts/generate-idiom-quiz.mjs",
     "quiz:audit": "node scripts/audit-poetry-answers.mjs",
     "quiz:audit:geography": "node scripts/audit-geography-answers.mjs",
-    "test:scripts": "node --test scripts/product-config.test.mjs scripts/module-matrix.test.mjs scripts/quiz-bank.test.mjs scripts/geography-quiz.test.mjs"
+    "quiz:audit:idiom": "node scripts/audit-idiom-answers.mjs",
+    "test:scripts": "node --test scripts/product-config.test.mjs scripts/module-matrix.test.mjs scripts/quiz-bank.test.mjs scripts/geography-quiz.test.mjs scripts/idiom-quiz.test.mjs"
   },
   "devDependencies": {
     "opencc-js": "1.4.1"

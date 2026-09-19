@@ -73,6 +73,7 @@ import { sendNotificationSchema } from "../notification/notification.schema.js";
 import * as notificationService from "../notification/notification.service.js";
 import { contentType, productModules } from "../../generated/product.generated.js";
 import {
+  bulkPublishQuizQuestionsSchema,
   bulkReviewQuizQuestionsSchema,
   publishQuizQuestionSchema,
   quizQuestionIdSchema,
@@ -155,6 +156,17 @@ router.post(
     res,
     await quizAdminService.bulkReviewQuizQuestions(req.auth!.userId, req.body.ids, req.body, req),
     "批量审核完成",
+  ),
+);
+
+router.patch(
+  "/quiz-questions/bulk-status",
+  permit("content:update"),
+  validate(bulkPublishQuizQuestionsSchema),
+  async (req, res) => ok(
+    res,
+    await quizAdminService.bulkPublishQuizQuestions(req.auth!.userId, req.body.ids, req.body.status, req),
+    req.body.status === "PUBLISHED" ? "批量上线完成" : "批量下线完成",
   ),
 );
 

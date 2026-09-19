@@ -41,6 +41,7 @@ import {
 
 import {
   bulkReviewQuizQuestionsApi,
+  bulkUpdateQuizQuestionStatusApi,
   getQuizQuestionsApi,
   reviewQuizQuestionApi,
   updateQuizQuestionApi,
@@ -109,6 +110,15 @@ const reviewOptions = [
 const reviewCount = (status: QuizReviewStatus) => summary.value.reviewGroups.find((item) => item.reviewStatus === status)?._count ?? 0;
 const publishCount = (status: QuizPublishStatus) => summary.value.statusGroups.find((item) => item.status === status)?._count ?? 0;
 const bankTotal = computed(() => summary.value.reviewGroups.reduce((sum, item) => sum + item._count, 0));
+const selectedRows = computed(() => {
+  const selected = new Set(checkedRowKeys.value.map(String));
+  return rows.value.filter((row) => selected.has(String(row.id)));
+});
+const canBulkPublish = computed(() => selectedRows.value.length > 0
+  && selectedRows.value.every((row) => row.reviewStatus === 'APPROVED')
+  && selectedRows.value.some((row) => row.status !== 'PUBLISHED'));
+const canBulkOffline = computed(() => selectedRows.value.length > 0
+  && selectedRows.value.every((row) => row.status === 'PUBLISHED'));
 
 function syncQuery() {
   void router.replace({
@@ -249,6 +259,30 @@ function changeStatus(row: QuizQuestion, status: 'OFFLINE' | 'PUBLISHED') {
   });
 }
 
+function changeBulkStatus(status: 'OFFLINE' | 'PUBLISHED') {
+  const ids = checkedRowKeys.value.map(String);
+  if (!ids.length) return;
+  const publishing = status === 'PUBLISHED';
+  dialog.warning({
+    title: publishing ? '批量上线题目' : '批量下线题目',
+    content: publishing
+      ? `确认将选中的 ${ids.length} 道题加入线上题池吗？整批题目必须都已审核通过。`
+      : `确认下线选中的 ${ids.length} 道题吗？新答题不会再抽到这些题，进行中的答题仍保留原快照。`,
+    positiveText: publishing ? '确认批量上线' : '确认批量下线',
+    negativeText: '取消',
+    onPositiveClick: async () => {
+      saving.value = true;
+      try {
+        const result = await bulkUpdateQuizQuestionStatusApi({ids, status});
+        message.success(`已批量${publishing ? '上线' : '下线'} ${result.count} 道题`);
+        await load();
+      } finally {
+        saving.value = false;
+      }
+    },
+  });
+}
+
 const reviewTag = (status: QuizReviewStatus) => ({ APPROVED: ['已通过', 'success'], PENDING: ['待审核', 'warning'], REJECTED: ['已拒绝', 'error'] } as const)[status];
 const publishTag = (status: QuizPublishStatus) => ({ DRAFT: ['草稿', 'default'], PUBLISHED: ['已发布', 'success'], OFFLINE: ['已下线', 'default'] } as const)[status];
 
@@ -317,6 +351,26 @@ onBeforeUnmount(() => { if (searchTimer) clearTimeout(searchTimer); requestSeque
           <NSpace v-if="canUpdate">
             <NButton size="small" type="success" :loading="saving" @click="approve(checkedRowKeys.map(String))">批量通过</NButton>
             <NButton size="small" type="error" :loading="saving" @click="openReject(checkedRowKeys.map(String))">批量拒绝</NButton>
+            <NButton
+              size="small"
+              type="primary"
+              :disabled="!canBulkPublish"
+              :loading="saving"
+              title="所选题目全部审核通过后才能批量上线"
+              @click="changeBulkStatus('PUBLISHED')"
+            >
+              批量上线
+            </NButton>
+            <NButton
+              size="small"
+              type="warning"
+              :disabled="!canBulkOffline"
+              :loading="saving"
+              title="所选题目当前全部在线时才能批量下线"
+              @click="changeBulkStatus('OFFLINE')"
+            >
+              批量下线
+            </NButton>
           </NSpace>
         </div>
       </NAlert>

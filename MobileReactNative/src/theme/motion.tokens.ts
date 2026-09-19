@@ -9,6 +9,7 @@ export const motionDurations = {
 export const motionPressStyles = {
   button: {opacity: 0.86, scale: 0.965},
   listRow: {opacity: 0.72, scale: 0.985, x: 3},
+  answerOption: {opacity: 0.94, scale: 0.99},
   dramaCard: {opacity: 0.8, scale: 0.965, y: 2},
 } as const;
 

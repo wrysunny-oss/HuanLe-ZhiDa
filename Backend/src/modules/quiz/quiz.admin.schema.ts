@@ -51,6 +51,10 @@ export const publishQuizQuestionSchema = z.object({
   status: z.enum(["PUBLISHED", "OFFLINE"]),
 });
 
+export const bulkPublishQuizQuestionsSchema = publishQuizQuestionSchema.extend({
+  ids: z.array(z.coerce.bigint().positive()).min(1).max(100),
+});
+
 export type QuizQuestionListQuery = z.infer<typeof quizQuestionListSchema>;
 export type UpdateQuizQuestionInput = z.infer<typeof updateQuizQuestionSchema>;
 export type ReviewQuizQuestionInput = z.infer<typeof reviewQuizQuestionSchema>;

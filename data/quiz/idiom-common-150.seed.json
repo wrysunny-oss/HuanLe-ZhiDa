@@ -1,0 +1,4362 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-19T00:00:00.000Z",
+  "source": {
+    "name": "Li1Fan/chinese-idiom",
+    "url": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+    "license": "MIT",
+    "commit": "44aca4fd83942a38b52ff7fa0613eee2b138c0c9"
+  },
+  "questions": [
+    {
+      "externalKey": "idiom:li1fan-2024:脚踏实地:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“脚踏在实在的地上。比喻做事认真、踏实、不虚浮；一步一个脚印。”？",
+      "options": [
+        "叶公好龙",
+        "本末倒置",
+        "兵不厌诈",
+        "脚踏实地"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“脚踏实地”读作“jiǎo tà shí dì”，意思是：脚踏在实在的地上。比喻做事认真、踏实、不虚浮；一步一个脚印。 出处：宋・邵伯温《闻见前录》第18卷：“公尝问康节曰：‘某何如人？’曰：‘君实脚踏实地人也。’”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "脚踏实地",
+      "contentHash": "d89df88ae3969773aa867d609835c2c3882b70d6e1a5adf7c7721a5ae1191ddf"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:墨守成规:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“墨守成规”的正确读音是？",
+      "options": [
+        "cái huá héng yì",
+        "wò xīn cháng dǎn",
+        "mò shǒu chéng guī",
+        "zuǒ yòu wéi nán"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“墨守成规”读作“mò shǒu chéng guī”，意思是：墨守：战国时墨翟善于守城；故称善守为“墨守”；后指固执不变地遵循为墨守；成规：现成地规矩、制度。固执守旧；死报着老规矩不放；不思改革进取。 出处：清・黄宗羲《钱退山诗文序》：“如钟嵘之《诗品》，辨体明宗，固朱尝墨守以为准的也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "墨守成规",
+      "contentHash": "41241d60837a9b4004ae776a7a12e63283cc51fbbbab9819b957bee95ec28001"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:金玉良言:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“金玉良__”中应填入哪个字？",
+      "options": [
+        "手",
+        "私",
+        "顺",
+        "言"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“金玉良言”读作“jīn yù liáng yán”，意思是：金、玉：比喻十分珍贵。良言：好话。比喻宝贵的劝告或教诲。 出处：元・王实甫《西厢记》第四本第三折：“小姐金玉之言，小生一一铭之肺腑。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "金玉良言",
+      "contentHash": "5d72cd54f3c25956175b7bec705889da6e83bb4f9e6f6bea4aa81e567ec2dbef"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:水到渠成:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“渠：水道。水流到的地方自然形成一条水道。比喻条件成熟；事情自然会成功。”？",
+      "options": [
+        "水到渠成",
+        "孜孜不倦",
+        "坚韧不拔",
+        "一帆风顺"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“水到渠成”读作“shuǐ dào qú chéng”，意思是：渠：水道。水流到的地方自然形成一条水道。比喻条件成熟；事情自然会成功。 出处：宋・苏轼《答秦太虚书》：“至时别作经画，水到渠成，不须预虑。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "水到渠成",
+      "contentHash": "8c06400fc78b829e90733ea4aa4d3081b533145b1cc75ef4706099b5b8315631"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:滥竽充数:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“滥竽充数”的正确读音是？",
+      "options": [
+        "kè zhōu qiú jiàn",
+        "bù qū bù náo",
+        "jié zú xiān dēng",
+        "làn yú chōng shù"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“滥竽充数”读作“làn yú chōng shù”，意思是：滥：与真实不符；竽：一种簧管乐器。不会吹竽的人冒充吹竽行家；混在乐队中凑数。比喻没有本事的人冒充有本事；或以次货冒充好货。有时也表自谦。 出处：先秦・韩非《韩非子・内储说上》：“齐宣王使人吹竽，必三百人。南郭处士请为王吹竽，宣王说之，廪食以数百人。宣王死，湣王立，好一一听之，处士逃。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "滥竽充数",
+      "contentHash": "b7885a6ab8de823bc943a02098b958d12931678b524df73e231be8eb3cdb8113"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:随机应变:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“随机应__”中应填入哪个字？",
+      "options": [
+        "中",
+        "半",
+        "倦",
+        "变"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“随机应变”读作“suí jī yìng biàn”，意思是：随着情况的变化灵活机动地应付。机：时机；情况；应：应付；变：变化。 出处：《旧唐书・郭孝恪传》：“建德远来助虐，粮运阻绝，此是天丧之时。请固武牢，屯军氾水，随机应变，则易为克殄。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "随机应变",
+      "contentHash": "b702bd99259a21b0ea0613293a4915ffd3e3f77d325d0a3044e3e65ea8fea200"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:聚精会神:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“集中全部精神。原有集思广益的意思；现常用以形容专心致志；精神高度集中。”？",
+      "options": [
+        "聚精会神",
+        "相得益彰",
+        "大智若愚",
+        "流连忘返"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“聚精会神”读作“jù jīng huì shén”，意思是：集中全部精神。原有集思广益的意思；现常用以形容专心致志；精神高度集中。 出处：汉・王褒《圣主得贤臣颂》：“明明在朝，穆穆列布，聚精会神，相得益章。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "聚精会神",
+      "contentHash": "868d4425f81a1a6a91d57bad1196248d1121f1309ea21972fca4119a18448171"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:手不释卷:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“手不释卷”的正确读音是？",
+      "options": [
+        "wáng yáng bǔ láo",
+        "yī jiàn rú gù",
+        "dé xīn yìng shǒu",
+        "shǒu bù shì juàn"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“手不释卷”读作“shǒu bù shì juàn”，意思是：释：放开；卷：书本。书本不离手。形容勤奋好学。 出处：三国・魏 曹丕《典论・自叙》：“上雅好诗书文籍，虽在军旅，手不释卷。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "手不释卷",
+      "contentHash": "f3d9dda3022a63e3e0af782bd94b071d5953cb0e19134a18217616184bce18cc"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:自力更生:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“自力更__”中应填入哪个字？",
+      "options": [
+        "生",
+        "壮",
+        "息",
+        "业"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“自力更生”读作“zì lì gēng shēng”，意思是：依靠自己的力量；重新获得生命。比喻依靠自己的力量使事业发展兴旺。更生：重新获得生命。 出处：孙中山《中国问题的真解决》：“中国不但会自力更生，而且也就能解除其他国家维护中国的独立与完整的麻烦。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "自力更生",
+      "contentHash": "ec24511b376464f33bcbf2f59a50d97287f622aad40053bcea928a6589f80e18"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:不遗余力:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“遗留；余力剩下的力量。把全部力量都使出来，一点不保留。”？",
+      "options": [
+        "以貌取人",
+        "不可思议",
+        "轻而易举",
+        "不遗余力"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“不遗余力”读作“bù yí yú lì”，意思是：遗留；余力剩下的力量。把全部力量都使出来，一点不保留。 出处：《战国策·赵策三》秦之攻我也，不遗余力矣，必以倦而归也。”《史记·平原君虞卿列传》秦不遗余力矣，必且欲破赵军。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "不遗余力",
+      "contentHash": "74849832c4c2027e238b919c7c7a6fca4a7b7e2b994622620833ed0e7a2a8324"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:依依不舍:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“依依不舍”的正确读音是？",
+      "options": [
+        "àn bù jiù bān",
+        "zhēng xiān kǒng hòu",
+        "yī yī bù shě",
+        "lǐ zhí qì zhuàng"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“依依不舍”读作“yī yī bù shě”，意思是：依依：恋慕的样子；舍：放开。形容对人或地方十分留恋；不忍离去。 出处：明・冯梦龙《警世通言・苏知县罗衫再合》：“次早，老婆婆起身，又留吃了早饭，临去时依依不舍，在破箱子内取出一件不曾开折的罗衫出来相赠。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "依依不舍",
+      "contentHash": "d6a61aac108a0371757a5b366474ad4b63cd13661d886c2c254853518463f2d2"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:循序渐进:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“循序渐__”中应填入哪个字？",
+      "options": [
+        "至",
+        "挠",
+        "比",
+        "进"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“循序渐进”读作“xún xù jiàn jìn”，意思是：指学习工作等按照一定的步骤逐渐深入或提高。循：按照；序：次序；渐：逐渐。 出处：春秋・孔子《论语・宪问》：“不怨天，不尤人，下学而上达，知我者其天乎？”朱熹注：“此但自言其反己自修，循序渐进耳。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "循序渐进",
+      "contentHash": "e2025fd309f38dfc4a9422aa991c0e297ead80304451464b5d499cf6478cdaa9"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:急中生智:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“智：智谋；对策。在紧急中猛然想出了应付的好办法。”？",
+      "options": [
+        "从容不迫",
+        "对症下药",
+        "人杰地灵",
+        "急中生智"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“急中生智”读作“jí zhōng shēng zhì”，意思是：智：智谋；对策。在紧急中猛然想出了应付的好办法。 出处：唐・白居易《和微之诗二十三首序》：“今足下果用所长，过蒙见君，然敌则气生，急则智生。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "急中生智",
+      "contentHash": "d5315d419db3f38a1ec86aac33b117ac5c7e8b8d7d3c25cc9f6f93ed42c5f895"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:持之以恒:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“持之以恒”的正确读音是？",
+      "options": [
+        "yī sī bù gǒu",
+        "yīn dì zhì yí",
+        "chí zhī yǐ héng",
+        "bù yuē ér tóng"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“持之以恒”读作“chí zhī yǐ héng”，意思是：持：保持；坚持；之：代词；指所要坚持的东西；恒：长久；指恒心。有恒心地坚持下去。也作“持之以久”。 出处：宋・楼钥《攻愧集・雷两应诏封事》：“凡应天下之事，一切行之以诚，持之以久。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "持之以恒",
+      "contentHash": "796d6fa8a213d28b1bc165118bdf78bb81c15dd1c7ef2566f78c128539230e39"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:风雨同舟:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“风雨同__”中应填入哪个字？",
+      "options": [
+        "西",
+        "马",
+        "置",
+        "舟"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“风雨同舟”读作“fēng yǔ tóng zhōu”，意思是：舟：船。在风雨中同乘在一条船上；一起与风雨搏斗。比喻共同经历患难。 出处：孙武《孙子・九地》：“夫吴人与越人相恶也，当其同舟共济，遇风，其相救也如左右手。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "风雨同舟",
+      "contentHash": "6945adccede470d8e1db9b4cf298589dcaa86b934e3fe28b31a8a463e8fba455"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:无微不至:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“微：细微；至：到。形容关怀、照顾得非常细心周到。”？",
+      "options": [
+        "无微不至",
+        "如火如荼",
+        "三心二意",
+        "乐此不疲"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“无微不至”读作“wú wēi bù zhì”，意思是：微：细微；至：到。形容关怀、照顾得非常细心周到。 出处：宋・魏了翁《辞免督视军马乞以参赞军事从丞相行奏札》：“臣窃念主忧臣辱，义不得辞，跼蹐受命，退而差辟官吏、条列事目、调遣将士，凡所以为速发之计者，靡微不周。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "无微不至",
+      "contentHash": "8461dbc484b12f524cec041a8086f17ea0e882f90996bf1dbe565302f8be4598"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:七嘴八舌:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“七嘴八舌”的正确读音是？",
+      "options": [
+        "bù qū bù náo",
+        "zài jiē zài lì",
+        "jí sī guǎng yì",
+        "qī zuǐ bā shé"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“七嘴八舌”读作“qī zuǐ bā shé”，意思是：形容人多嘴杂；议论纷纷。也比喻让别人充分发表意见。 出处：《好逑传》第五回：“众人正跑得有兴头上，忽被铁公子拦住，便七嘴八舌地乱嚷。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "七嘴八舌",
+      "contentHash": "a3c47777693ff7968a2ba149573146261ec50e85551436d141514ea709b105ac"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:理直气壮:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“理直气__”中应填入哪个字？",
+      "options": [
+        "壮",
+        "上",
+        "生",
+        "苟"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“理直气壮”读作“lǐ zhí qì zhuàng”，意思是：直：正确、合理、充分；气壮：气势旺盛。理由正确、充分；说话的气势就很盛。 出处：明・冯梦龙《喻世明言》第31卷：“便提我到阎罗殿前，我也理直气壮，不怕甚的。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "理直气壮",
+      "contentHash": "a5d5fa12402cd10a5f4492a58bafcc419b0fdf1e6cac9c075e8b764189e7ad6f"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:望梅止渴:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“想吃梅子；流出口水；就不渴了。比喻愿望无法实现；用空想安慰自己。”？",
+      "options": [
+        "望梅止渴",
+        "锦上添花",
+        "以身作则",
+        "指鹿为马"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“望梅止渴”读作“wàng méi zhǐ kě”，意思是：想吃梅子；流出口水；就不渴了。比喻愿望无法实现；用空想安慰自己。 出处：南朝・宋・刘义庆《世说新语・假谲》：“魏武行役失汲道，军皆渴，乃令曰：‘前有大梅林，饶子，甘酸可以解渴。’士卒闻之，口皆出水，乘此得及前源。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "望梅止渴",
+      "contentHash": "526930b1bdf5816d2e0a0640575005ee49e68efd8dabe5a8a067d0bd5fcbc229"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:兴高采烈:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“兴高采烈”的正确读音是？",
+      "options": [
+        "huò rán kāi lǎng",
+        "fēng yǔ tóng zhōu",
+        "xìng gāo cǎi liè",
+        "máo sè dùn kāi"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“兴高采烈”读作“xìng gāo cǎi liè”，意思是：兴致高；精神饱满。采：精神；烈：强烈；旺盛。 出处：南朝・梁・刘勰《文心雕龙・体性》：“叔夜俊侠，故兴高而采烈。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "兴高采烈",
+      "contentHash": "a9eb451e5c14f40a85ced1907d6580db6ae0de9a60e1eb499fa310b62ff39750"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:任重道远:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“任重道__”中应填入哪个字？",
+      "options": [
+        "拔",
+        "远",
+        "济",
+        "壮"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“任重道远”读作“rèn zhòng dào yuǎn”，意思是：担子很重；路程很远。比喻责任重大；要经历长期的奋斗。 出处：春秋・孔子《论语・泰伯》：“士不可以不弘毅，任重而道远。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "任重道远",
+      "contentHash": "054e3ac5b1674061edfbd869d811c40e36afe156f6d0d293dcf852298985ae1a"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:集思广益:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“集：集中；思：思想；广：扩大；益：好处。集中群众的意见和智慧；取得更好的效果。也指集中众人的思想和智慧；广泛吸收好的意见。”？",
+      "options": [
+        "金玉良言",
+        "对症下药",
+        "异想天开",
+        "集思广益"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“集思广益”读作“jí sī guǎng yì”，意思是：集：集中；思：思想；广：扩大；益：好处。集中群众的意见和智慧；取得更好的效果。也指集中众人的思想和智慧；广泛吸收好的意见。 出处：三国・蜀 诸葛亮《教与军师长史参军掾属》：“夫参署者，集众思，广忠益也。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "集思广益",
+      "contentHash": "48149f08b361081a1a2ae34fd5419bc9246d45a76e5451c8d813cf3bf798b00e"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:心旷神怡:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“心旷神怡”的正确读音是？",
+      "options": [
+        "xīn kuàng shén yí",
+        "jí zhōng shēng zhì",
+        "mò shǒu chéng guī",
+        "jiàn yì yǒng wéi"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“心旷神怡”读作“xīn kuàng shén yí”，意思是：心境开阔；精神愉快。旷：空阔；怡：愉快。 出处：宋・范仲淹《岳阳楼记》：“登斯楼也，则有心旷神怡，宠辱皆忘，把酒临风，其喜洋洋者矣。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "心旷神怡",
+      "contentHash": "76ce164ec840803534408c62f43437b02be5f13a7c0b3294a0ec2395c6a40032"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:黔驴技穷:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“黔驴技__”中应填入哪个字？",
+      "options": [
+        "庐",
+        "穷",
+        "至",
+        "半"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“黔驴技穷”读作“qián lǘ jì qióng”，意思是：黔：今贵州省；穷：尽。黔地的驴；本领穷尽了。比喻极为有限的一点本领也用尽了。 出处：唐・柳宗元《三戒・黔之驴》：“虎因喜，计之曰：‘技止此耳！’因跳踉大阚，断其喉，尽其肉，乃去。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "黔驴技穷",
+      "contentHash": "eb153b7cdcc24882112f86aecf692b83cb04400790a28ee1bd9350c0a9e528c9"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:不速之客:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“速：邀请。没有邀请而自己来的客人。指意想不到的客人。”？",
+      "options": [
+        "大器晚成",
+        "不速之客",
+        "以逸待劳",
+        "人杰地灵"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“不速之客”读作“bù sù zhī kè”，意思是：速：邀请。没有邀请而自己来的客人。指意想不到的客人。 出处：《周易・需》：“有不速之客三人来，敬之终吉。”孔颖达疏：“速，召也。不须召唤之客有三人自来。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "不速之客",
+      "contentHash": "295578493ff2fc32fd9c4f89f1b1e5453331a66aaabcf76b9793019d52f28629"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:水滴石穿:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“水滴石穿”的正确读音是？",
+      "options": [
+        "ěr rú mù rǎn",
+        "shuǐ dī shí chuān",
+        "biàn běn jiā lì",
+        "bīng qīng yù jié"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“水滴石穿”读作“shuǐ dī shí chuān”，意思是：滴：液体一点一点地往下落；穿：破；透。指水一滴一滴不断地往下落；把石头穿透。比喻只要有恒心；不断努力；事情自然会成功。 出处：宋・罗大经《鹤林玉露》第十卷：“乖崖援笔判云：‘一日一钱，千日一千；绳锯木断，水滴石穿。’”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "水滴石穿",
+      "contentHash": "b55050171f94ff062566d8e3d36a3c5acc3f639a9c81b73a621414b22884556c"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:相辅相成:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“相辅相__”中应填入哪个字？",
+      "options": [
+        "成",
+        "难",
+        "拔",
+        "远"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“相辅相成”读作“xiāng fǔ xiāng chéng”，意思是：相：互相；辅：帮助；成：促成。指两件事物互相配合；互相辅助；缺一不可。 出处：明・张岱《历书眼序》：“诹日者与推命者必相辅而行；而后二者之说始得无蔽。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "相辅相成",
+      "contentHash": "e0740c079b33d9b0eb5821981c4dfff7a1ab268e50aa8b3af9a33584be655a61"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:背水一战:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“背水背向水，表示没有退路。比喻与敌人决一死战。”？",
+      "options": [
+        "背水一战",
+        "捷足先登",
+        "大同小异",
+        "防微杜渐"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“背水一战”读作“bèi shuǐ yī zhàn”，意思是：背水背向水，表示没有退路。比喻与敌人决一死战。 出处：《史记·淮阴侯列传》信乃使万人先行，出，背水陈。赵军望见而大笑。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "背水一战",
+      "contentHash": "36d5aad18d7e89dfc0898df473630277c7b49510acf7e6d3945a0a9ce8f1a968"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:大智若愚:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“大智若愚”的正确读音是？",
+      "options": [
+        "xué yǐ zhì yòng",
+        "zhǐ shàng tán bīng",
+        "zhòng zhì chéng chéng",
+        "dà zhì ruò yú"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“大智若愚”读作“dà zhì ruò yú”，意思是：很有智慧的人表面上好像很愚蠢。比喻有智慧的人极有涵养，不露锋芒。 出处：宋・苏轼《贺欧阳少师致仕启》：“大勇若怯，大智如愚。”后世据此典故引申出成语“大智若愚”。",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "大智若愚",
+      "contentHash": "08fe73f7303276099d92fbf222e9b505a9f8a4bc72ebf05a869b8284711995be"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:事半功倍:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“事半功__”中应填入哪个字？",
+      "options": [
+        "倍",
+        "战",
+        "倦",
+        "然"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“事半功倍”读作“shì bàn gōng bèi”，意思是：使用一半的力却收到成倍的效果。形容费力少；收效大。功：功效。 出处：战国・孟子《孟子・公孙丑上》：“万乘之国，行仁政，民之悦之，犹解倒悬也。故事半古之人，功必倍之。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "事半功倍",
+      "contentHash": "a8b262327b59f17c978d908992c38b6a0d1842f2888040503840d39d0698ddaf"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:冰清玉洁:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“清：清澈；洁：洁白。像冰那样清澈；像玉那样洁白。也作“玉洁冰清”。比喻人品高尚、纯洁；做事光明磊落。”？",
+      "options": [
+        "瓜熟蒂落",
+        "兵不厌诈",
+        "冰清玉洁",
+        "众志成城"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“冰清玉洁”读作“bīng qīng yù jié”，意思是：清：清澈；洁：洁白。像冰那样清澈；像玉那样洁白。也作“玉洁冰清”。比喻人品高尚、纯洁；做事光明磊落。 出处：西汉・司马迁《与挚伯陵书》：“伏唯伯陵材能绝人，高尚其志，以善厥身，冰清玉洁，不以细行。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "冰清玉洁",
+      "contentHash": "b61c89ba58cde2674c937cfe43d52590eda69a6333105cd0934f397a0eb399f6"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:明察秋毫:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“明察秋毫”的正确读音是？",
+      "options": [
+        "yǐn shuǐ sī yuán",
+        "míng chá qiū háo",
+        "àn bù jiù bān",
+        "bǎi zhé bù náo"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“明察秋毫”读作“míng chá qiū háo”，意思是：明：明晰；察：看；观察；秋毫：秋天鸟兽身上新长出的细毛；比喻极细微的事物、现象。目光犀利；能敏锐地看清极细小微末的东西。形容人能洞察事理；不受欺蒙。 出处：战国・孟子《孟子・梁惠王上》：“明足以察秋毫之末。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "明察秋毫",
+      "contentHash": "e43ab4d889b6cda487592f7f6f4652a0a99f3db23ac16043bb09e31c8455231c"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:笑逐颜开:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“笑逐颜__”中应填入哪个字？",
+      "options": [
+        "待",
+        "开",
+        "关",
+        "求"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“笑逐颜开”读作“xiào zhú yán kāi”，意思是：笑得使面容舒展开来。形容满脸笑容；十分高兴的样子。逐：驱使；颜：脸面。 出处：明・凌濛初《初刻拍案惊奇》：“母亲方才转忧为喜，笑逐颜开道：'亏得儿子峥嵘有日，奋发有时。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "笑逐颜开",
+      "contentHash": "6c1dd66ba8dd93458ff645dc86dcfa0e077f1f94fab586ed61317354fccd4377"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:三长两短:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“比喻意外的灾祸或事故；现多指死亡。”？",
+      "options": [
+        "三长两短",
+        "临渴掘井",
+        "叶公好龙",
+        "一鸣惊人"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“三长两短”读作“sān cháng liǎng duǎn”，意思是：比喻意外的灾祸或事故；现多指死亡。 出处：明・罗贯中《三遂平妖传》：“万一些后再有三长两短，终不能靠着太医活命。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "三长两短",
+      "contentHash": "370a734517f029dca24b2ab5686c0fad5a4be9a904b7c45b75aac937284761e6"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:适得其反:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“适得其反”的正确读音是？",
+      "options": [
+        "dāng jī lì duàn",
+        "cái huá héng yì",
+        "jié zú xiān dēng",
+        "shì dé qí fǎn"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“适得其反”读作“shì dé qí fǎn”，意思是：恰恰得到相反的结果。形容结果正好与希望相反。 出处：清・魏源《筹海篇・议守上》：“今议防堵者，莫不曰：‘御诸内河不若御诸海口，御诸海口不若御诸外洋。’不知此适得其反也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "适得其反",
+      "contentHash": "615525771c8f7592225bd9850a04cc93ae31428a045a4307ea4447a7ebe25ae0"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:安居乐业:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“安居乐__”中应填入哪个字？",
+      "options": [
+        "开",
+        "故",
+        "异",
+        "业"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“安居乐业”读作“ān jū lè yè”，意思是：安：安定；乐：喜爱；愉快；业：职业。安定地生活；愉快地从事自己的职业；形容社会治理得好；生活、生产、思想状况安于正常。 出处：东汉・班固《汉书・货殖传序》：“各安其居而乐其业，甘其食而美其服。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "安居乐业",
+      "contentHash": "2188a73fcd113b4af4659340aeca58c4d872df37ca73c4e95d551e15f9e713dc"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:流连忘返:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“流连：留恋；舍不得离开。返：回；归。指沉迷于游乐而忘归。后常形容对美好景致或事物的留恋。”？",
+      "options": [
+        "画龙点睛",
+        "循序渐进",
+        "背水一战",
+        "流连忘返"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“流连忘返”读作“liú lián wàng fǎn”，意思是：流连：留恋；舍不得离开。返：回；归。指沉迷于游乐而忘归。后常形容对美好景致或事物的留恋。 出处：战国・孟子《孟子・梁惠王下》：“从流下而忘返谓之流，从流上而忘返谓之连，从兽无厌谓之茺，乐酒无厌谓之亡。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "流连忘返",
+      "contentHash": "9284d1f0615fc3c3934e808ca38d08a10ba368489deb7f94a611582a347d62f4"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:独具匠心:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“独具匠心”的正确读音是？",
+      "options": [
+        "yī zhī bàn jiě",
+        "làn yú chōng shù",
+        "bīng qīng yù jié",
+        "dú jù jiàng xīn"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“独具匠心”读作“dú jù jiàng xīn”，意思是：匠心：巧妙的心思。具有独特的巧妙心思。多指技术或艺术方面有创造性。 出处：唐・张佑《题王右丞山水障》：“精华在笔端，咫尺匠心难。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "独具匠心",
+      "contentHash": "883444baa785d1275d208a3a83bb247b169e02078ade4e829f361967f45d7fbd"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:锦上添花:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“锦上添__”中应填入哪个字？",
+      "options": [
+        "舌",
+        "花",
+        "龙",
+        "烈"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“锦上添花”读作“jǐn shàng tiān huā”，意思是：在锦锻上面又添小绣花。形容好上加好。 出处：宋・黄庭坚《了了庵颂》：“又要涪翁作颂，且图锦上添花。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "锦上添花",
+      "contentHash": "ea72e1a8b85a5f92ad1fb8cd9254394bd366f5177c4353ca3ffb60788e63b8a9"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:刻舟求剑:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“舟：船；求：寻找；寻求。在船上刻记号；寻找失落水中的剑。比喻办事方法不对头；死守教条；拘泥固执；不知道随着情势的变化而变化。”？",
+      "options": [
+        "七嘴八舌",
+        "众志成城",
+        "刻舟求剑",
+        "唇亡齿寒"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“刻舟求剑”读作“kè zhōu qiú jiàn”，意思是：舟：船；求：寻找；寻求。在船上刻记号；寻找失落水中的剑。比喻办事方法不对头；死守教条；拘泥固执；不知道随着情势的变化而变化。 出处：战国・吕不韦《吕氏春秋・察今》：“楚人有涉江者，其剑自舟中坠于水，遽契其舟曰：‘是吾剑之所从坠。’舟止，从其所契者入水求之。舟已行矣，而剑不行，求剑若此，不亦惑乎？”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "刻舟求剑",
+      "contentHash": "7954897037bc7859a9f9df13bf19a9ba7c0e739175602b276c5aeacf992e2b82"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:毛遂自荐:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“毛遂自荐”的正确读音是？",
+      "options": [
+        "kōng qián jué hòu",
+        "lì bù cóng xīn",
+        "bù yuē ér tóng",
+        "máo suí zì jiàn"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“毛遂自荐”读作“máo suí zì jiàn”，意思是：毛遂：战国时赵国平原君的门客；荐：推荐；荐举。毛遂自己推荐自己。形容自告奋勇去做某事。 出处：西汉・司马迁《史记・平原君虞卿列传》：“门下有毛遂者，前，自赞于平原君曰：‘遂闻君将合从于楚，约与食客门下二十人偕，不外索。合少一人，愿君即以遂备员而行矣。’”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "毛遂自荐",
+      "contentHash": "059b06542a1eb88de7b98c76e3b68ba4197d33c9c5b806ead9dc9dd4f1a54093"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:防微杜渐:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“防微杜__”中应填入哪个字？",
+      "options": [
+        "渐",
+        "劳",
+        "则",
+        "数"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“防微杜渐”读作“fáng wēi dù jiàn”，意思是：防：提防；防止；微：微小；指事物的苗头；杜：杜绝；堵塞；渐：事物的起始、发展。在错误、坏事、不良风气等刚刚露苗头时就加以制止；不使其发展。 出处：南朝・宋・范晔《后汉书・丁鸿传》：“若敕政责躬，杜渐防萌，则凶妖消灭，害除福凑矣。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "防微杜渐",
+      "contentHash": "7999c6af61e18098401de298feb8d98a12280f88de87a7dcf621869d94438868"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:迎刃而解:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“碰着刀口就分开了。比喻事情容易处理；问题容易解决。”？",
+      "options": [
+        "迎刃而解",
+        "乐此不疲",
+        "来之不易",
+        "志同道合"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“迎刃而解”读作“yíng rèn ér jiě”，意思是：碰着刀口就分开了。比喻事情容易处理；问题容易解决。 出处：《晋书・杜预传》：“今兵威已振，譬如破竹，数节之后，皆迎刃而解。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "迎刃而解",
+      "contentHash": "e4ca03d7f54468a4279d29b3c90fc72e52fe6897817e752a8d831a40186acb84"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:大器晚成:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“大器晚成”的正确读音是？",
+      "options": [
+        "dà qì wǎn chéng",
+        "mèng mèi yǐ qiú",
+        "xiōng yǒu chéng zhú",
+        "yǐ luǎn jī shí"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“大器晚成”读作“dà qì wǎn chéng”，意思是：大器：大的材料；比喻人才。原指大的材料需要长时间才能成器。后指能担当大事的人要经过长期锻炼；成名往往较晚；也用作对长期不得意的人的一种安慰。 出处：先秦・李耳《老子》：“大器晚成，大音希声。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "大器晚成",
+      "contentHash": "e9a3b33f2af0f9bfbba831df8fd25870d49466427311e14cbaae898ade72a727"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:无可奈何:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“无可奈__”中应填入哪个字？",
+      "options": [
+        "至",
+        "水",
+        "毫",
+        "何"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“无可奈何”读作“wú kě nài hé”，意思是：奈何：如何；怎么办。不得已；没有办法。 出处：西汉・司马迁《史记・周本纪》：“太史伯阳曰：‘祸成矣，无可奈何！’”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "无可奈何",
+      "contentHash": "d070d26dc6e65d60fccec11da573e62487f7c6dcfcf20d81720ecc9773224b91"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:入木三分:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“本指书法笔力苍劲有力。后比喻见解透彻；议论深刻。”？",
+      "options": [
+        "承前启后",
+        "入木三分",
+        "脚踏实地",
+        "不可思议"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“入木三分”读作“rù mù sān fēn”，意思是：本指书法笔力苍劲有力。后比喻见解透彻；议论深刻。 出处：唐・张怀瓘《书断・王羲之》：“王羲之书祝版，工人削之，笔入木三分。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "入木三分",
+      "contentHash": "b7a2539299eaf0e9618f1153cf7a98002a59e995ffd58f6a78fb13e71b4b415d"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:孜孜不倦:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“孜孜不倦”的正确读音是？",
+      "options": [
+        "làn yú chōng shù",
+        "rú huǒ rú tú",
+        "zī zī bù juàn",
+        "shùn lǐ chéng zhāng"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“孜孜不倦”读作“zī zī bù juàn”，意思是：勤奋努力；不知疲倦（孜孜：勤勉的样子）。 出处：《尚书・君陈》：“惟日孜孜，无敢逸豫。”《后汉书・鲁丕传》：“性沉深好学，孳孳不倦。”《三国志・蜀书・向朗传》：“乃更潜心典籍，孜孜不倦。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "孜孜不倦",
+      "contentHash": "8749a2df4d5b7577b3d6d7c7e4ae08a2b17dc343fe07906ea84d64bfad3ff733"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:鹤立鸡群:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“鹤立鸡__”中应填入哪个字？",
+      "options": [
+        "药",
+        "则",
+        "关",
+        "群"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“鹤立鸡群”读作“hè lì jī qún”，意思是：像仙鹤立在鸡群之中。比喻才能或仪表出众。 出处：南朝・宋・刘义庆《世说新语・容止》：“有人语王戎曰：‘嵇延祖卓卓如野鹤之在鸡群。’”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "鹤立鸡群",
+      "contentHash": "a7422f455b8cd7862410d35f928d16e8daa5fe4df68b09d033858b787c870e68"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:七上八下:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“形容心神不安的惊惶样子。”？",
+      "options": [
+        "七上八下",
+        "防微杜渐",
+        "叶公好龙",
+        "以身作则"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“七上八下”读作“qī shàng bā xià”，意思是：形容心神不安的惊惶样子。 出处：宋・宗杲说《大慧普觉禅师语录》第21卷：“方寸里七上八下，如咬生铁橛，没滋味时，切莫退志。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "七上八下",
+      "contentHash": "f204ac2d3e9ee1c5848d71b9d63f4d64880429da3387ffc8f0458681e53d2d3f"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:齐心协力:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“齐心协力”的正确读音是？",
+      "options": [
+        "kè zhōu qiú jiàn",
+        "mèng mèi yǐ qiú",
+        "qí xīn xié lì",
+        "chí zhī yǐ héng"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“齐心协力”读作“qí xīn xié lì”，意思是：协力：合力。心往一块想；劲往一处使。 出处：《周书・崔谦传》：“然后与宇文行台，同心协力，电讨不庭，则桓文之勋，复兴于兹日矣。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "齐心协力",
+      "contentHash": "3c08731f2faed33536794cfd32ae9ef992e16ee73b57b449031c84019900ba09"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:临渴掘井:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“临渴掘__”中应填入哪个字？",
+      "options": [
+        "苟",
+        "班",
+        "劳",
+        "井"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“临渴掘井”读作“lín kě jué jǐng”，意思是：临：到；掘：挖。口渴了才去挖井。比喻事先不做好准备；事到临头才动手想办法。 出处：明・朱伯庐《游家格言》：“宣未雨而绸缪，毋临渴而掘井。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "临渴掘井",
+      "contentHash": "61ff617a8fdd1062f609ed6dfe108707052d5bbd2df3fae9af42ee9fcccc27c8"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:坚持不懈:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“懈：放松。坚持到底；没有丝毫的松懈。”？",
+      "options": [
+        "指鹿为马",
+        "坚持不懈",
+        "不屈不挠",
+        "海阔天空"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“坚持不懈”读作“jiān chí bù xiè”，意思是：懈：放松。坚持到底；没有丝毫的松懈。 出处：《清史稿・刘体重传》：“遇大雨，贼决河自卫。煦激励兵团，坚持不懈，贼穷蹙乞降，遂复濮洲。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "坚持不懈",
+      "contentHash": "038eedb1db2131c4d7b14b740bc8f605d62f0be50ca89b2e881f43c60bca037c"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:跃跃欲试:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“跃跃欲试”的正确读音是？",
+      "options": [
+        "zì xiāng máo dùn",
+        "dà tóng xiǎo yì",
+        "shǒu bù shì juàn",
+        "yuè yuè yù shì"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“跃跃欲试”读作“yuè yuè yù shì”，意思是：跃跃：急于要动的样子。心情急切地想试一试。形容对某事情非常有兴致；急切想试试。 出处：清・李宝嘉《官场现形记》：“一席说，说得唐儿乱子心痒难抓，跃跃欲试。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "跃跃欲试",
+      "contentHash": "ffe9ffcab573685886683332e03212ddd071b496074b7ac2376cea871f865e93"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:日新月异:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“日新月__”中应填入哪个字？",
+      "options": [
+        "盾",
+        "议",
+        "异",
+        "断"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“日新月异”读作“rì xīn yuè yì”，意思是：新：更新；异：不同。指发展或进步迅速；不断出现新事物、新气象。 出处：宋・林景熙《霁山集》：“金碧嵯峨，日新月异，则亦不独师能之也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "日新月异",
+      "contentHash": "659e525be2c441456b90bbce446a748fdd02ee491ec1ec4cd9735a4710c4a5de"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:自强不息:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“自觉地努力向上；永不停步。息：停止。”？",
+      "options": [
+        "聚精会神",
+        "愚公移山",
+        "大同小异",
+        "自强不息"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“自强不息”读作“zì qiáng bù xī”，意思是：自觉地努力向上；永不停步。息：停止。 出处：《周易・乾》：“天行健，君子以自强不息。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "自强不息",
+      "contentHash": "a31f91d3ce92d5365fafdadcef75b8ae11d95acf9de12ac806f2294a41fcc91d"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:熟能生巧:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“熟能生巧”的正确读音是？",
+      "options": [
+        "shì rú pò zhú",
+        "shú néng shēng qiǎo",
+        "tuī chén chū xīn",
+        "huá ér bù shí"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“熟能生巧”读作“shú néng shēng qiǎo”，意思是：巧：技巧。熟练了；就能找到窍门。 出处：清・李汝珍《镜花缘》第31回：“俗话说的‘熟能生巧’，舅兄昨日读了一夜。不但他已嚼出此中意味，并且连寄女都听会，所以随问随答，毫不费事。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "熟能生巧",
+      "contentHash": "cd96f03c1e0f996a6a0430b499fc9d6c361e7edb7ebe2ad9a0f7f3ca3bbe8acd"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:唇亡齿寒:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“唇亡齿__”中应填入哪个字？",
+      "options": [
+        "半",
+        "失",
+        "瞩",
+        "寒"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“唇亡齿寒”读作“chún wáng chǐ hán”，意思是：亡：没有。嘴唇没有了；牙齿就会感到寒冷。比喻两者关系密切；相互依存；利害相关。 出处：春秋・左丘明《左传・僖公五年》：“谚所谓‘辅车相依，唇亡齿寒’者，其虞虢之谓也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "唇亡齿寒",
+      "contentHash": "25601711b3ffb9690fce2864a2684f5823f0226ecd31cfad0bb1563766992471"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:相得益彰:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“益：更加；彰：明显。指两个人或两件事互相配合；双方的能力和作用更能显示出来。”？",
+      "options": [
+        "卧薪尝胆",
+        "老马识途",
+        "日新月异",
+        "相得益彰"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“相得益彰”读作“xiāng dé yì zhāng”，意思是：益：更加；彰：明显。指两个人或两件事互相配合；双方的能力和作用更能显示出来。 出处：汉・王褒《圣主得贤臣颂》：“明明在朝，穆穆列布，聚精会神，相得益章。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "相得益彰",
+      "contentHash": "076af6571c4020b55f677e84509e61f0a410aaf9375736017b9c6a41eb079b73"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:耳濡目染:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“耳濡目染”的正确读音是？",
+      "options": [
+        "wú wēi bù zhì",
+        "ěr rú mù rǎn",
+        "fáng wēi dù jiàn",
+        "kōng qián jué hòu"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“耳濡目染”读作“ěr rú mù rǎn”，意思是：濡：音如；沾湿；染：沾染。耳朵经常听到；眼睛经常看到；不知不觉地受到影响。 出处：唐・韩愈《清河郡公房公墓碣铭》：“目濡耳染，不学以能。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "耳濡目染",
+      "contentHash": "17e74dd5452978de64c577f258c52389080fa363d94470d02bf89be0d063f2ab"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:胸有成竹:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“胸有成__”中应填入哪个字？",
+      "options": [
+        "返",
+        "同",
+        "算",
+        "竹"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“胸有成竹”读作“xiōng yǒu chéng zhú”，意思是：原指画竹子在动笔之前脑子里先有竹子的完整形象。现比喻做事情动手之前心里已有主意；有打算或有把握。成：完全的。 出处：宋・苏轼《文与可画筼筜谷偃竹记》：“故画竹，必先得成竹于胸中。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "胸有成竹",
+      "contentHash": "3283ce6c1bef3d81091b56470e5d27f1d9e99be04bf16ba7ef9b3b295f710496"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:空前绝后:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“空：空白；绝：断绝。以前没有过；以后也没有。指从古到今非常突出；独一无二的事物。”？",
+      "options": [
+        "大惊小怪",
+        "空前绝后",
+        "顺理成章",
+        "井井有条"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“空前绝后”读作“kōng qián jué hòu”，意思是：空：空白；绝：断绝。以前没有过；以后也没有。指从古到今非常突出；独一无二的事物。 出处：宋・朱象贤《闻见偶录・男服从军》：“古之木兰，以女为男，代父从军，十二年而归，同行者莫知其为女子，诗歌美之，典籍传之，以其事空前绝后。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "空前绝后",
+      "contentHash": "fbbb08781807db97f952c320c03ef8a58f7e5a82a66d3f14146268ba17680bfe"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:画龙点睛:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“画龙点睛”的正确读音是？",
+      "options": [
+        "yuè yuè yù shì",
+        "huà lóng diǎn jīng",
+        "jù jīng huì shén",
+        "zī zī bù juàn"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“画龙点睛”读作“huà lóng diǎn jīng”，意思是：画龙之后再点上眼睛。比喻在关键地方简明扼要地点明要旨；使内容生动传神。也比喻在整体中突出重点。 出处：唐・张彦远《历代名画记・张僧繇》：“金陵安乐寺四白龙不点眼睛，每云：‘点睛即飞去。’人以为妄诞，固请点之。须臾，雷电破壁，两龙乘云腾去上天，二龙未点眼者见在。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "画龙点睛",
+      "contentHash": "a62e17449a1571dcb10c4f50b547642edc340dfda92017eb2821ce6bde7f5395"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:雪中送炭:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“雪中送__”中应填入哪个字？",
+      "options": [
+        "空",
+        "足",
+        "瞩",
+        "炭"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“雪中送炭”读作“xuě zhōng sòng tàn”，意思是：在下雪天给人送炭取暖。比喻在别人急需时给以物质上或精神上的帮助。 出处：宋・范成大《大雪送炭与芥隐》诗：“不是雪中须送炭，聊装风景要诗来。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "雪中送炭",
+      "contentHash": "c5fd5afafc795e137ff9a59d848212ec17c475657661e36197ba7875bc09f3d9"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:不屈不挠:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“屈、挠：弯曲。不屈服。形容不畏强暴和困难；十分顽强；决不屈服。”？",
+      "options": [
+        "半途而废",
+        "谈笑风生",
+        "不言而喻",
+        "不屈不挠"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“不屈不挠”读作“bù qū bù náo”，意思是：屈、挠：弯曲。不屈服。形容不畏强暴和困难；十分顽强；决不屈服。 出处：东汉・班固《汉书・叙传下》：“乐昌笃实，不桡（挠）不诎（屈）。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "不屈不挠",
+      "contentHash": "76996ef8ae32c6febfe0ad31d406931777364b56ae8579d77aa8381038ed3e5e"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:实事求是:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“实事求是”的正确读音是？",
+      "options": [
+        "hè lì jī qún",
+        "sān gù máo lú",
+        "shí shì qiú shì",
+        "yú gōng yí shān"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“实事求是”读作“shí shì qiú shì”，意思是：实事：客观事物；求：研究。是：事物内部的规律性。指客观存在的一切事物。 出处：东汉・班固《汉书・河间献王刘德传》：“河间献王德以孝景前二年立，修学好古，实事求是。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "实事求是",
+      "contentHash": "ea6284833ae3fc9331fbcd2cd0322dfd916440182a4d40cdb3db27c4e9a9da63"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:大同小异:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“大同小__”中应填入哪个字？",
+      "options": [
+        "何",
+        "舟",
+        "异",
+        "城"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“大同小异”读作“dà tóng xiǎo yì”，意思是：异：差异。大体相同；稍有差异。 出处：庄周《庄子・天下》：“大同而与小同异，此之谓小同异；万物毕同毕异，此之谓大同异。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "大同小异",
+      "contentHash": "5152e297973a6e71484fe0a6fb408472959fb521ac80fa5d1ce82ac46cc5e865"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:声东击西:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“迷惑敌人的一种战术；虚张声势说攻击东边；实际进攻西边。声：声张；击：打击。”？",
+      "options": [
+        "声东击西",
+        "日新月异",
+        "适得其反",
+        "乐此不疲"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“声东击西”读作“shēng dōng jī xī”，意思是：迷惑敌人的一种战术；虚张声势说攻击东边；实际进攻西边。声：声张；击：打击。 出处：唐・杜佑《通典・兵六》说：“声言击东，其实击西。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "声东击西",
+      "contentHash": "b08697495a2c8d018f5e13aba0214d677ce5811baa1035e67a4f8920cc988c21"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:名列前茅:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“名列前茅”的正确读音是？",
+      "options": [
+        "míng liè qián máo",
+        "chéng qián qǐ hòu",
+        "rù mù sān fēn",
+        "yī fán fēng shùn"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“名列前茅”读作“míng liè qián máo”，意思是：名：名次；前茅：春秋时楚国用茅草做报警用的旌旗；行军时拿着走在队伍的前面；作为报警的信号；故称“前茅”。比喻名次挂在前面。多指考试或竞赛等。 出处：春秋・左丘明《左传・宣公十二年》：“蔿敖为宰，择楚国之令典，军行，右辕，左追蓐，前茅虑无，中权，后劲。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "名列前茅",
+      "contentHash": "f90e1413f362930fb5a86b76e95b0e12d66254e698376db782952285954c7ada"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:一目了然:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“一目了__”中应填入哪个字？",
+      "options": [
+        "然",
+        "倍",
+        "日",
+        "多"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“一目了然”读作“yī mù liǎo rán”，意思是：目看；了然清楚，明白。一眼就看得很清楚。 出处：明·张岱《皇华考序》可见按图索籍，三溪道路，一目了然。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "一目了然",
+      "contentHash": "458083a339806062ac5825a32c93eb68330ca254ac9f36ff285ab74f3908e46c"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:一丝不苟:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“苟：苟且。丝毫也不马虎。形容办事极为认真。”？",
+      "options": [
+        "雪中送炭",
+        "一知半解",
+        "一丝不苟",
+        "当机立断"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“一丝不苟”读作“yī sī bù gǒu”，意思是：苟：苟且。丝毫也不马虎。形容办事极为认真。 出处：清・吴敬梓《儒林外史》第四回：“上司访知，见世叔一丝不苟，升迁就在指日。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "一丝不苟",
+      "contentHash": "e2d6aebe8d31d2adb229362f5a042e8424c03de81034e2c5da20ce4927d4da23"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:前车之鉴:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“前车之鉴”的正确读音是？",
+      "options": [
+        "shì bèi gōng bàn",
+        "qián chē zhī jiàn",
+        "bù yuē ér tóng",
+        "nòng qiǎo chéng zhuō"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“前车之鉴”读作“qián chē zhī jiàn”，意思是：前车：前面的车子；鉴：镜子。前面车子翻了的教训。比喻从前人的失败中得来的教训。 出处：汉・刘向《说苑・善说》：“《周书》曰：‘前车覆，后车戒。’”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "前车之鉴",
+      "contentHash": "e89f6e6b1651e549b5638364c6f5087661ad4c1df971aa130c8de4ccf0d66e56"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:精益求精:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“精益求__”中应填入哪个字？",
+      "options": [
+        "灵",
+        "空",
+        "拙",
+        "精"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“精益求精”读作“jīng yì qiú jīng”，意思是：精：完美；益：更加。已经十分美好了；还要求更加美好。指对某种技能或学术的追求很高；没有止境。 出处：春秋・孔子《论语・学而》：“《诗》云：‘如切如磋，如琢如磨。’”宋・朱熹注：“言治骨角者，既切之而复磋之；治玉石者，既琢之而复磨之，治之已精，而益求其精也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "精益求精",
+      "contentHash": "55c4fd7363e9e96d9e4ad3cad7ab7bad203d5996911b26d06898a9f3a4be291b"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:坐井观天:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“坐在井底看天。比喻眼界狭小；见识有限。”？",
+      "options": [
+        "不速之客",
+        "步步为营",
+        "坐井观天",
+        "知己知彼"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“坐井观天”读作“zuò jǐng guān tiān”，意思是：坐在井底看天。比喻眼界狭小；见识有限。 出处：唐・韩愈《原道》：“坐井而观天，曰天小者，非天小也。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "坐井观天",
+      "contentHash": "e099ec51eb4c49994fd1ba0d5e2d225fc2cf2ac459d8a38972afba6b4c1a539a"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:未雨绸缪:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“未雨绸缪”的正确读音是？",
+      "options": [
+        "hè lì jī qún",
+        "wèi yǔ chóu móu",
+        "dà zhì ruò yú",
+        "yī yī bù shě"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“未雨绸缪”读作“wèi yǔ chóu móu”，意思是：绸缪：修缮房屋。在没有下雨前；就要修缮好门窗。比喻事先作好准备；防患未然。 出处：《诗经・豳风・鸱鸮》：“迨天之未阴雨，彻彼桑土，绸缪牖户。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "未雨绸缪",
+      "contentHash": "04023ccece610cc6911fe0d33ab6e172ab34ccfa53436f37615ec84c5363ef39"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:三心二意:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“三心二__”中应填入哪个字？",
+      "options": [
+        "变",
+        "算",
+        "意",
+        "为"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“三心二意”读作“sān xīn èr yì”，意思是：又想这样又想那样；犹豫不定。常指不安心；不专一。 出处：元・关汉卿《救风尘》第一折：“争奈是匪妓，都三心二意。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "三心二意",
+      "contentHash": "51855f205ab4d4cd221788307914a819c348077883b56f9c939f75e7bc43feb5"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:不翼而飞:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“翼翅膀。没有翅膀却飞走了。比喻物品忽然丢失。也比喻事情传播得很迅速。”？",
+      "options": [
+        "锦上添花",
+        "沧海一粟",
+        "不翼而飞",
+        "得不偿失"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“不翼而飞”读作“bù yì ér fēi”，意思是：翼翅膀。没有翅膀却飞走了。比喻物品忽然丢失。也比喻事情传播得很迅速。 出处：《管子·戒》无翼而飞者声也。”《战国策·秦策三》众口所移，毋翼而飞。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "不翼而飞",
+      "contentHash": "1be351ce0a6f3b8b91271abb0c426a5781bcf08aa6dba40b6f558a49e7435acd"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:以卵击石:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“以卵击石”的正确读音是？",
+      "options": [
+        "àn bù jiù bān",
+        "yǐ luǎn jī shí",
+        "yì xiǎng tiān kāi",
+        "dé bù cháng shī"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“以卵击石”读作“yǐ luǎn jī shí”，意思是：拿蛋去碰石头。比喻不估计自己的力量，自取灭亡。 出处：明・罗贯中《三国演义》第43回：“强欲与争，正如以卵击石，安得不败乎！”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "以卵击石",
+      "contentHash": "b659e62eb575c6252b268e1be8d55c153344df7a598aa25c1f29393a5c8371eb"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:轻而易举:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“轻而易__”中应填入哪个字？",
+      "options": [
+        "城",
+        "举",
+        "来",
+        "河"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“轻而易举”读作“qīng ér yì jǔ”，意思是：轻：轻松；举：向上托。很轻松很容易地举起来。形容做事情毫不费力。 出处：《诗经・大雅・烝民》：“人亦有言，德輶如毛，民鲜克举之。”宋・朱熹注：“言人皆言德甚轻而易举，然人莫能举也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "轻而易举",
+      "contentHash": "b0a409c0e36dc06229b823069ef3cd48e0fc9f43aeffa0d549ae5d6de477e3a0"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:沧海一粟:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“沧海：大海；粟：谷子。大海中的一粒谷子。比喻非常渺小；微不足道。也作“大海一粟”。”？",
+      "options": [
+        "不知所措",
+        "唇亡齿寒",
+        "步步为营",
+        "沧海一粟"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“沧海一粟”读作“cāng hǎi yī sù”，意思是：沧海：大海；粟：谷子。大海中的一粒谷子。比喻非常渺小；微不足道。也作“大海一粟”。 出处：宋・苏轼《前赤壁赋》：“寄蜉蝣于天地，渺沧海之一粟。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "沧海一粟",
+      "contentHash": "656af9e6fd1ca7a0142489428f68a49ec38889f8cec267a3bc3c5ca33752b6ad"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:专心致志:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“专心致志”的正确读音是？",
+      "options": [
+        "zhuān xīn zhì zhì",
+        "zuǒ yòu wéi nán",
+        "wú yǔ lún bǐ",
+        "jiā yù hù xiǎo"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“专心致志”读作“zhuān xīn zhì zhì”，意思是：心里很专一；注意力集中。致：极尽；志：心意；志趣。 出处：战国・孟子《孟子・告子上》：“今夫弈之为数，小数也，不专心致志，则不得也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "专心致志",
+      "contentHash": "49e7070416f67aa8a44025f3d7072e2a5896f06398c701486f6185412acc05d9"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:学以致用:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“学以致__”中应填入哪个字？",
+      "options": [
+        "倍",
+        "用",
+        "返",
+        "舍"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“学以致用”读作“xué yǐ zhì yòng”，意思是：为了实际应用而学习。致：使达到；用：实际应用。 出处：李新《为有源头活水来》：“要结合实际工作和革命斗争的需要来学，学以致用，并且勤学苦学。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "学以致用",
+      "contentHash": "b5fc90331b9db8df3289bf99b153b0ab1be34b098b8b47e6098e4a9c60d38e84"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:大惊小怪:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“指对不足为奇的事情过分惊讶、奇怪。”？",
+      "options": [
+        "光明磊落",
+        "锦上添花",
+        "大惊小怪",
+        "唇亡齿寒"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“大惊小怪”读作“dà jīng xiǎo guài”，意思是：指对不足为奇的事情过分惊讶、奇怪。 出处：宋・朱熹《答林择之书》：“要须把此事来做一平常事看，朴实头做将去，久之自然见效，不必如此大惊小怪，起模画样也。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "大惊小怪",
+      "contentHash": "bdbb42357fb802876354c37d7868595d896cedf0aeef46a1219d27f7b54c94e9"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:今非昔比:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“今非昔比”的正确读音是？",
+      "options": [
+        "jīn fēi xī bǐ",
+        "yǐn shuǐ sī yuán",
+        "yè gōng hào lóng",
+        "míng chá qiū háo"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“今非昔比”读作“jīn fēi xī bǐ”，意思是：昔：过去；从前。现在不是过去所能比得上的。形容变化非常大。 出处：元・关汉卿《谢天香》第四折：“小官今非昔比，官守所拘，功名在念，岂敢饮酒？”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "今非昔比",
+      "contentHash": "d3514c4a122b2f1213087728dfe5f61a599095380160a416665f068e85eab15a"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:得心应手:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“得心应__”中应填入哪个字？",
+      "options": [
+        "试",
+        "手",
+        "荐",
+        "晓"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“得心应手”读作“dé xīn yìng shǒu”，意思是：心里怎样想；手上就能相应地怎样做。形容功夫到家；技艺纯熟；做起来很顺手。 出处：战国・庄子《庄子・天道》：“不徐不疾，得之于手而应于心，口不能言，有数存焉于其间。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "得心应手",
+      "contentHash": "b32ced4ffd6c4ec0538b482cd24d19f065ccca5418f6ced029c94a538af7468f"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:一鸣惊人:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“比喻平时没有突出的表现；一下子做出惊人的成绩。”？",
+      "options": [
+        "一鸣惊人",
+        "守株待兔",
+        "一目了然",
+        "纸上谈兵"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“一鸣惊人”读作“yī míng jīng rén”，意思是：比喻平时没有突出的表现；一下子做出惊人的成绩。 出处：西汉・司马迁《史记・滑稽列传》：“此鸟不飞则已，一飞冲天；不鸣则已，一鸣惊人。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "一鸣惊人",
+      "contentHash": "aa470400e287f6981e691d36eb2307c471184c511a263c65994194deb79b27c3"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:纸上谈兵:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“纸上谈兵”的正确读音是？",
+      "options": [
+        "qún cè qún lì",
+        "zài jiē zài lì",
+        "jiǎo tà shí dì",
+        "zhǐ shàng tán bīng"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“纸上谈兵”读作“zhǐ shàng tán bīng”，意思是：在纸上谈论用兵（兵：打仗；用兵）。比喻不解决实际问题的空谈。 出处：老舍《四世同堂》：“书生只喜欢纸上谈兵，只说而不去实行。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "纸上谈兵",
+      "contentHash": "0251227f1601a33921e63e8fc2081a005e9fd66993f874705dc2715907cce7ac"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:梦寐以求:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“梦寐以__”中应填入哪个字？",
+      "options": [
+        "豹",
+        "求",
+        "染",
+        "下"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“梦寐以求”读作“mèng mèi yǐ qiú”，意思是：寐：睡着。睡觉做梦时都在追求。形容期望或追求的迫切。 出处：《诗经・周南・关雎》：“窈窕淑女，寤寐求之，求之不得，寤寐思服。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "梦寐以求",
+      "contentHash": "e993289c66ff1a0903eed1066f776fc8bfad0aa8ce9e172444311623c3c0a84c"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:承前启后:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“承：承接；启：开创、开始。承接前面的；引出后面的。多用于事业、学问方面。也作“承先启后。”。”？",
+      "options": [
+        "无与伦比",
+        "承前启后",
+        "不遗余力",
+        "循序渐进"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“承前启后”读作“chéng qián qǐ hòu”，意思是：承：承接；启：开创、开始。承接前面的；引出后面的。多用于事业、学问方面。也作“承先启后。”。 出处：明・朱国祯《涌幢小品・曾有菴赠文》：“公承前草创，启后规模，此之功德，垂之永永。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "承前启后",
+      "contentHash": "6dfbab892b2e1d34d8be588877007abf5102dd447105e723e84c75a571919c41"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:天衣无缝:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“天衣无缝”的正确读音是？",
+      "options": [
+        "huà shé tiān zú",
+        "zì lì gēng shēng",
+        "jiǎo tà shí dì",
+        "tiān yī wú fèng"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“天衣无缝”读作“tiān yī wú fèng”，意思是：天上神仙的衣服没有缝儿。比喻事物完善周密；找不出什么毛病。 出处：五代 前蜀 牛峤《灵怪录・郭翰》：“天衣本非针线为也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "天衣无缝",
+      "contentHash": "c73620d81f2eb12c42d6584212ca37f607c1ccc1deda973d4b991a687d65ee61"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:小心翼翼:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“小心翼__”中应填入哪个字？",
+      "options": [
+        "寒",
+        "翼",
+        "石",
+        "鉴"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“小心翼翼”读作“xiǎo xīn yì yì”，意思是：谨慎小心；一点不敢疏忽。翼翼：恭敬慎重的样子。 出处：《诗经・大雅・大明》：“维此文王，小心翼翼。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "小心翼翼",
+      "contentHash": "4614622a46e78d4fb2677acd1e5b22f9eb7a4d99a7199d04d8629be038b9aa6a"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:见义勇为:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“义：正义；勇：勇敢；为；做。见到正义的事情勇于去做。”？",
+      "options": [
+        "背水一战",
+        "见义勇为",
+        "画龙点睛",
+        "愚公移山"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“见义勇为”读作“jiàn yì yǒng wéi”，意思是：义：正义；勇：勇敢；为；做。见到正义的事情勇于去做。 出处：春秋・孔子《论语・为政》：“见义不为，无勇也。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "见义勇为",
+      "contentHash": "112ab84c0f3cbabcbccba0d89135182c4a74fe7422ba48de6a2723af76429a93"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:夜以继日:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“夜以继日”的正确读音是？",
+      "options": [
+        "jiān chí bù xiè",
+        "yè yǐ jì rì",
+        "sān xīn èr yì",
+        "zhèng rén mǎi lǚ"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“夜以继日”读作“yè yǐ jì rì”，意思是：以：用；拿；继：继续连接。用晚上的时间接上白天。形容日夜不停地工作。 出处：战国・孟子《孟子・离娄下》：“仰而思之，夜以继日。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "夜以继日",
+      "contentHash": "92f3343074f8ad38aa509d5a71649918a9cef8fd500aeed55797d8c899bc79d0"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:如鱼得水:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“如鱼得__”中应填入哪个字？",
+      "options": [
+        "比",
+        "言",
+        "行",
+        "水"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“如鱼得水”读作“rú yú dé shuǐ”，意思是：好像鱼得到水一样。比喻得到跟自己十分投合的人或对自己很适合的环境。 出处：晋・陈寿《三国志・蜀志・诸葛亮传》：“孤之有孔明，犹鱼之有水也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "如鱼得水",
+      "contentHash": "ec5c0112415b9aeb358c67d96492362b035fe5a6681a34c4e19b2a4a74c419aa"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:谈笑风生:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“形容谈话时有说有笑；饶有兴趣；气氛热烈。风生：有兴致；很风趣。”？",
+      "options": [
+        "事倍功半",
+        "谈笑风生",
+        "见义勇为",
+        "力不从心"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“谈笑风生”读作“tán xiào fēng shēng”，意思是：形容谈话时有说有笑；饶有兴趣；气氛热烈。风生：有兴致；很风趣。 出处：宋・辛弃疾《念奴娇・赠夏成玉》词：“遐想后日蛾眉，两山横黛，谈笑风生颊。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "谈笑风生",
+      "contentHash": "d0c04e9e021b6fd5e177e2db0cf57c5a415b61d16a3e3998251c11edbc6008ba"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:弄巧成拙:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“弄巧成拙”的正确读音是？",
+      "options": [
+        "huà shé tiān zú",
+        "yè gōng hào lóng",
+        "nòng qiǎo chéng zhuō",
+        "jié zú xiān dēng"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“弄巧成拙”读作“nòng qiǎo chéng zhuō”，意思是：弄：卖弄；耍弄；巧：灵巧；拙：愚笨。本想卖弄聪明；做得好些；结果却做了蠢事或把事情弄糟。 出处：宋・黄庭坚《拙轩颂》：“弄巧成拙，为蛇画足。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "弄巧成拙",
+      "contentHash": "aabf1a61008f9d2a13481f69b5eb6d9e0b3f8ba6028f5086c4bdfcc6c08eca55"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:亡羊补牢:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“亡羊补__”中应填入哪个字？",
+      "options": [
+        "牢",
+        "废",
+        "返",
+        "易"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“亡羊补牢”读作“wáng yáng bǔ láo”，意思是：羊丢了再去修补羊圈还不算晚。比喻出了问题以后想办法补救可以防止继续受损失。亡：逃亡，丢失；牢：关牲口的圈。 出处：西汉・刘向《战国策・楚策四》：“见兔而顾犬，未为晚也；亡羊而补牢，未为迟也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "亡羊补牢",
+      "contentHash": "68f2351a086a126d059418b9d669e4b496103cedacbe23c54b50fb96c224214c"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:语重心长:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“重：郑重。恳切话说得诚恳；有分量；心意深长。”？",
+      "options": [
+        "语重心长",
+        "名列前茅",
+        "笑逐颜开",
+        "一丝不苟"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“语重心长”读作“yǔ zhòng xīn cháng”，意思是：重：郑重。恳切话说得诚恳；有分量；心意深长。 出处：清・洛日生《海国英雄记・回唐》：“叹别离苦况，转忘了母亲的语重心长。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "语重心长",
+      "contentHash": "32bc6da072d8dd82c56059dd2f1d8caca99ae1ef6dcc28e188aef11a88a18b39"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:旗开得胜:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“旗开得胜”的正确读音是？",
+      "options": [
+        "shì dé qí fǎn",
+        "bù bù wéi yíng",
+        "qí kāi dé shèng",
+        "hòu lái jū shàng"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“旗开得胜”读作“qí kāi dé shèng”，意思是：形容战斗顺利；一出兵就取得了胜利。 出处：元・无名氏《射柳捶丸》第四折：“托赖主人洪福，旗开得胜，马到成功。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "旗开得胜",
+      "contentHash": "a248c36b7d0c1dde299554b7f11e7723d9fec186379b244f43e350afbee32598"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:不约而同:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“不约而__”中应填入哪个字？",
+      "options": [
+        "同",
+        "意",
+        "明",
+        "天"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“不约而同”读作“bù yuē ér tóng”，意思是：约相约。事先没有约定而相互一致。 出处：《史记·平津侯主父列传》应对而皆动，不谋而俱起，不约而同会。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "不约而同",
+      "contentHash": "18c5f169b9b0dd3f8e781664c680e8ee9b9c50354ea938159add93f97fd72101"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:拔苗助长:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“比喻违反事物发展的客观规律，急于求成，反而坏事。”？",
+      "options": [
+        "未雨绸缪",
+        "如火如荼",
+        "金玉良言",
+        "拔苗助长"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“拔苗助长”读作“bá miáo zhù zhǎng”，意思是：比喻违反事物发展的客观规律，急于求成，反而坏事。 出处：郭沫若《雄鸡集・关于发展学术与文艺的问题》：“命令主义就合乎中国古代的一个寓言，叫做‘拔苗助长’。结果被拔起的苗不仅不能成长，反而枯槁了。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "拔苗助长",
+      "contentHash": "ad7ea54c9f471f8441ccea1347bfb0d56d0dc2e79a6e9600a7155a450daadb3c"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:大显身手:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“大显身手”的正确读音是？",
+      "options": [
+        "jí zhōng shēng zhì",
+        "zì lì gēng shēng",
+        "huà shé tiān zú",
+        "dà xiǎn shēn shǒu"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“大显身手”读作“dà xiǎn shēn shǒu”，意思是：显：表示；显露；身手：武艺；指本领。充分显露自己的本领；充分发挥自己的聪明才智。 出处：赵树理《三里湾》七：“这两个人默默不语在这座房子里大显身手。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "大显身手",
+      "contentHash": "34c43f1e7976bb2e929e3a7bb0e9f34c06c213461b58790682cea5e9310b7b03"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:光明磊落:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“光明磊__”中应填入哪个字？",
+      "options": [
+        "生",
+        "章",
+        "落",
+        "途"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“光明磊落”读作“guāng míng lěi luò”，意思是：磊落：错落分明；引申指人洒脱不拘；直率开朗。指心地光明正大；胸怀坦白。 出处：宋・朱熹《朱子语类》第74卷：“譬如人光明磊落底便是好人，昏昧迷暗底便不是好人。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "光明磊落",
+      "contentHash": "eaaabdfa850a773d427ef92675e6ecef954d05eb9b18038f6b02505a67cce3c0"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:五湖四海:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“五湖：我国的五大湖泊（指鄱阳湖、洞庭湖、洪泽湖、太湖、巢湖）。泛指四面八方；全国各地。有时也指世界各地。现有时也比喻广泛的团结。”？",
+      "options": [
+        "持之以恒",
+        "纸上谈兵",
+        "五湖四海",
+        "冰清玉洁"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“五湖四海”读作“wǔ hú sì hǎi”，意思是：五湖：我国的五大湖泊（指鄱阳湖、洞庭湖、洪泽湖、太湖、巢湖）。泛指四面八方；全国各地。有时也指世界各地。现有时也比喻广泛的团结。 出处：唐・吕岩《绝句》：“斗笠为帆扇作舟，五湖四海任遨游。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "五湖四海",
+      "contentHash": "a6506174eb86adae3cf9009e04d964ca0498642b2fd467af4b7e4ff005c315e4"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:休戚与共:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“休戚与共”的正确读音是？",
+      "options": [
+        "guā shú dì luò",
+        "máo sè dùn kāi",
+        "míng liè qián máo",
+        "xiū qī yǔ gòng"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“休戚与共”读作“xiū qī yǔ gòng”，意思是：彼此有福有祸都共同承受。休：福；欢乐；戚：忧愁。形容关系密切；同甘共苦。 出处：明・瞿共美《天南逸史》：“臣与皇上患难相随，休戚与共，愿自不同于诸臣，一切大政自得与闻。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "休戚与共",
+      "contentHash": "5bee5c998c41bd94747c115b6eeef92e4462bf3e8fd4ab73e33ce609077f84c9"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:掩耳盗铃:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“掩耳盗__”中应填入哪个字？",
+      "options": [
+        "铃",
+        "足",
+        "寒",
+        "胆"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“掩耳盗铃”读作“yǎn ěr dào líng”，意思是：掩：遮盖；盗：偷。把耳朵捂住偷铃铛；以为自己听不见；别人也不会听见。比喻自欺欺人。 出处：战国・吕不韦《吕氏春秋・自知》：“百姓有得钟者，欲负而走，则钟大不可负。以椎毁之，钟况然有声。恐人闻之而夺己也，遽掩其耳。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "掩耳盗铃",
+      "contentHash": "4ed9c72fbaf1b6efa0d490e1c3b6b3d05b91ebe33814556ef96ec0bac44d23b2"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:目不转睛:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“睛：眼珠。眼睛不眨；眼珠不转地盯着看。形容注意力高度集中；看得出神。”？",
+      "options": [
+        "抛砖引玉",
+        "目不转睛",
+        "梦寐以求",
+        "画龙点睛"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“目不转睛”读作“mù bù zhuǎn jīng”，意思是：睛：眼珠。眼睛不眨；眼珠不转地盯着看。形容注意力高度集中；看得出神。 出处：晋・杨泉《物理论》：“子义燃烛危坐通晓，目不转睛，膝不移处。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "目不转睛",
+      "contentHash": "75c5b28776243fe5a78ce4d457124d0ee116c4054cca9617f55a49946d513ca0"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:高瞻远瞩:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“高瞻远瞩”的正确读音是？",
+      "options": [
+        "bīng bù yàn zhà",
+        "shén jī miào suàn",
+        "gāo zhān yuǎn zhǔ",
+        "chún wáng chǐ hán"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“高瞻远瞩”读作“gāo zhān yuǎn zhǔ”，意思是：站得高；看得远。多形容目光远大。 出处：清・夏敬渠《野叟曝言》第二回：“遂把这粉白黛绿，莺声燕语，都付之不见不闻，一路高瞻远瞩，要领略湖山真景。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "高瞻远瞩",
+      "contentHash": "a945a250ecea43dd41e71ab2ae3c477fb317786fe6d3f39d0fadaa1edfd3a51f"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:如火如荼:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“如火如__”中应填入哪个字？",
+      "options": [
+        "悟",
+        "得",
+        "烈",
+        "荼"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“如火如荼”读作“rú huǒ rú tú”，意思是：荼：音图。像火一样红；像茅草花一样白。比喻气势浩大而热烈。 出处：《国语・吴语》：“万人以为方阵，皆白裳、白旂、素甲、白羽之矰，望之如荼……左军亦如之，皆赤裳，赤旟，丹甲，朱羽之矰，望之如火。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "如火如荼",
+      "contentHash": "b0c500ac819727439e937150cdd22c7388317f5debb4b39a1dcd5c64ee8f4b0f"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:饮水思源:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“喝水时想到水源。比喻不忘本。”？",
+      "options": [
+        "孜孜不倦",
+        "冰清玉洁",
+        "饮水思源",
+        "多此一举"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“饮水思源”读作“yǐn shuǐ sī yuán”，意思是：喝水时想到水源。比喻不忘本。 出处：北周 庾信《征调曲》：“落其实者思其树，饮其流者怀其源。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "饮水思源",
+      "contentHash": "a405345dd142281bf0eb72c8bafe01924401417f01a5f8f293d4f352f8cb0d9a"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:当机立断:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“当机立断”的正确读音是？",
+      "options": [
+        "huà lóng diǎn jīng",
+        "míng fù qí shí",
+        "dāng jī lì duàn",
+        "huǎng rán dà wù"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“当机立断”读作“dāng jī lì duàn”，意思是：面临紧急关头；毫不犹豫地作出决断。当：面临；断：决断。 出处：汉・陈琳《答东阿王笺》：“秉青萍干将之器，拂钟无声，应机立断。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "当机立断",
+      "contentHash": "9ed5dcb4736e1c25b71d0375254de71b950bf93f0845c176353456c2f2ca006a"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:百发百中:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“百发百__”中应填入哪个字？",
+      "options": [
+        "开",
+        "中",
+        "反",
+        "半"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“百发百中”读作“bǎi fā bǎi zhòng”，意思是：百：形容多；发：发射；也指射箭；中：正对上；恰恰合上。①指射箭技术高明；每次都能命中目标。②比喻料事准确；算计高明或做事有充分把握；绝不落空。 出处：西汉・刘向《战国策・西周策》：“夫射柳叶者，百发百中，而不以善息。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "百发百中",
+      "contentHash": "8b400e3b77ebb4a5d1a36711b8d8891595adec48a78cf9907bafcb6bd7773dc5"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:得不偿失:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“所得到的补偿不了所失去的。形容不上算。”？",
+      "options": [
+        "坚持不懈",
+        "得不偿失",
+        "破釜沉舟",
+        "名副其实"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“得不偿失”读作“dé bù cháng shī”，意思是：所得到的补偿不了所失去的。形容不上算。 出处：宋・陆游《序》：“得不偿失，荣不盖愧。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "得不偿失",
+      "contentHash": "db7d9d634630f119d51854abd48ae11943487f2b9fe03263f140b671dbbe17b2"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:坚韧不拔:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“坚韧不拔”的正确读音是？",
+      "options": [
+        "lǎo mǎ shí tú",
+        "jǔ yī fǎn sān",
+        "rén yún yì yún",
+        "jiān rèn bù bá"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“坚韧不拔”读作“jiān rèn bù bá”，意思是：拔：动摇；改变。形容意志坚定顽强；不可动摇。 出处：方毅《读》：“需要的是刻苦学习，刻苦钻研，始终不懈，坚韧不拔。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "坚韧不拔",
+      "contentHash": "7f24b5b0ec76cab04217bbfdab19692181147e21047ee716d19ae881a8416b44"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:功成名就:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“功成名__”中应填入哪个字？",
+      "options": [
+        "城",
+        "上",
+        "就",
+        "试"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“功成名就”读作“gōng chéng míng jiù”，意思是：功：功业。就：达到。功绩取得了，名声也有了。 出处：《墨子・修身》：“功成名遂，名誉不可虚假。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "功成名就",
+      "contentHash": "5b182f13bda8f6d6208a1afd492ca9f0f3338d935e1f8c10d98d4a03d436746b"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:同舟共济:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“同坐一条船过河；比喻同心协力；共同渡过难关。舟：船；济：渡水。”？",
+      "options": [
+        "同舟共济",
+        "不速之客",
+        "耳濡目染",
+        "得心应手"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“同舟共济”读作“tóng zhōu gòng jì”，意思是：同坐一条船过河；比喻同心协力；共同渡过难关。舟：船；济：渡水。 出处：先秦・孙武《孙子・九地》：“夫吴人与越人相恶也，当其同舟而济。遇风，其相救也若左右手。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "同舟共济",
+      "contentHash": "df7bcd8b2b6995d35ab0bd4f868dc29973cb77f402faa1a2063da8547f08f29a"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:老马识途:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“老马识途”的正确读音是？",
+      "options": [
+        "lǎo mǎ shí tú",
+        "míng fù qí shí",
+        "biàn běn jiā lì",
+        "zì lì gēng shēng"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“老马识途”读作“lǎo mǎ shí tú”，意思是：识：认得；途：路。老马能认识走过的道路。比喻年纪大的人；富有经验。 出处：先秦・韩非《韩非子・说林上》：“管仲、隰朋从于桓公伐孤竹，春往冬返，迷惑失道。管仲曰：‘老马之智可用也。’乃放老马而随之。遂得道。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "老马识途",
+      "contentHash": "40f4068630d330c6803924acf068d155fde6a2d1cea25b3e031b2315146473c2"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:愚公移山:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“愚公移__”中应填入哪个字？",
+      "options": [
+        "济",
+        "倦",
+        "山",
+        "共"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“愚公移山”读作“yú gōng yí shān”，意思是：比喻做事有十分坚强的毅力和不怕困难不怕牺牲的精神。 出处：《列子・汤问》记载：愚公家门前有两大座山挡着路，他决心把山平掉，另一个老人智叟笑他太傻，认为不能能。愚公说：我死了有儿子，儿子死了还有孙子，子子孙孙是没有穷尽的，两座山终究会凿平。",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "愚公移山",
+      "contentHash": "bdcafdeaf09a781218908e9c686a5f2a1de2722357c85bab2ffe7c892995e078"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:神机妙算:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“形容预料准确；善于估计形势；决定策略。”？",
+      "options": [
+        "欣欣向荣",
+        "神机妙算",
+        "防微杜渐",
+        "百折不挠"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“神机妙算”读作“shén jī miào suàn”，意思是：形容预料准确；善于估计形势；决定策略。 出处：宋・赵佶《念奴娇》：“妙算神机，须信道，国手都无勍敌。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "神机妙算",
+      "contentHash": "e68a9ad5d3f2971c7d66ff2b7ae5721e0e9afcccb4d6ea164d917a3c5f264668"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:一针见血:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“一针见血”的正确读音是？",
+      "options": [
+        "yī mù liǎo rán",
+        "yī zhēn jiàn xiě",
+        "zuò jǐng guān tiān",
+        "rù mù sān fēn"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“一针见血”读作“yī zhēn jiàn xiě”，意思是：一针刺下去就见到血。常用来比喻说话（或写文章）简明扼要；能抓住本质；切中要害。 出处：南朝・宋・范晔《后汉书・郭玉传》：“一针即瘥。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "一针见血",
+      "contentHash": "a521c66a503c24636e0d5ec92c61cc50e75f435fc263ccbdd3af2079209fccf6"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:人云亦云:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“人云亦__”中应填入哪个字？",
+      "options": [
+        "荼",
+        "彼",
+        "云",
+        "飞"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“人云亦云”读作“rén yún yì yún”，意思是：云：说。人家怎么说；自己也跟着怎么说。指没有主见。 出处：金 蔡松年《槽声同彦高赋》诗：“槽床过竹春泉句，他日人云吾亦云。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "人云亦云",
+      "contentHash": "3c20ec9aa06435dd541b1345192fe2b6d278035aae379c6d6a6af9471d992792"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:一知半解:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“很贫乏的知识；很肤浅的理解。形容知道得不多；理解得不深。”？",
+      "options": [
+        "以逸待劳",
+        "事倍功半",
+        "适得其反",
+        "一知半解"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“一知半解”读作“yī zhī bàn jiě”，意思是：很贫乏的知识；很肤浅的理解。形容知道得不多；理解得不深。 出处：宋・严羽《沧浪诗话・诗辨》：“有分限之悟，有透彻之悟，有但得一知半解之悟。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "一知半解",
+      "contentHash": "9553cff6509114604f8139695b86d110ceaf7e3131207b24725031f1fa3fc9cc"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:按部就班:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“按部就班”的正确读音是？",
+      "options": [
+        "huò rán kāi lǎng",
+        "dāng jī lì duàn",
+        "lì bù cóng xīn",
+        "àn bù jiù bān"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“按部就班”读作“àn bù jiù bān”，意思是：按：按照；部：类别；班：次序。原意是指按照文章分段布局的需要；而安排好层次；选择、组织好词句。后来表示按照一定的条理、步骤做事。 出处：西晋・陆机《文赋》：“观古今于须臾，抚四海于一瞬。然后选义按部，考辞就班。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "按部就班",
+      "contentHash": "78de27d197ef7c3d44ef42ba7785ed43e583dd0cacfa384f1274f18f6539e5e7"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:华而不实:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“华而不__”中应填入哪个字？",
+      "options": [
+        "烈",
+        "灵",
+        "实",
+        "来"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“华而不实”读作“huá ér bù shí”，意思是：华；同“花”；开花；实：结果实。光开花；不结果。比喻外表好看；内里空虚；有名无实。 出处：春秋・左丘明《左传・文公五年》：“且华而不实，怨之所聚也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "华而不实",
+      "contentHash": "a38a31a653d7a1dbf883b5c1d86ba16f2eb578a82989eabaf158ee993efd0c53"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:惊弓之鸟:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“被弓箭吓怕了的鸟。比喻受过惊吓的人；遇到一点情况就惶恐不安。也作“伤弓之鸟”。”？",
+      "options": [
+        "半途而废",
+        "惊弓之鸟",
+        "不屈不挠",
+        "各抒己见"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“惊弓之鸟”读作“jīng gōng zhī niǎo”，意思是：被弓箭吓怕了的鸟。比喻受过惊吓的人；遇到一点情况就惶恐不安。也作“伤弓之鸟”。 出处：《晋书・王鉴传》：“黩武之众易动，惊弓之鸟难安。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "惊弓之鸟",
+      "contentHash": "18b6ec0dbbd4d129ad5ff92c6627930a4014fc7e569af701e71e3b06e3040bce"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:班门弄斧:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“班门弄斧”的正确读音是？",
+      "options": [
+        "yī sī bù gǒu",
+        "bān mén nòng fǔ",
+        "tiān yī wú fèng",
+        "bǎi fā bǎi zhòng"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“班门弄斧”读作“bān mén nòng fǔ”，意思是：班：鲁班；即公输子；春秋时鲁国人。我国著名的木匠；在鲁班门前舞弄斧头。比喻在行家面前卖弄本领。 出处：宋・欧阳修《与梅圣俞书》：“昨在真定，有诗七八首，今录去，班门弄斧，可笑可笑。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "班门弄斧",
+      "contentHash": "096c2d6dcd2f924cf70eab360b387a9645322269905be639befd6fabce79f5b9"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:绝处逢生:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“绝处逢__”中应填入哪个字？",
+      "options": [
+        "渴",
+        "灵",
+        "生",
+        "味"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“绝处逢生”读作“jué chù féng shēng”，意思是：绝处：死路。在陷入绝望的困境中遇到了生路。 出处：明・冯梦龙《喻世明言》：“喜得绝处逢生，遇着一个老者携杖而来。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "绝处逢生",
+      "contentHash": "eb5d6d5bec1c20a0620ff77b64bdab558d670d7fb354ff2e878ad44b078027bd"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:画蛇添足:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“画蛇时添上脚。喻指徒劳无益；多此一举。”？",
+      "options": [
+        "来之不易",
+        "跃跃欲试",
+        "画蛇添足",
+        "津津有味"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“画蛇添足”读作“huà shé tiān zú”，意思是：画蛇时添上脚。喻指徒劳无益；多此一举。 出处：西汉・刘向《战国策・齐策二》：“蛇固无足，子安能为之足？”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "画蛇添足",
+      "contentHash": "c23bc44f94007305c6661c8563a3b3ebe8c436d39c5d9e6e567e61f297fc48b3"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:以貌取人:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“以貌取人”的正确读音是？",
+      "options": [
+        "yǐ mào qǔ rén",
+        "liú lián wàng fǎn",
+        "dà xiǎn shēn shǒu",
+        "zhāo sān mù sì"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“以貌取人”读作“yǐ mào qǔ rén”，意思是：根据外貌来判别一个的的品质才能。 出处：《史记·仲尼弟子列传》吾以言取人，失之宰之；以貌取人，失之子羽。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "以貌取人",
+      "contentHash": "65457ad1851e7842ee037d9b89e7a2982fac2358c4a367180fdbf2848d799c93"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:不耻下问:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“不耻下__”中应填入哪个字？",
+      "options": [
+        "诈",
+        "多",
+        "问",
+        "心"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“不耻下问”读作“bù chǐ xià wèn”，意思是：不耻：不以为耻辱；下问：降低身份请教别人。不以向比自己学识差或地位低的人去请教为可耻。形容虚心求教。 出处：春秋・孔子《论语・公冶长》：“敏而好学，不耻下问，是以谓之文也。”何晏集解：“下问，谓凡在己下者。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "不耻下问",
+      "contentHash": "d26dd4ff8e4b695c8140c1d52ca3fe8e45931bd95d04682637a4dd9eaf285236"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:先见之明:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“先见：预见；明：指能力。事先看清问题的能力。指对事物发展的预见性。”？",
+      "options": [
+        "大惊小怪",
+        "力不从心",
+        "先见之明",
+        "异想天开"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“先见之明”读作“xiān jiàn zhī míng”，意思是：先见：预见；明：指能力。事先看清问题的能力。指对事物发展的预见性。 出处：南朝・宋・范晔《后汉书・杨彪传》：“后子修为曹操所杀，操见彪问曰：‘公何瘦之甚？’对曰：‘愧无日磾先见之明，犹怀老牛舐犊之爱。’”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "先见之明",
+      "contentHash": "7e6882aafabb461b4aa3357774e842c9703a999aa7d6867ec6e9c2e675a575cb"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:捷足先登:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“捷足先登”的正确读音是？",
+      "options": [
+        "jié zú xiān dēng",
+        "zhī jǐ zhī bǐ",
+        "xīn xīn xiàng róng",
+        "hè lì jī qún"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“捷足先登”读作“jié zú xiān dēng”，意思是：登：方言“得来”的合音。脚步快的先得到。比喻行动敏捷的人优先达到目的。 出处：西汉・司马迁《史记・淮阴侯列传》：“秦失其鹿，天下共逐之，于是高材疾足者先得焉。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "捷足先登",
+      "contentHash": "eb265990389e2efe0363ff40a8b6ad3eb5ee1ac59635fc92f8935175d9c64843"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:后来居上:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“后来居__”中应填入哪个字？",
+      "options": [
+        "半",
+        "竹",
+        "上",
+        "济"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“后来居上”读作“hòu lái jū shàng”，意思是：居；处在。后来的人坐在了上面的位子。指后起的胜过先前的；后辈胜过前辈。 出处：西汉・司马迁《史记・汲郑列传》：“陛下用群臣如积薪耳，后来者居上。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "后来居上",
+      "contentHash": "7888460b08b680cc02e9232fedeb20bd4cc5d27f995ee6d77bf85898577ddbca"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:苦尽甘来:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“尽：终结；甘：甜；美好。比喻艰苦的日子已经过去；美好的时光已经到来。”？",
+      "options": [
+        "谈笑风生",
+        "入木三分",
+        "一心一意",
+        "苦尽甘来"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“苦尽甘来”读作“kǔ jìn gān lái”，意思是：尽：终结；甘：甜；美好。比喻艰苦的日子已经过去；美好的时光已经到来。 出处：元・关汉卿《蝴蝶梦》第四折：“受彻了牢狱灾，今日个苦尽甘来。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "苦尽甘来",
+      "contentHash": "b56a67995063472509333f139a0042df94101521d61389c03953f20dfabbffa9"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:本末倒置:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“本末倒置”的正确读音是？",
+      "options": [
+        "sān xīn èr yì",
+        "běn mò dào zhì",
+        "hòu lái jū shàng",
+        "dà zhì ruò yú"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“本末倒置”读作“běn mò dào zhì”，意思是：本：树根；比喻事物的根本；末：树梢；比喻事物的枝节；置：放置。形容把主要的和次要的；重要的和不重要的；本质的和非本质的弄颠倒了。 出处：金 无名氏《绥德州新学记》：“而牧之者当奉教化宣之于民……然非知治之番，则亦未尝不本末倒置。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "本末倒置",
+      "contentHash": "986baefa4125cbf551869f4c9d2798ab2fd1ce13fd2718dad7218bd0e7764919"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:兵不厌诈:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“兵不厌__”中应填入哪个字？",
+      "options": [
+        "通",
+        "诈",
+        "中",
+        "生"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“兵不厌诈”读作“bīng bù yàn zhà”，意思是：诈：蒙骗。用兵作战可以经常使用伪装；以迷惑对方。在兵法中被称作诈。比喻在作战时战胜敌人；要靠谋略。 出处：先秦・韩非《韩非子・难一》：“战阵之间，不厌诈伪。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "兵不厌诈",
+      "contentHash": "2ae5b6b1e890730bd9224f63860209aaf0bc2ffb2d6ff143f72df9b42e320553"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:争先恐后:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“争着向前；唯恐落后。”？",
+      "options": [
+        "抛砖引玉",
+        "对症下药",
+        "脚踏实地",
+        "争先恐后"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“争先恐后”读作“zhēng xiān kǒng hòu”，意思是：争着向前；唯恐落后。 出处：明・屠勋《屠康僖公集・重建陡门桥记》：“匪公帑而乐施者争先恐后。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "争先恐后",
+      "contentHash": "27a7c1a0dff996051e3af3617280f8154142d6f8f5e929ddc8cc42fe037e6b2e"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:才华横溢:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“才华横溢”的正确读音是？",
+      "options": [
+        "cái huá héng yì",
+        "hǎi kuò tiān kōng",
+        "tiān yī wú fèng",
+        "xuě zhōng sòng tàn"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“才华横溢”读作“cái huá héng yì”，意思是：才华：表现于外的才能。多指文学文艺书画方面而言。很有才华；或充满了才华。 出处：清・曾国藩《曾国藩家书・道光26年4月16日》：“温弟时文已才华横溢，长安诸友多称赏之。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "才华横溢",
+      "contentHash": "bca4a29187e50039af14346ef30d4e97a6478ab5ae8d792dfdbbe7676b12e8c1"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:力不从心:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“力不从__”中应填入哪个字？",
+      "options": [
+        "试",
+        "晓",
+        "上",
+        "心"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“力不从心”读作“lì bù cóng xīn”，意思是：力：力量；能力；从：依从；顺从。心里想做某事；但是力量不够。 出处：南朝・宋・范晔《后汉书・西域传》：“今使者大兵未能得出，如诸国力不从心，东西南北自在地。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "力不从心",
+      "contentHash": "12255936f6ec2d900f15060906a10936e557bb35de2edf0d831471c795be23af"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:举一反三:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“反：类推。从一件事情类推而知道相似的许多事情。比喻善于学习；能够由此及彼。”？",
+      "options": [
+        "举一反三",
+        "画蛇添足",
+        "人山人海",
+        "大同小异"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“举一反三”读作“jǔ yī fǎn sān”，意思是：反：类推。从一件事情类推而知道相似的许多事情。比喻善于学习；能够由此及彼。 出处：春秋・孔子《论语・述而》：“举一隅，不以三隅反，则不复也。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "举一反三",
+      "contentHash": "accd834e24297aa42593c0c7fbc2be200e88715c70661a0b7270588c49f855df"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:人山人海:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“人山人海”的正确读音是？",
+      "options": [
+        "yī jiàn rú gù",
+        "rén shān rén hǎi",
+        "jīng yì qiú jīng",
+        "qí kāi dé shèng"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“人山人海”读作“rén shān rén hǎi”，意思是：人多得像大山大海一样；形容聚集在一起的人特别多。 出处：《西胡老人繁胜录》：“四山四海，三千三百，衣山衣海，卦山卦海，南山南海，人山人海。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "人山人海",
+      "contentHash": "a0e473ab59001f658463f1340a1f28c0fddbd8d20df1ce48c33c49f41caf41fa"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:触类旁通:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“触类旁__”中应填入哪个字？",
+      "options": [
+        "彼",
+        "日",
+        "通",
+        "短"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“触类旁通”读作“chù lèi páng tōng”，意思是：触类：接触某一方面的事物；旁通：互相贯通。指掌握或懂得了某一事物的知识或规律；就可以由此及彼；了解和掌握同类的其它事物。 出处：《周易・系辞上》：“引而伸之，触类而长之，天下之能事毕矣。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "触类旁通",
+      "contentHash": "a0feb53ffa6c73b3f363fd0b8ca880d3a64a4bb6d179d78410665fbc91b7c6d5"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:开门见山:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“打开门就看见山。喻指说话作文；一开始就入正题；不绕弯子。”？",
+      "options": [
+        "朝三暮四",
+        "开门见山",
+        "百发百中",
+        "见异思迁"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“开门见山”读作“kāi mén jiàn shān”，意思是：打开门就看见山。喻指说话作文；一开始就入正题；不绕弯子。 出处：宋・严羽《沧浪诗话・诗评》：“太白发句，谓之开门见山。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "开门见山",
+      "contentHash": "17177754ca6594918b7376945fa63e141f73ffee1b227b0d2b39b8e89638a303"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:龙飞凤舞:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“龙飞凤舞”的正确读音是？",
+      "options": [
+        "bǎi zhé bù náo",
+        "lóng fēi fèng wǔ",
+        "hè lì jī qún",
+        "jué chù féng shēng"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“龙飞凤舞”读作“lóng fēi fèng wǔ”，意思是：像龙在飞腾；像凤在欢舞。原形容山势蜿蜒曲折；奔放雄伟。旧时迷信；认为是帝王气象。现形容书法笔势飘逸多姿。多指草书。 出处：宋・苏轼《表忠观碑》：“天目之山，苕水出焉，龙飞凤舞，萃于临安。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "龙飞凤舞",
+      "contentHash": "800cb8e3a9170e38ed0c5d5cbc9c910ba302c383793b6bf67136b0735a4661a4"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:一往无前:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“一往无__”中应填入哪个字？",
+      "options": [
+        "缝",
+        "光",
+        "胆",
+        "前"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“一往无前”读作“yī wǎng wú qián”，意思是：形容勇猛地、无畏地一直向前进（一往：一直向前进；无前：前面没有东西能阻挡）。 出处：明・孙传庭《官兵苦战斩获疏》：“曹变蛟遵臣指画，与北兵转战冲突，臣之步兵莫不一往无前。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "一往无前",
+      "contentHash": "f0ff8cadb776eab1f662dbabe62a0dbace9fc386d4aa5e8cddb730af62425cc6"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:越俎代庖:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“越：跨过；俎：古代祭祀时摆祭品的礼器；庖：厨师。主祭的人跨过礼器去代替厨师办席。比喻超出自己业务范围去处理别人所管的事。”？",
+      "options": [
+        "破釜沉舟",
+        "理直气壮",
+        "坚韧不拔",
+        "越俎代庖"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“越俎代庖”读作“yuè zǔ dài páo”，意思是：越：跨过；俎：古代祭祀时摆祭品的礼器；庖：厨师。主祭的人跨过礼器去代替厨师办席。比喻超出自己业务范围去处理别人所管的事。 出处：战国・庄子《庄子・逍遥游》：“庖人虽不治庖，尸、祝不越樽俎而代之矣。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "越俎代庖",
+      "contentHash": "9836c13c68db312f85026f56adbccd270955ff5f5d6f7a5709fc3bd4a4710868"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:津津有味:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“津津有味”的正确读音是？",
+      "options": [
+        "jīn jīn yǒu wèi",
+        "zhòng zhì chéng chéng",
+        "gè shū jǐ jiàn",
+        "lín kě jué jǐng"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“津津有味”读作“jīn jīn yǒu wèi”，意思是：津：口液；唾液；津津：兴趣浓厚的样子。形容趣味很浓或很有滋味。 出处：明・朱之瑜《朱舜水集・答野节书之十七首》：“佳作愈读愈觉津津有味，可见理胜之文，大胜他人词致美好也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "津津有味",
+      "contentHash": "4f5bbca34a4be7025bae55adf8e5e5337614b84e738ffbfb02b462720306e647"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:变本加厉:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“变本加__”中应填入哪个字？",
+      "options": [
+        "洁",
+        "日",
+        "厉",
+        "下"
+      ],
+      "answerIndexes": [
+        2
+      ],
+      "explanation": "“变本加厉”读作“biàn běn jiā lì”，意思是：本：本来；原先；加：更加；厉：厉害；猛烈。原指比原来的情况更加发展。现也形容变得比原来更加严重。 出处：南朝・梁・萧统《序》：“盖踵其事而增华，变其本而加厉，物既有之，文亦宜然。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "变本加厉",
+      "contentHash": "592fc53eeeed0d7704d1291c20217e695a924967160b35c22c807e704f08ab64"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:不可思议:meaning",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "下列哪个成语最符合释义“原是佛教用语；指神秘奥妙。不可用心意思忖；也不能用言语表达。后形容对事物情况、发展变化或言论无法想象很难理解。”？",
+      "options": [
+        "大公无私",
+        "水滴石穿",
+        "拔苗助长",
+        "不可思议"
+      ],
+      "answerIndexes": [
+        3
+      ],
+      "explanation": "“不可思议”读作“bù kě sī yì”，意思是：原是佛教用语；指神秘奥妙。不可用心意思忖；也不能用言语表达。后形容对事物情况、发展变化或言论无法想象很难理解。 出处：《维摩诘经・不思议品》：“诸佛菩萨有解脱名不可思议。”慧远义记：“不思据心，不议就口，解脱真德，妙在情妄心言不及，是故名为不可思议。”",
+      "difficulty": 2,
+      "tags": [
+        "成语知识",
+        "释义辨析"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "不可思议",
+      "contentHash": "b9004f87d7f39442ca3158e163242107a466029def5d7ca81ea116f07d2352b7"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:志同道合:pinyin",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“志同道合”的正确读音是？",
+      "options": [
+        "zì lì gēng shēng",
+        "zhì tóng dào hé",
+        "cái huá héng yì",
+        "bīng qīng yù jié"
+      ],
+      "answerIndexes": [
+        1
+      ],
+      "explanation": "“志同道合”读作“zhì tóng dào hé”，意思是：形容彼此志向相同；信仰、志趣一致。志：志向；道：道路；信仰。 出处：晋・陈寿《三国志・陈思王植传》：“及其见举于汤武、周文，诚道合志同，玄漠神通。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语读音"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "志同道合",
+      "contentHash": "89cd5292cedfc317d3af85747796be2b3af56ee3cb8795f2159395f78cf1a5a7"
+    },
+    {
+      "externalKey": "idiom:li1fan-2024:以逸待劳:completion",
+      "categoryCode": "chinese-idiom",
+      "categoryName": "成语知识",
+      "questionType": "SINGLE_CHOICE",
+      "prompt": "成语“以逸待__”中应填入哪个字？",
+      "options": [
+        "劳",
+        "业",
+        "兵",
+        "长"
+      ],
+      "answerIndexes": [
+        0
+      ],
+      "explanation": "“以逸待劳”读作“yǐ yì dài láo”，意思是：逸安闲；劳疲劳。指在战争中做好充分准备，养精蓄锐，等疲乏的敌人来犯时给以迎头痛击。 出处：《孙子·军争》以近待远，以佚待劳，以饱待饥，此治力者也。”",
+      "difficulty": 1,
+      "tags": [
+        "成语知识",
+        "成语补全"
+      ],
+      "status": "DRAFT",
+      "reviewStatus": "PENDING",
+      "sourceName": "Li1Fan/chinese-idiom",
+      "sourceUrl": "https://github.com/Li1Fan/chinese-idiom/blob/44aca4fd83942a38b52ff7fa0613eee2b138c0c9/data/idiom.json",
+      "sourceLicense": "MIT",
+      "sourceRecordId": "以逸待劳",
+      "contentHash": "804457a29d6901d1cec03a685851b46b47133563ec494e89524a882cfb2e9ba6"
+    }
+  ]
+}

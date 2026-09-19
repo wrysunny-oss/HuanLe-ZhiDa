@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {AppIcon} from '../../components/AppIcon';
 import {AppButton} from '../../components/DesignSystem';
@@ -18,40 +18,45 @@ export function QuizResultScreen() {
 
   return (
     <Screen style={styles.screen}>
-      <View style={styles.content}>
-        <Text style={styles.eyebrow}>CHALLENGE COMPLETE</Text>
-        <Text style={styles.title}>{message}</Text>
-        <Text style={styles.subtitle}>{categoryName} · 本局完成</Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}>
+        <View style={styles.content}>
+          <Text style={styles.eyebrow}>CHALLENGE COMPLETE</Text>
+          <Text style={styles.title}>{message}</Text>
+          <Text style={styles.subtitle}>{categoryName} · 本局完成</Text>
 
-        <View style={styles.scoreStage}>
-          <View style={styles.scoreSticker}><AppIcon name="sparkles" color={colors.warning} size={18} /></View>
-          <View style={styles.scoreHalo}>
-            <Text style={styles.score}>{accuracy}</Text>
-            <Text style={styles.percent}>%</Text>
+          <View style={styles.scoreStage}>
+            <View style={styles.scoreSticker}><AppIcon name="sparkles" color={colors.warning} size={18} /></View>
+            <View style={styles.scoreHalo}>
+              <Text style={styles.score}>{accuracy}</Text>
+              <Text style={styles.percent}>%</Text>
+            </View>
+            <Text style={styles.scoreCaption}>正确率</Text>
           </View>
-          <Text style={styles.scoreCaption}>正确率</Text>
-        </View>
-        <KnowledgeRail progress={1} />
+          <KnowledgeRail progress={1} />
 
-        <View style={styles.metrics}>
-          <View style={styles.metric}><Text style={styles.metricValue}>{correctCount}/{totalQuestions}</Text><Text style={styles.metricLabel}>答对题数</Text></View>
-          <View style={styles.metricDivider} />
-          <View style={styles.metric}><View style={styles.rewardValue}><AppIcon name="coins" color={colors.warning} size={19} /><Text style={[styles.metricValue, {color: colors.warning}]}>+{String(rewardCoins)}</Text></View><Text style={styles.metricLabel}>本局金币</Text></View>
-        </View>
+          <View style={styles.metrics}>
+            <View style={styles.metric}><Text style={styles.metricValue}>{correctCount}/{totalQuestions}</Text><Text style={styles.metricLabel}>答对题数</Text></View>
+            <View style={styles.metricDivider} />
+            <View style={styles.metric}><View style={styles.rewardValue}><AppIcon name="coins" color={colors.warning} size={19} /><Text style={[styles.metricValue, {color: colors.warning}]}>+{String(rewardCoins)}</Text></View><Text style={styles.metricLabel}>本局金币</Text></View>
+          </View>
 
-        <View style={styles.note}><AppIcon name="sparkles" color={colors.primary} size={19} /><Text style={styles.noteText}>前 5 局完成挑战可获得金币，成绩已保存到最近答题。</Text></View>
-      </View>
-      <View style={styles.actions}>
-        <AppButton title="再来一局" icon="refresh" onPress={() => navigation.popToTop()} style={styles.button} />
-        <AppButton title="返回答题首页" variant="secondary" onPress={() => navigation.navigate('Main', {screen: '答题'})} style={styles.button} />
-      </View>
+          <View style={styles.note}><AppIcon name="sparkles" color={colors.primary} size={19} /><Text style={styles.noteText}>前 5 局完成挑战可获得金币，成绩已保存到最近答题。</Text></View>
+        </View>
+        <View style={styles.actions}>
+          <AppButton title="再来一局" icon="refresh" onPress={() => navigation.popToTop()} style={styles.button} />
+          <AppButton title="返回答题首页" variant="secondary" onPress={() => navigation.navigate('Main', {screen: '答题'})} style={styles.button} />
+        </View>
+      </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {justifyContent: 'space-between', paddingTop: spacing.xxl, paddingBottom: spacing.lg},
-  content: {flex: 1},
+  screen: {paddingTop: spacing.xxl, paddingBottom: spacing.lg},
+  scrollContent: {flexGrow: 1},
+  content: {flexGrow: 1},
   eyebrow: {color: colors.primary, fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 1.8, textAlign: 'center'},
   title: {color: colors.text, ...typography.title, textAlign: 'center', marginTop: spacing.sm},
   subtitle: {color: colors.muted, ...typography.body, textAlign: 'center', marginTop: spacing.xs},
@@ -69,6 +74,6 @@ const styles = StyleSheet.create({
   rewardValue: {flexDirection: 'row', gap: 5, alignItems: 'center'},
   note: {flexDirection: 'row', alignItems: 'center', gap: spacing.sm, backgroundColor: colors.primarySoft, padding: spacing.md, borderRadius: radii.md, marginTop: spacing.lg},
   noteText: {color: colors.muted, ...typography.caption, flex: 1},
-  actions: {gap: spacing.md},
+  actions: {gap: spacing.md, marginTop: spacing.xl},
   button: {minHeight: 52, borderRadius: radii.lg},
 });

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet, Text, View, type TextStyle, type ViewStyle} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {appApi} from '../../api/app';
 import {AppIcon} from '../../components/AppIcon';
@@ -9,7 +9,14 @@ import type {QuizCategory, QuizHistory, QuizSession} from '../../types/api';
 import {colors, radii, spacing, typography} from '../../theme';
 import {MotionPressable} from '../../components/MotionPressable';
 import {KnowledgeRail} from './KnowledgeRail';
-import {createRequestId, readableError} from './quiz.utils';
+import {createRequestId, quizCategoryPresentation, readableError, type QuizCategoryTone} from './quiz.utils';
+
+const categoryTones: Record<QuizCategoryTone, {activeCard: ViewStyle; inactiveCard: ViewStyle; text: TextStyle & {color: string}}> = {
+  accent: StyleSheet.create({activeCard: {backgroundColor: colors.accent, borderColor: colors.accent}, inactiveCard: {backgroundColor: colors.accentSoft, borderColor: colors.accentSoft}, text: {color: colors.accent}}),
+  primary: StyleSheet.create({activeCard: {backgroundColor: colors.primary, borderColor: colors.primary}, inactiveCard: {backgroundColor: colors.primarySoft, borderColor: colors.primarySoft}, text: {color: colors.primary}}),
+  secondary: StyleSheet.create({activeCard: {backgroundColor: colors.secondary, borderColor: colors.secondary}, inactiveCard: {backgroundColor: colors.secondarySoft, borderColor: colors.secondarySoft}, text: {color: colors.secondary}}),
+  warning: StyleSheet.create({activeCard: {backgroundColor: colors.warning, borderColor: colors.warning}, inactiveCard: {backgroundColor: colors.warningSoft, borderColor: colors.warningSoft}, text: {color: colors.warning}}),
+};
 
 export function QuizHomeScreen() {
   const navigation = useNavigation<any>();
@@ -96,11 +103,29 @@ export function QuizHomeScreen() {
           <View style={styles.categoryGrid}><SkeletonBlock style={styles.categorySkeleton} /><SkeletonBlock style={styles.categorySkeleton} /></View>
         ) : categories.length ? (
           <View style={styles.categoryGrid}>
-            {categories.map(category => {
+            {categories.map((category, index) => {
               const active = selectedId === category.id;
+              const presentation = quizCategoryPresentation(category.code, index);
+              const tone = categoryTones[presentation.tone];
               return (
-                <MotionPressable key={String(category.id)} feedback="button" onPress={() => setSelectedId(category.id)} style={[styles.category, active && styles.categoryActive]}>
-                  <View style={[styles.categoryIcon, active && styles.categoryIconActive]}><AppIcon name="book-open" color={active ? colors.onPrimary : colors.primary} size={20} /></View>
+                <MotionPressable
+                  key={String(category.id)}
+                  accessibilityHint={`选择后可开始${category.name}挑战`}
+                  accessibilityLabel={`${category.name}，${category.questionCount} 道可用`}
+                  accessibilityRole="button"
+                  accessibilityState={{selected: active}}
+                  feedback="button"
+                  onPress={() => setSelectedId(category.id)}
+                  style={[
+                    styles.category,
+                    active ? tone.activeCard : tone.inactiveCard,
+                  ]}>
+                  <View style={styles.categoryTopline}>
+                    <View style={[styles.categoryIcon, active ? styles.categoryIconActive : styles.categoryIconInactive]}>
+                      <AppIcon name={presentation.icon} color={active ? colors.onPrimary : tone.text.color} size={20} />
+                    </View>
+                    <Text style={[styles.categoryKicker, active ? styles.categoryKickerActive : tone.text]}>{presentation.kicker}</Text>
+                  </View>
                   <Text style={[styles.categoryName, active && styles.categoryNameActive]}>{category.name}</Text>
                   <Text style={[styles.categoryCount, active && styles.categoryCountActive]}>{category.questionCount} 道可用</Text>
                 </MotionPressable>
@@ -159,11 +184,14 @@ const styles = StyleSheet.create({
   sectionHint: {color: colors.muted, ...typography.caption},
   categoryGrid: {flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md},
   categorySkeleton: {height: 104, flexBasis: '47%', flexGrow: 1},
-  category: {minHeight: 112, flexBasis: '47%', flexGrow: 1, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radii.lg, padding: spacing.lg},
-  categoryActive: {backgroundColor: colors.primary, borderColor: colors.primary},
-  categoryIcon: {width: 36, height: 36, borderRadius: 12, backgroundColor: colors.primarySoft, alignItems: 'center', justifyContent: 'center'},
+  category: {minHeight: 128, flexBasis: '47%', flexGrow: 1, borderWidth: 1, borderRadius: radii.lg, padding: spacing.lg},
+  categoryTopline: {flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm},
+  categoryIcon: {width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center'},
   categoryIconActive: {backgroundColor: 'rgba(255,255,255,0.16)'},
-  categoryName: {color: colors.text, ...typography.label, marginTop: spacing.md},
+  categoryIconInactive: {backgroundColor: colors.surface},
+  categoryKicker: {fontSize: 10, lineHeight: 14, fontWeight: '800', letterSpacing: 0.8},
+  categoryKickerActive: {color: 'rgba(255,255,255,0.78)'},
+  categoryName: {color: colors.text, ...typography.label, fontSize: 15, marginTop: spacing.md},
   categoryNameActive: {color: colors.onPrimary},
   categoryCount: {color: colors.muted, ...typography.caption, marginTop: 2},
   categoryCountActive: {color: 'rgba(255,255,255,0.72)'},

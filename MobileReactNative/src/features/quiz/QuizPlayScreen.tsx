@@ -9,7 +9,7 @@ import {Screen} from '../../components/Screen';
 import {colors, radii, spacing, typography} from '../../theme';
 import type {QuizAnswerResult, QuizQuestion, QuizSession} from '../../types/api';
 import {KnowledgeRail} from './KnowledgeRail';
-import {readableError} from './quiz.utils';
+import {quizOptionVisualState, readableError, type QuizOptionVisualState} from './quiz.utils';
 
 export function QuizPlayScreen() {
   const navigation = useNavigation<any>();
@@ -17,6 +17,7 @@ export function QuizPlayScreen() {
   const session = route.params.session as QuizSession;
   const [question, setQuestion] = useState<QuizQuestion | null>(session.question);
   const [selected, setSelected] = useState<number>();
+  const [pressedIndex, setPressedIndex] = useState<number>();
   const [result, setResult] = useState<QuizAnswerResult>();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -52,16 +53,13 @@ export function QuizPlayScreen() {
     }
     setQuestion(result.nextQuestion);
     setSelected(undefined);
+    setPressedIndex(undefined);
     setResult(undefined);
     setError('');
   };
 
-  const optionState = (index: number): OptionState => {
-    if (!result) return selected === index ? 'selected' : 'idle';
-    if (result.correctAnswerIndexes.includes(index)) return 'correct';
-    if (result.selectedIndexes.includes(index)) return 'wrong';
-    return 'disabled';
-  };
+  const optionState = (index: number): QuizOptionVisualState =>
+    quizOptionVisualState(index, selected, pressedIndex, result);
 
   return (
     <Screen style={styles.screen}>
@@ -81,12 +79,14 @@ export function QuizPlayScreen() {
             return (
               <MotionPressable
                 key={`${question.position}-${index}`}
-                feedback="listRow"
+                feedback="answerOption"
                 disabled={Boolean(result)}
+                onPressIn={() => setPressedIndex(index)}
+                onPressOut={() => setPressedIndex(undefined)}
                 onPress={() => setSelected(index)}
                 style={[styles.option, styles[`option_${state}`]]}>
                 <View style={[styles.optionIndex, styles[`optionIndex_${state}`]]}>
-                  {state === 'correct' ? <AppIcon name="check" color={colors.success} size={18} /> : state === 'wrong' ? <AppIcon name="x" color={colors.danger} size={18} /> : <Text style={[styles.optionIndexText, state === 'selected' && styles.optionIndexTextSelected]}>{String.fromCharCode(65 + index)}</Text>}
+                  {state === 'correct' ? <AppIcon name="check" color={colors.success} size={18} /> : state === 'wrong' ? <AppIcon name="x" color={colors.danger} size={18} /> : <Text style={[styles.optionIndexText, (state === 'selected' || state === 'pressed') && styles.optionIndexTextSelected]}>{String.fromCharCode(65 + index)}</Text>}
                 </View>
                 <Text style={[styles.optionText, state === 'disabled' && styles.optionTextDisabled]}>{option}</Text>
               </MotionPressable>
@@ -119,7 +119,6 @@ export function QuizPlayScreen() {
   );
 }
 
-type OptionState = 'idle' | 'selected' | 'correct' | 'wrong' | 'disabled';
 const styles = StyleSheet.create({
   screen: {paddingHorizontal: 0},
   content: {paddingHorizontal: spacing.lg, paddingTop: spacing.lg, paddingBottom: 120},
@@ -134,12 +133,14 @@ const styles = StyleSheet.create({
   options: {gap: spacing.md, marginTop: spacing.xl},
   option: {minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderRadius: radii.lg, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface, paddingHorizontal: spacing.lg, paddingVertical: spacing.md},
   option_idle: {},
+  option_pressed: {borderColor: colors.primary, backgroundColor: colors.primarySoft},
   option_selected: {borderColor: colors.primary, backgroundColor: colors.primarySoft},
   option_correct: {borderColor: colors.success, backgroundColor: colors.successSoft},
   option_wrong: {borderColor: colors.danger, backgroundColor: colors.dangerSoft},
   option_disabled: {opacity: 0.62},
   optionIndex: {width: 34, height: 34, borderRadius: 11, backgroundColor: colors.surfaceAlt, alignItems: 'center', justifyContent: 'center'},
   optionIndex_idle: {},
+  optionIndex_pressed: {backgroundColor: colors.primary},
   optionIndex_selected: {backgroundColor: colors.primary},
   optionIndex_correct: {backgroundColor: colors.successSoft},
   optionIndex_wrong: {backgroundColor: colors.dangerSoft},

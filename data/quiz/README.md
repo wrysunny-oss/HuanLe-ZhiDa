@@ -13,6 +13,12 @@
 `areacodes` 的记录；规范化产物和该上游均采用 CC0 1.0。许可证副本见
 `LICENSE.gb2260`。
 
+`idiom-common-150.seed.json` 由 `scripts/generate-idiom-quiz.mjs` 从
+`Li1Fan/chinese-idiom` 的常用四字成语记录确定性生成，固定上游提交为
+`44aca4fd83942a38b52ff7fa0613eee2b138c0c9`。生成器只从人工维护的常用成语白名单
+选题，并生成释义辨析、成语读音和成语补全三类题。来源仓库采用 MIT 许可证，
+许可证副本见 `LICENSE.chinese-idiom`。
+
 生成命令：
 
 ```powershell
@@ -20,6 +26,8 @@ npm.cmd install
 npm.cmd run quiz:generate -- --source=.tmp/chinese-poetry/tang300.json --count=600
 npm.cmd run quiz:generate:geography -- --source=.tmp/gb2260-archive/gb2260-master/data/build/areas.json --count=250
 npm.cmd run quiz:audit:geography
+npm.cmd run quiz:generate:idiom -- --source=.tmp/chinese-idiom-source/chinese-idiom-main/data/idiom.json --count=150
+npm.cmd run quiz:audit:idiom
 ```
 
 导入开发数据库：
@@ -32,6 +40,8 @@ npm.cmd run quiz:check
 npm.cmd run quiz:import
 npm.cmd run quiz:check:geography
 npm.cmd run quiz:import:geography
+npm.cmd run quiz:check:idiom
+npm.cmd run quiz:import:idiom
 ```
 
 ## 发布约束

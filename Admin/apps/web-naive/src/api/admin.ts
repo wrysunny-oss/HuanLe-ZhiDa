@@ -404,6 +404,8 @@ export const reviewQuizQuestionApi = (id: string, data: { action: 'APPROVE' | 'R
   requestClient.post<{ count: number; reviewStatus: QuizReviewStatus }>(`/admin/quiz-questions/${id}/review`, data);
 export const bulkReviewQuizQuestionsApi = (data: { action: 'APPROVE' | 'REJECT'; ids: string[]; remark?: string }) =>
   requestClient.post<{ count: number; reviewStatus: QuizReviewStatus }>('/admin/quiz-questions/bulk-review', data);
+export const bulkUpdateQuizQuestionStatusApi = (data: { ids: string[]; status: 'OFFLINE' | 'PUBLISHED' }) =>
+  requestClient.request<{ count: number; status: QuizPublishStatus }>('/admin/quiz-questions/bulk-status', { data, method: 'PATCH' });
 export const updateQuizQuestionStatusApi = (id: string, status: 'OFFLINE' | 'PUBLISHED') =>
   requestClient.request<QuizQuestion>(`/admin/quiz-questions/${id}/status`, { data: { status }, method: 'PATCH' });
 export const getRewardRulesApi = () => requestClient.get<RewardRule[]>('/admin/reward-rules');

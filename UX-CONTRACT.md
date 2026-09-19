@@ -33,7 +33,7 @@
 | --- | --- | --- | --- | --- |
 | Form | `FormControls`, Admin 表单组件 | 现有共享组件 | 登录 / 编辑 | typecheck + workflow |
 | Toast | `AppToast`, Admin message provider | 共享 provider | success / warning / error | interaction test |
-| Dialog | `AppDialog`, Admin modal primitive | 共享 provider | alert / confirm / edit | viewport + focus |
+| Dialog | APP `AppDialog`; Admin Naive UI `NDialogProvider` / `useDialog` | 共享 provider | alert / confirm / edit | viewport + focus |
 | Empty/error | `DesignSystem.EmptyState` | APP 共享组件 | empty / failure / unavailable | narrow viewport |
 | Navigation | `RootNavigator`, Admin route modules | 产品模块配置 | enabled / hidden | route + API tests |
 
@@ -73,6 +73,6 @@
 - 权威实现：`Backend/src/modules/quiz/quiz.admin.service.ts` 与 `Backend/src/modules/quiz/quiz.admin.schema.ts`。
 - 题目编辑后必须自动变为 `DRAFT + PENDING`，旧审核结论不得继续用于发布。
 - 只有 `APPROVED` 题目可以进入 `PUBLISHED`；拒绝审核必须填写原因，并强制保持草稿状态。
-- 批量审核最多处理 100 道题，服务端再次校验权限、对象完整性和状态规则，前端隐藏按钮不构成鉴权。
+- 批量审核、上线与下线每次最多处理 100 道题；服务端先校验权限、对象完整性和整批状态，再在同一事务中全部执行或全部拒绝，前端隐藏或禁用按钮不构成鉴权。
 - 所有编辑、审核、发布与下线操作必须记录操作者、对象、时间、请求路径及必要变更摘要。
 - 列表使用服务端分页和筛选；搜索支持中文输入法、300ms 延迟和过期响应隔离，筛选条件写入 URL 以支持刷新恢复。

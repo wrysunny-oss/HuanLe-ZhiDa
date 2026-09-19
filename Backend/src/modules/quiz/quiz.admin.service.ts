@@ -166,3 +166,37 @@ export function publishQuizQuestion(
     return question;
   });
 }
+
+export function bulkPublishQuizQuestions(
+  operatorId: bigint,
+  ids: bigint[],
+  status: "OFFLINE" | "PUBLISHED",
+  request: AuditRequest,
+) {
+  return prisma.$transaction(async (tx) => {
+    const uniqueIds = [...new Set(ids.map(String))].map(BigInt);
+    if (uniqueIds.length !== ids.length) throw new AppError(422, 3704, "批量操作不能包含重复题目");
+    const questions = await tx.quizQuestion.findMany({
+      where: {id: {in: uniqueIds}},
+      select: {id: true, reviewStatus: true, status: true},
+    });
+    if (questions.length !== uniqueIds.length) throw new AppError(404, 3701, "部分题目不存在，请刷新后重试");
+    if (status === "PUBLISHED") {
+      const invalid = questions.filter((question) => question.reviewStatus !== "APPROVED");
+      if (invalid.length) throw new AppError(409, 3703, `有 ${invalid.length} 道题尚未审核通过，整批未上线`);
+    } else {
+      const invalid = questions.filter((question) => question.status !== "PUBLISHED");
+      if (invalid.length) throw new AppError(409, 3705, `有 ${invalid.length} 道题当前不在线，整批未下线`);
+    }
+    await tx.quizQuestion.updateMany({where: {id: {in: uniqueIds}}, data: {status}});
+    await tx.auditLog.create({data: {
+      operatorId,
+      action: status === "PUBLISHED" ? "quiz.question.bulk-publish" : "quiz.question.bulk-offline",
+      targetType: "quiz_question",
+      targetId: "bulk",
+      ...auditContext(request),
+      detail: {ids: uniqueIds.map(String), status},
+    }});
+    return {count: questions.length, status};
+  });
+}
