@@ -23,6 +23,7 @@ export function QuizHomeScreen() {
   const [categories, setCategories] = useState<QuizCategory[]>([]);
   const [selectedId, setSelectedId] = useState<string | number>();
   const [history, setHistory] = useState<QuizHistory>();
+  const [wrongQuestionTotal, setWrongQuestionTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [starting, setStarting] = useState(false);
@@ -32,13 +33,15 @@ export function QuizHomeScreen() {
     refresh ? setRefreshing(true) : setLoading(true);
     setError('');
     try {
-      const [categoryResult, historyResult] = await Promise.all([
+      const [categoryResult, historyResult, wrongQuestionResult] = await Promise.all([
         appApi.quizCategories(),
         appApi.quizHistory(1, 5),
+        appApi.quizWrongQuestions(1, 1).catch(() => ({list: [], total: 0, page: 1, pageSize: 1, hasMore: false})),
       ]);
       setCategories(categoryResult);
       setSelectedId(current => current ?? categoryResult[0]?.id);
       setHistory(historyResult);
+      setWrongQuestionTotal(wrongQuestionResult.total);
     } catch (loadError) {
       setError(readableError(loadError, '加载答题数据失败，请稍后重试'));
     } finally {
@@ -139,6 +142,21 @@ export function QuizHomeScreen() {
         {error ? <View style={styles.errorBox}><AppIcon name="info" color={colors.danger} size={18} /><Text style={styles.errorText}>{error}</Text></View> : null}
         <AppButton title="开始今日挑战" icon="play" onPress={start} loading={starting} disabled={!selectedId || loading} style={styles.startButton} />
 
+        <MotionPressable
+          accessibilityHint="查看错题解析并开始专项练习"
+          accessibilityLabel={`错题本，当前 ${wrongQuestionTotal} 道`}
+          accessibilityRole="button"
+          feedback="listRow"
+          onPress={() => navigation.navigate('WrongQuestions')}
+          style={styles.reviewCard}>
+          <View style={styles.reviewIcon}><AppIcon name="bookmark" color={colors.warning} size={21} /></View>
+          <View style={styles.reviewBody}>
+            <Text style={styles.reviewTitle}>错题本</Text>
+            <Text style={styles.reviewMeta}>{wrongQuestionTotal ? `${wrongQuestionTotal} 道题等待复习` : '答错的题会自动收进这里'}</Text>
+          </View>
+          <AppIcon name="chevron-right" color={colors.subtle} size={18} />
+        </MotionPressable>
+
         <View style={[styles.sectionRow, styles.historyHeading]}>
           <Text style={styles.sectionTitle}>最近答题</Text>
           <Text style={styles.sectionHint}>{history?.total ?? 0} 局</Text>
@@ -198,6 +216,11 @@ const styles = StyleSheet.create({
   errorBox: {flexDirection: 'row', gap: spacing.sm, alignItems: 'center', marginTop: spacing.lg, backgroundColor: colors.dangerSoft, borderRadius: radii.md, padding: spacing.md},
   errorText: {color: colors.danger, ...typography.caption, flex: 1},
   startButton: {marginTop: spacing.lg, minHeight: 54, borderRadius: radii.lg},
+  reviewCard: {minHeight: 72, flexDirection: 'row', alignItems: 'center', gap: spacing.md, backgroundColor: colors.warningSoft, borderRadius: radii.lg, paddingHorizontal: spacing.lg, marginTop: spacing.md},
+  reviewIcon: {width: 42, height: 42, borderRadius: 13, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', transform: [{rotate: '3deg'}]},
+  reviewBody: {flex: 1},
+  reviewTitle: {color: colors.text, ...typography.label},
+  reviewMeta: {color: colors.muted, ...typography.caption, marginTop: 2},
   historyHeading: {marginTop: spacing.xxl},
   historyRow: {minHeight: 72, flexDirection: 'row', alignItems: 'center', borderTopWidth: 1, borderTopColor: colors.divider, paddingVertical: spacing.md},
   scoreRing: {width: 46, height: 46, borderRadius: 23, borderWidth: 3, borderColor: colors.primary, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'},

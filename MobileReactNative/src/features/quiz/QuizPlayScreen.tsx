@@ -44,6 +44,7 @@ export function QuizPlayScreen() {
     if (result.completed) {
       navigation.replace('QuizResult', {
         sessionId: session.id,
+        mode: session.mode,
         categoryName: session.categoryName,
         totalQuestions: session.totalQuestions,
         correctCount: result.correctCount,

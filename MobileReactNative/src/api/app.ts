@@ -35,6 +35,7 @@ import type {
   QuizSession,
   QuizAnswerResult,
   QuizHistory,
+  QuizWrongQuestionPage,
 } from '../types/api';
 import {appConfig} from '../config/app-config';
 
@@ -66,6 +67,12 @@ export const appApi = {
     apiRequest<QuizAnswerResult>(`/quiz/sessions/${encodeURIComponent(id)}/answers`, {method: 'POST', data}),
   quizHistory: (page = 1, pageSize = 10) =>
     apiRequest<QuizHistory>(`/quiz/history?page=${page}&pageSize=${pageSize}`),
+  quizWrongQuestions: (page = 1, pageSize = 20) =>
+    apiRequest<QuizWrongQuestionPage>(`/quiz/wrong-questions?page=${page}&pageSize=${pageSize}`),
+  startWrongQuestionPractice: (data: {requestId: string; questionCount?: number}) =>
+    apiRequest<QuizSession>('/quiz/wrong-questions/practice', {method: 'POST', data}),
+  clearQuizWrongQuestions: () =>
+    apiRequest<{clearedCount: number}>('/quiz/wrong-questions', {method: 'DELETE'}),
   login: (phone: string, password: string) =>
     apiRequest<AuthResult>('/auth/login', {
       method: 'POST',

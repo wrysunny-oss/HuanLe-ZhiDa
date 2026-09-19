@@ -3,7 +3,13 @@ import { Prisma } from "@prisma/client";
 import { AppError } from "../../lib/http.js";
 import { prisma } from "../../lib/prisma.js";
 import { productModules } from "../../generated/product.generated.js";
-import type { QuizHistoryQuery, StartQuizSessionInput, SubmitQuizAnswerInput } from "./quiz.schema.js";
+import type {
+  QuizHistoryQuery,
+  StartQuizSessionInput,
+  StartWrongQuestionPracticeInput,
+  SubmitQuizAnswerInput,
+  WrongQuestionListQuery,
+} from "./quiz.schema.js";
 
 const DAILY_REWARDED_ROUND_LIMIT = 5;
 const QUIZ_REWARD_RULE_CODE = "QUIZ_ROUND_COMPLETE";
@@ -49,6 +55,7 @@ function presentSession(session: SessionWithQuestions) {
   const next = session.questions.find((question) => !question.answeredAt);
   return {
     id: session.id,
+    mode: session.mode,
     status: session.status,
     categoryName: session.category?.name ?? "综合挑战",
     totalQuestions: session.totalQuestions,
@@ -109,13 +116,25 @@ export async function startQuizSession(userId: bigint, input: StartQuizSessionIn
   if (eligible.length < input.questionCount) {
     throw new AppError(409, 3712, `当前可用题目不足 ${input.questionCount} 道，请稍后再试`);
   }
-  const selected = shuffle(eligible).slice(0, input.questionCount);
+  return createQuizSession(userId, input.requestId, shuffle(eligible).slice(0, input.questionCount), "NORMAL", input.categoryId);
+}
+
+type SessionQuestionSource = Prisma.QuizQuestionGetPayload<{include: {category: {select: {name: true}}}}>;
+
+async function createQuizSession(
+  userId: bigint,
+  requestId: string,
+  selected: SessionQuestionSource[],
+  mode: "NORMAL" | "WRONG_REVIEW",
+  categoryId?: bigint,
+) {
   const session = await prisma.quizSession.create({
     data: {
-      requestId: input.requestId,
+      requestId,
       userId,
-      categoryId: input.categoryId,
-      totalQuestions: input.questionCount,
+      categoryId,
+      mode,
+      totalQuestions: selected.length,
       questions: {
         create: selected.map((question, index) => ({
           questionId: question.id,
@@ -131,6 +150,64 @@ export async function startQuizSession(userId: bigint, input: StartQuizSessionIn
     include: { category: { select: { name: true } }, questions: { orderBy: { position: "asc" } } },
   });
   return { ...presentSession(session), duplicate: false };
+}
+
+export async function listWrongQuestions(userId: bigint, query: WrongQuestionListQuery) {
+  const where = {userId};
+  const [list, total] = await prisma.$transaction([
+    prisma.quizWrongQuestion.findMany({
+      where,
+      skip: (query.page - 1) * query.pageSize,
+      take: query.pageSize,
+      orderBy: [{lastWrongAt: "desc"}, {id: "desc"}],
+      include: {question: {include: {category: {select: {name: true, enabled: true}}}}},
+    }),
+    prisma.quizWrongQuestion.count({where}),
+  ]);
+  return {
+    list: list.map((entry) => ({
+      id: entry.id,
+      questionId: entry.questionId,
+      categoryName: entry.question.category.name,
+      prompt: entry.question.prompt,
+      options: stringArray(entry.question.options),
+      selectedIndexes: numberArray(entry.selectedIndexes),
+      correctAnswerIndexes: numberArray(entry.question.answerIndexes),
+      explanation: entry.question.explanation,
+      wrongCount: entry.wrongCount,
+      lastWrongAt: entry.lastWrongAt,
+      available: entry.question.status === "PUBLISHED" && entry.question.reviewStatus === "APPROVED" && entry.question.category.enabled,
+    })),
+    total,
+    page: query.page,
+    pageSize: query.pageSize,
+    hasMore: query.page * query.pageSize < total,
+  };
+}
+
+export async function startWrongQuestionPractice(userId: bigint, input: StartWrongQuestionPracticeInput) {
+  const existing = await prisma.quizSession.findUnique({
+    where: {userId_requestId: {userId, requestId: input.requestId}},
+    include: {category: {select: {name: true}}, questions: {orderBy: {position: "asc"}}},
+  });
+  if (existing) return {...presentSession(existing), duplicate: true};
+
+  const entries = await prisma.quizWrongQuestion.findMany({
+    where: {
+      userId,
+      question: {status: "PUBLISHED", reviewStatus: "APPROVED", category: {enabled: true}},
+    },
+    orderBy: {lastWrongAt: "desc"},
+    take: input.questionCount,
+    include: {question: {include: {category: {select: {name: true}}}}},
+  });
+  if (!entries.length) throw new AppError(409, 3717, "错题本里暂时没有可练习的题目");
+  return createQuizSession(userId, input.requestId, entries.map((entry) => entry.question), "WRONG_REVIEW");
+}
+
+export async function clearWrongQuestions(userId: bigint) {
+  const result = await prisma.quizWrongQuestion.deleteMany({where: {userId}});
+  return {clearedCount: result.count};
 }
 
 export async function getQuizSession(userId: bigint, sessionId: string) {
@@ -179,9 +256,20 @@ export function submitQuizAnswer(userId: bigint, sessionId: string, input: Submi
       throw new AppError(409, 3716, "答案提交冲突，请刷新后重试");
     }
 
+
+    if (correct && session.mode === "WRONG_REVIEW") {
+      await tx.quizWrongQuestion.deleteMany({where: {userId, questionId: current.questionId}});
+    } else if (!correct) {
+      await tx.quizWrongQuestion.upsert({
+        where: {userId_questionId: {userId, questionId: current.questionId}},
+        create: {userId, questionId: current.questionId, selectedIndexes},
+        update: {selectedIndexes, wrongCount: {increment: 1}, lastWrongAt: new Date()},
+      });
+    }
+
     const completed = session.answeredCount + 1 === session.totalQuestions;
     let rewardCoins = 0n;
-    if (completed && productModules.rewards) {
+    if (completed && session.mode === "NORMAL" && productModules.rewards) {
       const { start, end } = chinaDayRange();
       const [rewardRule, rewardedRounds, user] = await Promise.all([
         tx.rewardRule.findUnique({ where: { code: QUIZ_REWARD_RULE_CODE } }),
@@ -208,7 +296,7 @@ export function submitQuizAnswer(userId: bigint, sessionId: string, input: Submi
 }
 
 export async function listQuizHistory(userId: bigint, query: QuizHistoryQuery) {
-  const where = { userId, status: "COMPLETED" as const };
+  const where = { userId, status: "COMPLETED" as const, mode: "NORMAL" as const };
   const [list, total] = await prisma.$transaction([
     prisma.quizSession.findMany({
       where,

@@ -11,6 +11,7 @@ import {useAppDialog} from '../../components/AppDialog';
 import {isShortDramaEnabled, productModules} from '../../config/modules';
 
 const quickActions: Array<{label: string; route: string; icon: AppIconName}> = [
+  {label: '错题本', route: 'WrongQuestions', icon: 'bookmark'},
   ...(productModules.withdrawals ? [{label: '金币提现', route: 'Withdrawal', icon: 'wallet' as AppIconName}] : []),
   ...(productModules.invitations ? [{label: '邀请好友', route: 'Share', icon: 'user-plus' as AppIconName}] : []),
   ...(isShortDramaEnabled ? [

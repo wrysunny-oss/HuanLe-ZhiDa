@@ -10,9 +10,10 @@ import {KnowledgeRail} from './KnowledgeRail';
 export function QuizResultScreen() {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
-  const {categoryName, totalQuestions, correctCount, rewardCoins} = route.params as {
-    categoryName: string; totalQuestions: number; correctCount: number; rewardCoins: string | number;
+  const {mode, categoryName, totalQuestions, correctCount, rewardCoins} = route.params as {
+    mode: 'NORMAL' | 'WRONG_REVIEW'; categoryName: string; totalQuestions: number; correctCount: number; rewardCoins: string | number;
   };
+  const reviewing = mode === 'WRONG_REVIEW';
   const accuracy = Math.round((correctCount / Math.max(1, totalQuestions)) * 100);
   const message = accuracy >= 90 ? '知识轨道已全线点亮' : accuracy >= 70 ? '状态很好，再向前一步' : '每次作答都在积累新知';
 
@@ -39,13 +40,13 @@ export function QuizResultScreen() {
           <View style={styles.metrics}>
             <View style={styles.metric}><Text style={styles.metricValue}>{correctCount}/{totalQuestions}</Text><Text style={styles.metricLabel}>答对题数</Text></View>
             <View style={styles.metricDivider} />
-            <View style={styles.metric}><View style={styles.rewardValue}><AppIcon name="coins" color={colors.warning} size={19} /><Text style={[styles.metricValue, {color: colors.warning}]}>+{String(rewardCoins)}</Text></View><Text style={styles.metricLabel}>本局金币</Text></View>
+            <View style={styles.metric}>{reviewing ? <><View style={styles.rewardValue}><AppIcon name="bookmark" color={colors.warning} size={19} /><Text style={[styles.metricValue, {color: colors.warning}]}>{totalQuestions - correctCount}</Text></View><Text style={styles.metricLabel}>仍需复习</Text></> : <><View style={styles.rewardValue}><AppIcon name="coins" color={colors.warning} size={19} /><Text style={[styles.metricValue, {color: colors.warning}]}>+{String(rewardCoins)}</Text></View><Text style={styles.metricLabel}>本局金币</Text></>}</View>
           </View>
 
-          <View style={styles.note}><AppIcon name="sparkles" color={colors.primary} size={19} /><Text style={styles.noteText}>前 5 局完成挑战可获得金币，成绩已保存到最近答题。</Text></View>
+          <View style={styles.note}><AppIcon name={reviewing ? 'bookmark' : 'sparkles'} color={colors.primary} size={19} /><Text style={styles.noteText}>{reviewing ? '专项复习不发放金币；本局答对的题目已自动移出错题本。' : '前 5 局完成挑战可获得金币，成绩已保存到最近答题。'}</Text></View>
         </View>
         <View style={styles.actions}>
-          <AppButton title="再来一局" icon="refresh" onPress={() => navigation.popToTop()} style={styles.button} />
+          <AppButton title={reviewing ? '返回错题本' : '再来一局'} icon="refresh" onPress={() => reviewing ? navigation.navigate('WrongQuestions') : navigation.popToTop()} style={styles.button} />
           <AppButton title="返回答题首页" variant="secondary" onPress={() => navigation.navigate('Main', {screen: '答题'})} style={styles.button} />
         </View>
       </ScrollView>

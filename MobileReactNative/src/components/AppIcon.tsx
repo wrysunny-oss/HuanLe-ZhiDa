@@ -3,6 +3,7 @@ import Svg, {Circle, Line, Path, Polyline, Rect} from 'react-native-svg';
 
 export type AppIconName =
   | 'bell'
+  | 'bookmark'
   | 'book-open'
   | 'calendar-check'
   | 'check'
@@ -95,6 +96,8 @@ export function AppIcon({
         );
       case 'bell':
         return <Path {...common} d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />;
+      case 'bookmark':
+        return <Path {...common} d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z" />;
       case 'search':
         return (
           <>

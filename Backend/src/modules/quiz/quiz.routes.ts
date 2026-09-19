@@ -7,10 +7,14 @@ import {
   quizHistoryQuerySchema,
   quizSessionIdSchema,
   startQuizSessionSchema,
+  startWrongQuestionPracticeSchema,
   submitQuizAnswerSchema,
+  wrongQuestionListSchema,
   type QuizHistoryQuery,
   type StartQuizSessionInput,
+  type StartWrongQuestionPracticeInput,
   type SubmitQuizAnswerInput,
+  type WrongQuestionListQuery,
 } from "./quiz.schema.js";
 import * as quizService from "./quiz.service.js";
 
@@ -29,6 +33,15 @@ router.post("/sessions/:id/answers", actionLimiter, validate(quizSessionIdSchema
 );
 router.get("/history", validate(quizHistoryQuerySchema, "query"), async (req, res) =>
   ok(res, await quizService.listQuizHistory(req.auth!.userId, res.locals.validatedQuery as QuizHistoryQuery)),
+);
+router.get("/wrong-questions", validate(wrongQuestionListSchema, "query"), async (req, res) =>
+  ok(res, await quizService.listWrongQuestions(req.auth!.userId, res.locals.validatedQuery as WrongQuestionListQuery)),
+);
+router.post("/wrong-questions/practice", actionLimiter, validate(startWrongQuestionPracticeSchema), async (req, res) =>
+  ok(res, await quizService.startWrongQuestionPractice(req.auth!.userId, req.body as StartWrongQuestionPracticeInput), "错题复习已开始", 201),
+);
+router.delete("/wrong-questions", actionLimiter, async (req, res) =>
+  ok(res, await quizService.clearWrongQuestions(req.auth!.userId), "错题本已清空"),
 );
 
 export default router;

@@ -147,6 +147,11 @@ enum QuizSessionStatus {
   ABANDONED
 }
 
+enum QuizSessionMode {
+  NORMAL
+  WRONG_REVIEW
+}
+
 /// App 用户与后台管理员共用账号表，后台能力由 roles 关系决定，不使用固定身份字段。
 model User {
   id                        BigInt                    @id @default(autoincrement())
@@ -195,6 +200,7 @@ model User {
   agentCommissions          AgentAdCommission[]       @relation("AgentCommissionReceiver")
   generatedAgentCommissions AgentAdCommission[]       @relation("AgentCommissionSource")
   quizSessions              QuizSession[]
+  quizWrongQuestions        QuizWrongQuestion[]
 
   @@map("users")
 }
@@ -1013,29 +1019,30 @@ model QuizCategory {
 
 /// 原始来源、许可证和审核状态随题保存；只有 APPROVED + PUBLISHED 可进入线上题池。
 model QuizQuestion {
-  id             BigInt           @id @default(autoincrement())
-  externalKey    String           @unique @map("external_key") @db.VarChar(160)
-  categoryId     BigInt           @map("category_id")
-  questionType   QuizQuestionType @default(SINGLE_CHOICE) @map("question_type")
-  prompt         String           @db.Text
-  options        Json
-  answerIndexes  Json             @map("answer_indexes")
-  explanation    String?          @db.Text
-  difficulty     Int              @default(1)
-  tags           Json?
-  status         PublishStatus    @default(DRAFT)
-  reviewStatus   QuizReviewStatus @default(PENDING) @map("review_status")
-  sourceName     String           @map("source_name") @db.VarChar(120)
-  sourceUrl      String           @map("source_url") @db.VarChar(1000)
-  sourceLicense  String           @map("source_license") @db.VarChar(80)
-  sourceRecordId String?          @map("source_record_id") @db.VarChar(160)
-  contentHash    String           @unique @map("content_hash") @db.Char(64)
-  reviewedById   BigInt?          @map("reviewed_by_id")
-  reviewedAt     DateTime?        @map("reviewed_at")
-  createdAt      DateTime         @default(now()) @map("created_at")
-  updatedAt      DateTime         @updatedAt @map("updated_at")
-  category       QuizCategory     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  sessionQuestions QuizSessionQuestion[]
+  id                   BigInt                @id @default(autoincrement())
+  externalKey          String                @unique @map("external_key") @db.VarChar(160)
+  categoryId           BigInt                @map("category_id")
+  questionType         QuizQuestionType      @default(SINGLE_CHOICE) @map("question_type")
+  prompt               String                @db.Text
+  options              Json
+  answerIndexes        Json                  @map("answer_indexes")
+  explanation          String?               @db.Text
+  difficulty           Int                   @default(1)
+  tags                 Json?
+  status               PublishStatus         @default(DRAFT)
+  reviewStatus         QuizReviewStatus      @default(PENDING) @map("review_status")
+  sourceName           String                @map("source_name") @db.VarChar(120)
+  sourceUrl            String                @map("source_url") @db.VarChar(1000)
+  sourceLicense        String                @map("source_license") @db.VarChar(80)
+  sourceRecordId       String?               @map("source_record_id") @db.VarChar(160)
+  contentHash          String                @unique @map("content_hash") @db.Char(64)
+  reviewedById         BigInt?               @map("reviewed_by_id")
+  reviewedAt           DateTime?             @map("reviewed_at")
+  createdAt            DateTime              @default(now()) @map("created_at")
+  updatedAt            DateTime              @updatedAt @map("updated_at")
+  category             QuizCategory          @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  sessionQuestions     QuizSessionQuestion[]
+  wrongQuestionEntries QuizWrongQuestion[]
 
   @@index([categoryId, status, reviewStatus])
   @@index([sourceName, sourceRecordId])
@@ -1044,19 +1051,20 @@ model QuizQuestion {
 
 /// 一局答题使用 requestId 保证断网重试不会重复创建；完成后只允许结算一次。
 model QuizSession {
-  id             String            @id @default(uuid()) @db.Char(36)
-  requestId      String            @map("request_id") @db.Char(36)
-  userId         BigInt            @map("user_id")
-  categoryId     BigInt?           @map("category_id")
-  status         QuizSessionStatus @default(IN_PROGRESS)
-  totalQuestions Int               @map("total_questions")
-  answeredCount  Int               @default(0) @map("answered_count")
-  correctCount   Int               @default(0) @map("correct_count")
-  rewardCoins    BigInt            @default(0) @map("reward_coins")
-  startedAt      DateTime          @default(now()) @map("started_at")
-  completedAt    DateTime?         @map("completed_at")
-  user           User              @relation(fields: [userId], references: [id], onDelete: Restrict)
-  category       QuizCategory?     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  id             String                @id @default(uuid()) @db.Char(36)
+  requestId      String                @map("request_id") @db.Char(36)
+  userId         BigInt                @map("user_id")
+  categoryId     BigInt?               @map("category_id")
+  mode           QuizSessionMode       @default(NORMAL)
+  status         QuizSessionStatus     @default(IN_PROGRESS)
+  totalQuestions Int                   @map("total_questions")
+  answeredCount  Int                   @default(0) @map("answered_count")
+  correctCount   Int                   @default(0) @map("correct_count")
+  rewardCoins    BigInt                @default(0) @map("reward_coins")
+  startedAt      DateTime              @default(now()) @map("started_at")
+  completedAt    DateTime?             @map("completed_at")
+  user           User                  @relation(fields: [userId], references: [id], onDelete: Restrict)
+  category       QuizCategory?         @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   questions      QuizSessionQuestion[]
 
   @@unique([userId, requestId])
@@ -1065,22 +1073,40 @@ model QuizSession {
   @@map("quiz_sessions")
 }
 
+/// 每位用户每道题只保留一条错题记录；再次答错累计次数，专项复习答对后自动移出。
+model QuizWrongQuestion {
+  id              BigInt       @id @default(autoincrement())
+  userId          BigInt       @map("user_id")
+  questionId      BigInt       @map("question_id")
+  selectedIndexes Json         @map("selected_indexes")
+  wrongCount      Int          @default(1) @map("wrong_count")
+  firstWrongAt    DateTime     @default(now()) @map("first_wrong_at")
+  lastWrongAt     DateTime     @default(now()) @map("last_wrong_at")
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question        QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@index([userId, lastWrongAt])
+  @@index([questionId])
+  @@map("quiz_wrong_questions")
+}
+
 /// 开局时保存题干、选项、答案和解析快照，保证运营编辑不会改变进行中会话的判题结果。
 model QuizSessionQuestion {
-  id                  BigInt       @id @default(autoincrement())
-  sessionId           String       @map("session_id") @db.Char(36)
-  questionId          BigInt       @map("question_id")
-  position            Int
-  promptSnapshot      String       @map("prompt_snapshot") @db.Text
-  optionsSnapshot     Json         @map("options_snapshot")
-  answerIndexesSnapshot Json       @map("answer_indexes_snapshot")
-  explanationSnapshot String?      @map("explanation_snapshot") @db.Text
-  categoryNameSnapshot String      @map("category_name_snapshot") @db.VarChar(100)
-  selectedIndexes     Json?        @map("selected_indexes")
-  isCorrect           Boolean?     @map("is_correct")
-  answeredAt          DateTime?    @map("answered_at")
-  session             QuizSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  question            QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  id                    BigInt       @id @default(autoincrement())
+  sessionId             String       @map("session_id") @db.Char(36)
+  questionId            BigInt       @map("question_id")
+  position              Int
+  promptSnapshot        String       @map("prompt_snapshot") @db.Text
+  optionsSnapshot       Json         @map("options_snapshot")
+  answerIndexesSnapshot Json         @map("answer_indexes_snapshot")
+  explanationSnapshot   String?      @map("explanation_snapshot") @db.Text
+  categoryNameSnapshot  String       @map("category_name_snapshot") @db.VarChar(100)
+  selectedIndexes       Json?        @map("selected_indexes")
+  isCorrect             Boolean?     @map("is_correct")
+  answeredAt            DateTime?    @map("answered_at")
+  session               QuizSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question              QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Restrict)
 
   @@unique([sessionId, position])
   @@unique([sessionId, questionId])

@@ -26,6 +26,7 @@ export interface QuizQuestion {
 
 export interface QuizSession {
   id: string;
+  mode: 'NORMAL' | 'WRONG_REVIEW';
   status: 'IN_PROGRESS' | 'COMPLETED' | 'ABANDONED';
   categoryName: string;
   totalQuestions: number;
@@ -36,6 +37,28 @@ export interface QuizSession {
   completedAt?: string | null;
   question: QuizQuestion | null;
   duplicate?: boolean;
+}
+
+export interface QuizWrongQuestion {
+  id: string | number;
+  questionId: string | number;
+  categoryName: string;
+  prompt: string;
+  options: string[];
+  selectedIndexes: number[];
+  correctAnswerIndexes: number[];
+  explanation?: string | null;
+  wrongCount: number;
+  lastWrongAt: string;
+  available: boolean;
+}
+
+export interface QuizWrongQuestionPage {
+  list: QuizWrongQuestion[];
+  total: number;
+  page: number;
+  pageSize: number;
+  hasMore: boolean;
 }
 
 export interface QuizAnswerResult {

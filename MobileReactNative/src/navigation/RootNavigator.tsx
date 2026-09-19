@@ -22,6 +22,7 @@ import {SearchScreen} from '../features/misc/SearchScreen';
 import {AboutScreen, SettingsScreen} from '../features/misc/SettingsScreen';
 import {QuizPlayScreen} from '../features/quiz/QuizPlayScreen';
 import {QuizResultScreen} from '../features/quiz/QuizResultScreen';
+import {WrongQuestionsScreen} from '../features/quiz/WrongQuestionsScreen';
 import {brandConfig} from '../config/brand';
 import {isShortDramaEnabled, productModules} from '../config/modules';
 import {ContentHomeScreen} from '../content/content-registry';
@@ -97,6 +98,7 @@ const screens: Array<[string, React.ComponentType<any>, string]> = [
   ['About', AboutScreen, brandConfig.aboutTitle],
   ['QuizPlay', QuizPlayScreen, '知识挑战'],
   ['QuizResult', QuizResultScreen, '本局成绩'],
+  ['WrongQuestions', WrongQuestionsScreen, '错题本'],
 ];
 
 export function RootNavigator() {

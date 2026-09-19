@@ -20,6 +20,15 @@ export const quizHistoryQuerySchema = z.object({
   pageSize: z.coerce.number().int().min(1).max(50).default(20),
 });
 
+export const wrongQuestionListSchema = quizHistoryQuerySchema;
+
+export const startWrongQuestionPracticeSchema = z.object({
+  requestId: z.uuid(),
+  questionCount: z.number().int().min(1).max(20).default(10),
+});
+
 export type StartQuizSessionInput = z.infer<typeof startQuizSessionSchema>;
 export type SubmitQuizAnswerInput = z.infer<typeof submitQuizAnswerSchema>;
 export type QuizHistoryQuery = z.infer<typeof quizHistoryQuerySchema>;
+export type WrongQuestionListQuery = z.infer<typeof wrongQuestionListSchema>;
+export type StartWrongQuestionPracticeInput = z.infer<typeof startWrongQuestionPracticeSchema>;
