@@ -11,3 +11,36 @@ jest.mock('react-native-playnest-unionad', () => ({
   showRewardVideoAd: jest.fn(() => Promise.resolve(true)),
   UnionadOrientation: {VERTICAL: 1, HORIZONTAL: 2},
 }));
+
+jest.mock('@taku_anythink/react-native-sdk', () => ({
+  ATAdEvents: {
+    init: jest.fn(),
+    addGlobalListener: jest.fn(),
+    removeGlobalListener: jest.fn(),
+  },
+  ATSDK: {
+    init: jest.fn(),
+    start: jest.fn(),
+    setNetworkLogDebug: jest.fn(),
+  },
+  InitCallback: {sdkInitSuccess: 'sdkInitSuccess', sdkInitFail: 'sdkInitFail'},
+  ATSplashAd: jest.fn(),
+  ATInterstitialAd: jest.fn(),
+  ATInterstitialAutoAd: {
+    addPlacement: jest.fn(),
+    isAdReady: jest.fn(() => false),
+    removeAdListener: jest.fn(),
+    removePlacement: jest.fn(),
+    setAdListener: jest.fn(),
+    show: jest.fn(() => Promise.resolve()),
+  },
+  ATRewardVideoAd: jest.fn(),
+  ATRewardVideoAutoAd: {
+    addPlacement: jest.fn(),
+    isAdReady: jest.fn(() => false),
+    removeAdListener: jest.fn(),
+    removePlacement: jest.fn(),
+    setAdListener: jest.fn(),
+    show: jest.fn(() => Promise.resolve()),
+  },
+}));

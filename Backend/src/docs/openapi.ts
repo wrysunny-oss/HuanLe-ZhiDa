@@ -198,6 +198,8 @@ const baseOpenApiDocument = {
     },
     "/admin/ad-reward-dashboard": { get: { tags: ["后台-奖励"], summary: "广告收益看板", description: "汇总广告收入、用户净收益、两级返佣和平台留存金币等值。需要 reward:read。", security: bearer, responses: ok() } },
     "/admin/ad-callback-logs": { get: { tags: ["后台-奖励"], summary: "广告回调日志", description: "分页查看回调成功、失败和处理中状态。需要 reward:read。", security: bearer, parameters: pageParameters, responses: ok() } },
+    "/admin/ad-events": { get: { tags: ["后台-运营"], summary: "广告事件明细", description: "按时间范围、广告类型和事件类型分页查询客户端广告生命周期埋点；仅用于诊断，不参与奖励结算。需要 operation:read。", security: bearer, parameters: pageParameters, responses: ok() } },
+    "/admin/ad-events/summary": { get: { tags: ["后台-运营"], summary: "广告监控概览", description: "汇总请求、加载、展示、点击、失败率及失败原因排行；支持最近 1 小时、24 小时、7 天和 30 天。需要 operation:read。", security: bearer, responses: ok() } },
     "/admin/users/{id}/team": { get: { tags: ["后台-用户"], summary: "用户邀请团队", description: "查询直推、间推成员和返佣贡献；代理同时返回无限下级广告佣金汇总。需要 user:read。", security: bearer, parameters: idParameter("id", "用户 ID"), responses: ok() } },
     "/webhooks/pangle/ad-revenue": { post: { tags: ["平台回调"], summary: "内部广告收入回调（兼容接口）", description: "内部 HMAC 格式兼容接口；GroMore 正式激励验证使用 /webhooks/pangle/reward。", requestBody: jsonBody({ eventId: { type: "string" }, userId: { type: "string" }, revenueYuan: { type: "string" }, source: { type: "string" } }, ["eventId", "userId", "revenueYuan"]), responses: ok() } },
     "/webhooks/pangle/reward": { get: { tags: ["平台回调"], summary: "GroMore 服务端激励验证", description: "GroMore 以 GET 方式回调；按 sha256(m-key:trans_id) 验签、校验 prime_rit 聚合广告位、原子抢占 trans_id，并按北京时间执行后台配置的每日次数限制。", parameters: [

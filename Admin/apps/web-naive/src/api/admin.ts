@@ -228,11 +228,14 @@ export interface AdRuntimeConfig {
   enabled: boolean;
   splash: { enabled: boolean; placementId: string; safetyTimeoutMs: number; timeoutMs: number };
   feed: { enabled: boolean; insertEvery: number; placementId: string };
+  banner: { enabled: boolean; placementId: string };
   fullScreen: {
     enabled: boolean; loadTimeoutMs: number; minimumIntervalMinutes: number;
-    placementId: string; playbackThreshold: number; showTimeoutMs: number;
+    dailyLimit: number; loadMode: 'AUTO' | 'MANUAL'; placementId: string;
+    playbackThreshold: number; quizRoundInterval: number; showTimeoutMs: number;
+    skipFirstQuizRound: boolean;
   };
-  reward: { enabled: boolean; placementId: string };
+  reward: { enabled: boolean; loadMode: 'AUTO' | 'MANUAL'; placementId: string };
 }
 export interface ShortDramaRuntimeConfig {
   unlockMode: 'COMMON' | 'SPECIFIC'; freeEpisodes: number; unlockEpisodes: number;
@@ -240,9 +243,25 @@ export interface ShortDramaRuntimeConfig {
   hideLikeButton: boolean; hideFavorButton: boolean; hideDoubleClick: boolean;
   hideLongClickSpeed: boolean; infiniteScrollEnabled: boolean;
 }
+export type AdEventFormat = 'BANNER' | 'CONTENT_UNLOCK' | 'FEED' | 'FULL_SCREEN' | 'REWARD' | 'SPLASH';
+export type AdEventType = 'CLICK' | 'CLOSE' | 'DISLIKE' | 'ECPM' | 'FAIL' | 'LOADED' | 'REQUEST' | 'REWARD_ARRIVED' | 'SHOW';
+export interface AdClientEvent {
+  adnName?: null | string; appVersion?: null | string; createdAt: string; creativeId?: null | string;
+  ecpm?: null | string; errorMessage?: null | string; eventType: AdEventType; format: AdEventFormat;
+  id: string; placementId: string; platform?: null | string; requestId?: null | string;
+}
 export interface AdEventSummary {
+  byFormat: Array<{
+    clickRate: number; clicks: number; ecpmReports: number; failureRate: number; failures: number;
+    format: AdEventFormat; loaded: number; loadRate: number; requests: number; showRate: number; shows: number;
+  }>;
+  events: Array<{ count: number; eventType: AdEventType; format: AdEventFormat }>;
+  failures: Array<{ count: number; errorMessage: string; format: AdEventFormat; lastOccurredAt?: null | string }>;
+  hours: number;
+  rates: { clickRate: number; failureRate: number; loadRate: number; showRate: number };
   since: string;
-  events: Array<{ count: number; eventType: string; format: string }>;
+  totals: { clicks: number; ecpmReports: number; failures: number; loaded: number; requests: number; shows: number };
+  until: string;
 }
 export interface AppDocument { code: string; content: string; createdAt?: string; id: string; publishedAt?: null | string; status: 'DRAFT' | 'OFFLINE' | 'PUBLISHED'; title: string; updatedAt?: string; version: string; }
 export interface AppVersion { downloadUrl: string; enabled: boolean; id: string; minVersionCode: number; platform: 'ANDROID' | 'IOS'; publishedAt?: null | string; releaseNotes: string; rolloutPercent: number; versionCode: number; versionName: string; }
@@ -491,7 +510,9 @@ export const sendNotificationApi = (data: SendNotificationInput) =>
 export const getSystemConfigsApi = () => requestClient.get<SystemConfig[]>('/admin/system-configs');
 export const updateSystemConfigApi = (key: string, data: { description?: null | string; value: unknown }) => requestClient.put<SystemConfig>(`/admin/system-configs/${encodeURIComponent(key)}`, data);
 export const getAdRuntimeConfigApi = () => requestClient.get<AdRuntimeConfig>('/admin/ad-runtime-config');
-export const getAdEventSummaryApi = () => requestClient.get<AdEventSummary>('/admin/ad-events/summary');
+export const getAdEventsApi = (params: { eventType?: AdEventType; format?: AdEventFormat; hours: number; page: number; pageSize: number }) =>
+  requestClient.get<{ list: AdClientEvent[]; page: number; pageSize: number; since: string; total: number }>('/admin/ad-events', { params });
+export const getAdEventSummaryApi = (params?: { format?: AdEventFormat; hours: number }) => requestClient.get<AdEventSummary>('/admin/ad-events/summary', { params });
 export const getAppDocumentsApi = () => requestClient.get<AppDocument[]>('/admin/app-documents');
 export const createAppDocumentApi = (data: Omit<AppDocument, 'id'>) => requestClient.post<AppDocument>('/admin/app-documents', data);
 export const updateAppDocumentApi = (id: string, data: Omit<AppDocument, 'id'>) => requestClient.put<AppDocument>(`/admin/app-documents/${id}`, data);

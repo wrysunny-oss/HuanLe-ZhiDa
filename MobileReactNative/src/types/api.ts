@@ -217,11 +217,14 @@ export interface AdRuntimeConfig {
   enabled: boolean;
   splash: {enabled: boolean; placementId: string; timeoutMs: number; safetyTimeoutMs: number};
   feed: {enabled: boolean; placementId: string; insertEvery: number};
+  banner: {enabled: boolean; placementId: string};
   fullScreen: {
     enabled: boolean; placementId: string; playbackThreshold: number;
+    loadMode: 'MANUAL' | 'AUTO';
+    quizRoundInterval: number; dailyLimit: number; skipFirstQuizRound: boolean;
     minimumIntervalMinutes: number; loadTimeoutMs: number; showTimeoutMs: number;
   };
-  reward: {enabled: boolean; placementId: string};
+  reward: {enabled: boolean; placementId: string; loadMode: 'MANUAL' | 'AUTO'};
 }
 export interface ShortDramaRuntimeConfig {
   unlockMode: 'COMMON' | 'SPECIFIC';
@@ -237,7 +240,7 @@ export interface ShortDramaRuntimeConfig {
   infiniteScrollEnabled: boolean;
 }
 export interface AdClientEvent {
-  format: 'SPLASH' | 'FEED' | 'FULL_SCREEN' | 'REWARD' | 'CONTENT_UNLOCK';
+  format: 'SPLASH' | 'FEED' | 'BANNER' | 'FULL_SCREEN' | 'REWARD' | 'CONTENT_UNLOCK';
   eventType: 'REQUEST' | 'LOADED' | 'SHOW' | 'CLICK' | 'CLOSE' | 'FAIL' | 'DISLIKE' | 'ECPM' | 'REWARD_ARRIVED';
   placementId: string;
   requestId?: string;

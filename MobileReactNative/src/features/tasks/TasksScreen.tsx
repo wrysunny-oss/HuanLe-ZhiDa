@@ -11,6 +11,7 @@ import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/n
 import { appApi } from '../../api/app';
 import { AppIcon, AppIconName } from '../../components/AppIcon';
 import { AnimatedCoinValue } from '../../components/AnimatedCoinValue';
+import { AdBanner } from '../../components/AdBanner';
 import { useAppToast } from '../../components/AppToast';
 import {
   AppButton,
@@ -388,7 +389,7 @@ export function TasksScreen() {
     };
   }, [completedAds, dailyAdLimit, isFocused, preloadRequest, profile?.id, rewardedVideoEnabled]);
 
-  /** 客户端只展示过程，最终金币到账仍以 GroMore 服务端回调后的中心数据为准。 */
+  /** 客户端只展示过程，最终金币到账仍以广告平台服务端回调后的中心数据为准。 */
   const watchRewardAd = async () => {
     if (!profile?.id || adOperationActive.current) return;
     if (!rewardedVideoEnabled) return toast.show('激励视频收益暂未开放');
@@ -653,6 +654,7 @@ export function TasksScreen() {
                 onPress={sign}
               />
             </AppCard>
+            <AdBanner />
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>今日任务</Text>
               <Text style={styles.resetText}>每日任务 00:00 重置</Text>

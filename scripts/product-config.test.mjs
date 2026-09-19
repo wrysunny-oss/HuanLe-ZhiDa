@@ -58,10 +58,10 @@ test('支付宝自动打款不能脱离提现模块启用', () => {
   assert.throws(() => normalizeAndValidateProductConfig(config), /alipayPayout/);
 });
 
-test('广告平台 ID 必须是纯数字字符串', () => {
+test('广告平台 ID 只允许字母和数字', () => {
   const config = structuredClone(validConfig);
   config.advertising.providers.gromore.appId = 'app-secret';
-  assert.throws(() => normalizeAndValidateProductConfig(config), /纯数字字符串/);
+  assert.throws(() => normalizeAndValidateProductConfig(config), /字母或数字字符串/);
 });
 
 test('内容类型不再依赖短剧布尔开关', () => {

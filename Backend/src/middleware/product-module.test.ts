@@ -5,9 +5,9 @@ import { areProductModulesEnabled } from "./product-module.js";
 
 test("产品模块守卫要求声明的模块全部启用", () => {
   assert.equal(areProductModulesEnabled(["rewards", "invitations"]), true);
-  assert.equal(areProductModulesEnabled(["advertising"]), false);
-  const advertisingEnabled: ProductModules = { ...productModules, advertising: true };
-  assert.equal(areProductModulesEnabled(["advertising", "rewards"], advertisingEnabled), true);
+  assert.equal(areProductModulesEnabled(["advertising"]), true);
+  const advertisingDisabled: ProductModules = { ...productModules, advertising: false };
+  assert.equal(areProductModulesEnabled(["advertising", "rewards"], advertisingDisabled), false);
   const disabledRewards: ProductModules = { ...productModules, rewards: false };
   assert.equal(areProductModulesEnabled(["rewards", "invitations"], disabledRewards), false);
 });

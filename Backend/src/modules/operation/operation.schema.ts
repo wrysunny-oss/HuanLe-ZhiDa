@@ -15,7 +15,7 @@ export const announcementSchema = z.object({
   status: z.enum(["DRAFT", "PUBLISHED", "OFFLINE"]), startAt: optionalDate, endAt: optionalDate,
 });
 export const systemConfigSchema = z.object({ value: z.unknown(), description: z.string().trim().max(255).nullish() });
-const placementId = z.string().trim().regex(/^\d{6,20}$/, "广告位 ID 格式不正确");
+const placementId = z.string().trim().regex(/^[A-Za-z0-9_-]{6,128}$/, "广告位 ID 格式不正确");
 export const adRuntimeConfigSchema = z.object({
   enabled: z.boolean(),
   splash: z.object({
@@ -27,19 +27,27 @@ export const adRuntimeConfigSchema = z.object({
     enabled: z.boolean(), placementId,
     insertEvery: z.number().int().min(2).max(50),
   }),
+  banner: z.object({ enabled: z.boolean(), placementId }),
   fullScreen: z.object({
     enabled: z.boolean(), placementId,
+    loadMode: z.enum(["MANUAL", "AUTO"]).default("MANUAL"),
     playbackThreshold: z.number().int().min(1).max(100),
+    quizRoundInterval: z.number().int().min(1).max(100).default(3),
+    dailyLimit: z.number().int().min(1).max(100).default(5),
+    skipFirstQuizRound: z.boolean().default(true),
     minimumIntervalMinutes: z.number().int().min(1).max(1440),
     loadTimeoutMs: z.number().int().min(2000).max(30_000),
     showTimeoutMs: z.number().int().min(30_000).max(10 * 60_000),
   }),
-  reward: z.object({ enabled: z.boolean(), placementId }),
+  reward: z.object({
+    enabled: z.boolean(), placementId,
+    loadMode: z.enum(["MANUAL", "AUTO"]).default("MANUAL"),
+  }),
 });
 export type AdRuntimeConfig = z.infer<typeof adRuntimeConfigSchema>;
 
 export const adClientEventSchema = z.object({
-  format: z.enum(["SPLASH", "FEED", "FULL_SCREEN", "REWARD", "CONTENT_UNLOCK"]),
+  format: z.enum(["SPLASH", "FEED", "BANNER", "FULL_SCREEN", "REWARD", "CONTENT_UNLOCK"]),
   eventType: z.enum(["REQUEST", "LOADED", "SHOW", "CLICK", "CLOSE", "FAIL", "DISLIKE", "ECPM", "REWARD_ARRIVED"]),
   placementId,
   requestId: z.string().trim().max(100).nullish(),
@@ -51,9 +59,11 @@ export const adClientEventSchema = z.object({
 export const adEventListQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(20),
-  format: z.enum(["SPLASH", "FEED", "FULL_SCREEN", "REWARD", "CONTENT_UNLOCK"]).optional(),
+  hours: z.coerce.number().int().refine((value) => [1, 24, 168, 720].includes(value), "时间范围仅支持 1、24、168 或 720 小时").default(24),
+  format: z.enum(["SPLASH", "FEED", "BANNER", "FULL_SCREEN", "REWARD", "CONTENT_UNLOCK"]).optional(),
   eventType: z.enum(["REQUEST", "LOADED", "SHOW", "CLICK", "CLOSE", "FAIL", "DISLIKE", "ECPM", "REWARD_ARRIVED"]).optional(),
 });
+export const adEventSummaryQuerySchema = adEventListQuerySchema.pick({ hours: true, format: true });
 export const documentSchema = z.object({
   code: z.string().trim().min(2).max(50), title: z.string().trim().min(1).max(150), version: z.string().trim().min(1).max(30),
   content: z.string().trim().min(1).max(500_000), status: z.enum(["DRAFT", "PUBLISHED", "OFFLINE"]),

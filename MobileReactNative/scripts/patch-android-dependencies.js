@@ -92,4 +92,68 @@ patchFile(
   },
 );
 
+patchFile(
+  'node_modules/@taku_anythink/react-native-sdk/android/networks.gradle',
+  source => {
+    // The published bridge requests every supported network and debugger UI on its compile classpath.
+    // The app already owns the exact generated runtime adapters; debugger-ui:1.1.5 is unavailable.
+    // Keep only the core API needed to compile the bridge.
+    const dependencies = [
+      'dependencies {',
+      '  compileOnly "com.anythink.sdk:core-taku:6.5.73.3"',
+      '}',
+      '',
+    ].join('\n');
+    return source.replace(/dependencies\s*\{[\s\S]*\}\s*$/, dependencies);
+  },
+);
+
+patchFile(
+  'node_modules/@taku_anythink/react-native-sdk/android/src/main/java/com/anythink/reactnative/init/AdSourcePrivacyPolicyStore.java',
+  () => [
+    'package com.anythink.reactnative.init;',
+    '',
+    'import android.text.TextUtils;',
+    'import com.anythink.reactnative.utils.MsgTools;',
+    '',
+    '/**',
+    ' * The upstream bridge hard-links privacy controllers for every Taku network.',
+    ' * A generated SDK intentionally contains only the selected networks, so those imports',
+    ' * make valid partial bundles fail to compile. Product code uses the core privacy APIs;',
+    ' * keep this optional network-specific JSON entry point inert for the selected bundle.',
+    ' */',
+    'public final class AdSourcePrivacyPolicyStore {',
+    '    private static volatile String sPolicyJson;',
+    '',
+    '    private AdSourcePrivacyPolicyStore() {}',
+    '',
+    '    public static synchronized void setPolicyJson(String json) {',
+    '        sPolicyJson = TextUtils.isEmpty(json) ? null : json;',
+    '        MsgTools.printMsg("setAdSourcePrivacyPolicy: network-specific controllers disabled");',
+    '    }',
+    '',
+    '    public static String getPolicyJson() {',
+    '        return sPolicyJson;',
+    '    }',
+    '}',
+    '',
+  ].join('\n'),
+);
+
+patchFile(
+  'node_modules/@taku_anythink/react-native-sdk/android/src/main/java/com/anythink/reactnative/init/ATInitManager.java',
+  source => source
+    .replace('import com.anythink.debug.api.ATDebuggerUITest;\n', '')
+    .replace(
+      /    public void showDebuggerUI\(final String debugKey\) \{[\s\S]*?\n    \}\n\n    \/\/ /,
+      [
+        '    public void showDebuggerUI(final String debugKey) {',
+        '        MsgTools.printMsg("showDebuggerUI unavailable: debugger-ui is excluded from app builds");',
+        '    }',
+        '',
+        '    // ',
+      ].join('\n'),
+    ),
+);
+
 require('./patch-playnest-unionad');

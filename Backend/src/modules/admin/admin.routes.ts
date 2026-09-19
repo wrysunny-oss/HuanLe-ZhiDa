@@ -42,6 +42,7 @@ import * as withdrawalService from "../withdrawal/withdrawal.service.js";
 import {
   announcementSchema,
   adEventListQuerySchema,
+  adEventSummaryQuerySchema,
   configKeySchema,
   documentSchema,
   operationIdSchema,
@@ -797,8 +798,8 @@ router.get("/ad-runtime-config", permit("operation:read"), async (_req, res) =>
 router.get("/ad-events", permit("operation:read"), validate(adEventListQuerySchema, "query"), async (_req, res) =>
   ok(res, await adRuntimeService.listAdClientEvents(res.locals.validatedQuery)),
 );
-router.get("/ad-events/summary", permit("operation:read"), async (_req, res) =>
-  ok(res, await adRuntimeService.getAdClientEventSummary()),
+router.get("/ad-events/summary", permit("operation:read"), validate(adEventSummaryQuerySchema, "query"), async (_req, res) =>
+  ok(res, await adRuntimeService.getAdClientEventSummary(res.locals.validatedQuery)),
 );
 /** PUT /system-configs/:key：以 JSON 更新指定配置；需要 operation:update。 */
 router.put(

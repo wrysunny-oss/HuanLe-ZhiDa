@@ -13,5 +13,6 @@ class AppConfigModule(context: ReactApplicationContext) : ReactContextBaseJavaMo
     "versionName" to BuildConfig.VERSION_NAME,
     "versionCode" to BuildConfig.VERSION_CODE,
     "debug" to BuildConfig.DEBUG,
+    "takuAppKey" to BuildConfig.TAKU_APP_KEY,
   )
 }

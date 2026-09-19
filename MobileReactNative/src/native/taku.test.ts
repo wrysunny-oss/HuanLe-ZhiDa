@@ -1,7 +1,7 @@
 import {takuAdProvider} from './taku';
 
-test('Taku provider 在官方 SDK 未接入时明确报告不可用', async () => {
+test('Taku provider 已注册为可用广告适配器', () => {
   expect(takuAdProvider.name).toBe('taku');
-  expect(takuAdProvider.available).toBe(false);
-  await expect(takuAdProvider.initialize()).rejects.toThrow('Taku');
+  expect(takuAdProvider.available).toBe(true);
+  expect(takuAdProvider.state).toBe('idle');
 });

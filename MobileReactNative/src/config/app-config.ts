@@ -8,6 +8,7 @@ type NativeAppConfig = {
   environment?: AppEnvironment;
   versionCode?: number;
   versionName?: string;
+  takuAppKey?: string;
 };
 
 const nativeConfig = NativeModules.AppConfig as NativeAppConfig | undefined;
@@ -46,6 +47,7 @@ export const appConfig = Object.freeze({
   environment,
   versionCode: nativeConfig?.versionCode ?? 1,
   versionName: nativeConfig?.versionName ?? '1.0',
+  takuAppKey: nativeConfig?.takuAppKey ?? '',
 });
 
 export const appVersionLabel = `${appConfig.versionName} (${appConfig.versionCode})`;

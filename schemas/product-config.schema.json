@@ -129,11 +129,12 @@
       "required": ["registeredAppName", "appId", "splashPlacementId", "feedPlacementId", "fullScreenPlacementId", "rewardPlacementId"],
       "properties": {
         "registeredAppName": { "type": "string", "minLength": 1, "description": "该广告平台后台登记的应用名，可以与 APP 展示名不同。" },
-        "appId": { "type": "string", "pattern": "^\\d*$", "description": "广告平台应用 ID。选中该平台时不能为空。" },
-        "splashPlacementId": { "type": "string", "pattern": "^\\d*$", "description": "开屏广告位 ID。" },
-        "feedPlacementId": { "type": "string", "pattern": "^\\d*$", "description": "信息流广告位 ID。" },
-        "fullScreenPlacementId": { "type": "string", "pattern": "^\\d*$", "description": "全屏或插屏广告位 ID。" },
-        "rewardPlacementId": { "type": "string", "pattern": "^\\d*$", "description": "激励视频广告位 ID。" }
+        "appId": { "type": "string", "pattern": "^[A-Za-z0-9]*$", "description": "广告平台应用 ID。选中该平台时不能为空。" },
+        "splashPlacementId": { "type": "string", "pattern": "^[A-Za-z0-9]*$", "description": "开屏广告位 ID。" },
+        "feedPlacementId": { "type": "string", "pattern": "^[A-Za-z0-9]*$", "description": "信息流或原生广告位 ID。" },
+        "bannerPlacementId": { "type": "string", "pattern": "^[A-Za-z0-9]*$", "description": "横幅广告位 ID；未使用横幅的平台可以省略。" },
+        "fullScreenPlacementId": { "type": "string", "pattern": "^[A-Za-z0-9]*$", "description": "全屏或插屏广告位 ID。" },
+        "rewardPlacementId": { "type": "string", "pattern": "^[A-Za-z0-9]*$", "description": "激励视频广告位 ID。" }
       }
     }
   }

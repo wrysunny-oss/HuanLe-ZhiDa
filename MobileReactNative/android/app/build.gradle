@@ -91,6 +91,12 @@ def releaseStoreFile = buildProperty("RELEASE_STORE_FILE", "REWARD_APP_RELEASE_S
 def releaseStorePassword = buildProperty("RELEASE_STORE_PASSWORD", "REWARD_APP_RELEASE_STORE_PASSWORD", "")
 def releaseKeyAlias = buildProperty("RELEASE_KEY_ALIAS", "REWARD_APP_RELEASE_KEY_ALIAS", "")
 def releaseKeyPassword = buildProperty("RELEASE_KEY_PASSWORD", "REWARD_APP_RELEASE_KEY_PASSWORD", "")
+def takuLocalProperties = new Properties()
+def takuLocalPropertiesFile = rootProject.file("taku.properties")
+if (takuLocalPropertiesFile.isFile()) {
+    takuLocalPropertiesFile.withInputStream { takuLocalProperties.load(it) }
+}
+def takuAppKey = buildProperty("TAKU_APP_KEY", "TAKU_APP_KEY", takuLocalProperties.getProperty("TAKU_APP_KEY", ""))
 def buildConfigString = { String value -> "\"${value.replace("\\", "\\\\").replace("\"", "\\\"")}\"" }
 def appManifest = new groovy.json.JsonSlurper().parse(file("../../app.json"))
 def productConfigPath = System.getenv("REWARD_APP_PRODUCT_CONFIG") ?: "../../product.generated.json"
@@ -101,6 +107,8 @@ def configuredContentType = productConfig.content?.type?.toString()?.trim()
 def configuredAdProvider = productConfig.advertising?.provider?.toString()?.trim()
 def shortDramaEnabled = configuredContentType == "shortDrama"
 def groMoreEnabled = productConfig.modules?.advertising == true && configuredAdProvider == "gromore"
+def verifyTakuSdk = buildProperty("VERIFY_TAKU_SDK", "VERIFY_TAKU_SDK", "false").toBoolean()
+def takuEnabled = (productConfig.modules?.advertising == true && configuredAdProvider == "taku") || verifyTakuSdk
 def shortDramaSdkSettingId = productConfig.content?.providers?.shortDrama?.sdkSettingId?.toString()?.trim()
 def groMoreAdnAars = [
     "GDTSDK.unionNormal.4.680.1550.aar",
@@ -108,6 +116,24 @@ def groMoreAdnAars = [
     "kssdk-ad-5.3.20.1.aar",
     "windAd-4.25.14.aar",
     "windAd-common-2.0.1.aar",
+]
+def takuSdkFiles = [
+    "ads-sdk-pro-7.6.1.2.aar",
+    "anythink_adx_sdk_kuying_6.5.77_necessary.aar",
+    "anythink_common_util_1.1.3.aar",
+    "anythink_core_6.6.22.aar",
+    "anythink_network_adx_kuying_sdk_necessary_6.5.77.1.1.aar",
+    "anythink_network_baidu_9.460.1.2.aar",
+    "anythink_network_csj_7.6.1.2.1.3.aar",
+    "anythink_network_gdt_4.701.1571.1.2.aar",
+    "anythink_network_kuaishou_5.6.10.1.1.2.aar",
+    "anythink_network_mimo_5.3.9.30.1.0.aar",
+    "Baidu_MobAds_SDK-release_v9.460.aar",
+    "GDTSDK.unionNormal.4.701.1571.aar",
+    "gson-2.8.4.jar",
+    "kssdklite-ad-5.6.10.1-publishRelease-a4998d6ba3.aar",
+    "mimo-ad-sdk-5.3.9.30.aar",
+    "miui_sys_splash_1.0.aar",
 ]
 
 if (!appDisplayName) {
@@ -138,6 +164,7 @@ android {
         versionName "1.0"
         manifestPlaceholders.appLabel = appDisplayName
         buildConfigField "String", "CONTENT_TYPE", buildConfigString(configuredContentType ?: "none")
+        buildConfigField "String", "TAKU_APP_KEY", buildConfigString(takuEnabled ? takuAppKey : "")
     }
     signingConfigs {
         release {
@@ -228,6 +255,23 @@ if (groMoreEnabled) {
     tasks.named("preBuild").configure { dependsOn("validateGroMoreAdnAars") }
 }
 
+if (takuEnabled) {
+    tasks.register("validateTakuSdkFiles") {
+        group = "verification"
+        description = "验证本地 Taku 6.6.22 与所选广告平台 SDK 文件"
+        doLast {
+            if (productConfig.modules?.advertising == true && configuredAdProvider == "taku" && !takuAppKey) {
+                throw new GradleException("启用 Taku 时必须通过 android/taku.properties、-PTAKU_APP_KEY 或 TAKU_APP_KEY 环境变量提供 App Key")
+            }
+            def missing = takuSdkFiles.findAll { !file("libs/${it}").isFile() }
+            if (!missing.isEmpty()) {
+                throw new GradleException("Taku SDK 文件不完整，请重新从 Taku 后台生成并放入 android/app/libs：\n- ${missing.join('\n- ')}")
+            }
+        }
+    }
+    tasks.named("preBuild").configure { dependsOn("validateTakuSdkFiles") }
+}
+
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
@@ -243,6 +287,13 @@ dependencies {
         implementation("com.pangle.cn:mediation-sigmob-adapter:4.25.14.1")
         implementation(files("libs/windAd-4.25.14.aar"))
         implementation(files("libs/windAd-common-2.0.1.aar"))
+    }
+
+    if (takuEnabled) {
+        implementation(files(takuSdkFiles.collect { "libs/${it}" }))
+        // Taku 后台生成的 Mimo 接入片段要求 Glide 与 RecyclerView；使用 AndroidX，避免重新引入 support-v7。
+        implementation("com.github.bumptech.glide:glide:4.9.0")
+        implementation("androidx.recyclerview:recyclerview:1.0.0")
     }
 
     if (shortDramaEnabled) {

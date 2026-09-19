@@ -14,7 +14,7 @@
     "namespace": "huanle-zhida-admin"
   },
   "modules": {
-    "advertising": false,
+    "advertising": true,
     "rewards": true,
     "invitations": true,
     "smsRegistration": true,
@@ -33,7 +33,7 @@
     "productionApiOrigin": "https://api.example.com"
   },
   "advertising": {
-    "provider": "none",
+    "provider": "taku",
     "providers": {
       "gromore": {
         "registeredAppName": "待配置广告应用",
@@ -42,6 +42,15 @@
         "feedPlacementId": "000000",
         "fullScreenPlacementId": "000000",
         "rewardPlacementId": "000000"
+      },
+      "taku": {
+        "registeredAppName": "幻乐智答",
+        "appId": "a6aab990f86e52",
+        "splashPlacementId": "b6aae2bab20f22",
+        "feedPlacementId": "b6aae2b1428a5d",
+        "bannerPlacementId": "b6aae2baa6a957",
+        "fullScreenPlacementId": "b6aae2baabf972",
+        "rewardPlacementId": "b6aae2baa12ce8"
       }
     }
   }

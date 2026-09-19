@@ -10,6 +10,7 @@ import {colors, radii, spacing, typography} from '../../theme';
 import {MotionPressable} from '../../components/MotionPressable';
 import {KnowledgeRail} from './KnowledgeRail';
 import {createRequestId, quizCategoryPresentation, readableError, type QuizCategoryTone} from './quiz.utils';
+import {AdFeed} from '../../components/AdFeed';
 
 const categoryTones: Record<QuizCategoryTone, {activeCard: ViewStyle; inactiveCard: ViewStyle; text: TextStyle & {color: string}}> = {
   accent: StyleSheet.create({activeCard: {backgroundColor: colors.accent, borderColor: colors.accent}, inactiveCard: {backgroundColor: colors.accentSoft, borderColor: colors.accentSoft}, text: {color: colors.accent}}),
@@ -141,6 +142,7 @@ export function QuizHomeScreen() {
 
         {error ? <View style={styles.errorBox}><AppIcon name="info" color={colors.danger} size={18} /><Text style={styles.errorText}>{error}</Text></View> : null}
         <AppButton title="开始今日挑战" icon="play" onPress={start} loading={starting} disabled={!selectedId || loading} style={styles.startButton} />
+        <AdFeed />
 
         <MotionPressable
           accessibilityHint="查看错题解析并开始专项练习"

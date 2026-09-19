@@ -31,12 +31,16 @@ const savingContent = ref(false);
 const summary = ref<AdEventSummary>();
 const adProviderLabel = advertisingProvider === 'gromore' ? 'GroMore' : advertisingProvider === 'taku' ? 'Taku' : '未启用';
 const selectedProvider = productConfig.advertising.providers[advertisingProvider as keyof typeof productConfig.advertising.providers];
+const bannerPlacementId = selectedProvider && 'bannerPlacementId' in selectedProvider
+  ? selectedProvider.bannerPlacementId
+  : '000000';
 const ads = ref<AdRuntimeConfig>({
   enabled: true,
   splash: { enabled: true, placementId: selectedProvider?.splashPlacementId ?? '000000', timeoutMs: 3000, safetyTimeoutMs: 5000 },
   feed: { enabled: true, placementId: selectedProvider?.feedPlacementId ?? '000000', insertEvery: 8 },
-  fullScreen: { enabled: true, placementId: selectedProvider?.fullScreenPlacementId ?? '000000', playbackThreshold: 5, minimumIntervalMinutes: 20, loadTimeoutMs: 8000, showTimeoutMs: 120000 },
-  reward: { enabled: true, placementId: selectedProvider?.rewardPlacementId ?? '000000' },
+  banner: { enabled: true, placementId: bannerPlacementId },
+  fullScreen: { enabled: true, placementId: selectedProvider?.fullScreenPlacementId ?? '000000', loadMode: 'MANUAL', playbackThreshold: 5, quizRoundInterval: 3, dailyLimit: 5, skipFirstQuizRound: true, minimumIntervalMinutes: 20, loadTimeoutMs: 8000, showTimeoutMs: 120000 },
+  reward: { enabled: true, placementId: selectedProvider?.rewardPlacementId ?? '000000', loadMode: 'MANUAL' },
 });
 const shortDrama = ref<ShortDramaRuntimeConfig>({
   unlockMode: 'SPECIFIC', freeEpisodes: 10, unlockEpisodes: 10,
@@ -47,6 +51,7 @@ const shortDrama = ref<ShortDramaRuntimeConfig>({
 
 const formats = [
   { key: 'SPLASH', label: '开屏' }, { key: 'FEED', label: '信息流' },
+  { key: 'BANNER', label: '横幅' },
   { key: 'FULL_SCREEN', label: '插全屏' }, { key: 'REWARD', label: '激励视频' },
   { key: 'CONTENT_UNLOCK', label: '内容解锁' },
 ];
@@ -109,7 +114,7 @@ onMounted(load);
           <NGridItem>
             <NCard size="small" title="开屏广告" embedded>
               <template #header-extra><NSwitch v-model:value="ads.splash.enabled" :disabled="!canUpdate" /></template>
-              <NFormItem :label="`${adProviderLabel} 广告位 ID`"><NInput v-model:value="ads.splash.placementId" /></NFormItem>
+              <NFormItem :label="`${adProviderLabel} 广告位 ID`"><NInput v-model:value="ads.splash.placementId" disabled /></NFormItem>
               <NFormItem label="SDK 加载超时（毫秒）"><NInputNumber v-model:value="ads.splash.timeoutMs" :min="1000" :max="10000" class="w-full" /></NFormItem>
               <NFormItem label="启动安全超时（毫秒）"><NInputNumber v-model:value="ads.splash.safetyTimeoutMs" :min="2000" :max="15000" class="w-full" /></NFormItem>
             </NCard>
@@ -117,18 +122,34 @@ onMounted(load);
           <NGridItem>
             <NCard size="small" title="首页信息流" embedded>
               <template #header-extra><NSwitch v-model:value="ads.feed.enabled" :disabled="!canUpdate" /></template>
-              <NFormItem :label="`${adProviderLabel} 广告位 ID`"><NInput v-model:value="ads.feed.placementId" /></NFormItem>
+              <NFormItem :label="`${adProviderLabel} 广告位 ID`"><NInput v-model:value="ads.feed.placementId" disabled /></NFormItem>
               <NFormItem label="每隔多少条内容插入"><NInputNumber v-model:value="ads.feed.insertEvery" :min="2" :max="50" class="w-full" /></NFormItem>
+            </NCard>
+          </NGridItem>
+          <NGridItem>
+            <NCard size="small" title="福利页横幅" embedded>
+              <template #header-extra><NSwitch v-model:value="ads.banner.enabled" :disabled="!canUpdate" /></template>
+              <NFormItem :label="`${adProviderLabel} 广告位 ID`"><NInput v-model:value="ads.banner.placementId" disabled /></NFormItem>
+              <div class="text-sm leading-6 text-gray-500">显示在福利中心签到区域之后；加载失败时自动折叠，不遮挡任务按钮与底部导航。</div>
             </NCard>
           </NGridItem>
           <NGridItem>
             <NCard size="small" title="插全屏广告" embedded>
               <template #header-extra><NSwitch v-model:value="ads.fullScreen.enabled" :disabled="!canUpdate" /></template>
-              <NFormItem :label="`${adProviderLabel} 广告位 ID`"><NInput v-model:value="ads.fullScreen.placementId" /></NFormItem>
+              <NFormItem :label="`${adProviderLabel} 广告位 ID`"><NInput v-model:value="ads.fullScreen.placementId" disabled /></NFormItem>
+              <NFormItem v-if="advertisingProvider === 'taku'" label="加载模式">
+                <NSelect v-model:value="ads.fullScreen.loadMode" :disabled="!canUpdate" :options="[{label:'手动加载（按需请求）',value:'MANUAL'},{label:'自动加载（SDK 维护缓存）',value:'AUTO'}]" />
+              </NFormItem>
               <NGrid :cols="2" :x-gap="12">
-                <NGridItem><NFormItem label="播放次数阈值"><NInputNumber v-model:value="ads.fullScreen.playbackThreshold" :min="1" :max="100" class="w-full" /></NFormItem></NGridItem>
+                <NGridItem v-if="contentType === 'shortDrama'"><NFormItem label="短剧播放次数阈值"><NInputNumber v-model:value="ads.fullScreen.playbackThreshold" :min="1" :max="100" class="w-full" /></NFormItem></NGridItem>
+                <NGridItem v-if="contentType === 'quiz'"><NFormItem label="每完成几局展示一次"><NInputNumber v-model:value="ads.fullScreen.quizRoundInterval" :min="1" :max="100" class="w-full" /></NFormItem></NGridItem>
+                <NGridItem v-if="contentType === 'quiz'"><NFormItem label="每日展示上限"><NInputNumber v-model:value="ads.fullScreen.dailyLimit" :min="1" :max="100" class="w-full" /></NFormItem></NGridItem>
                 <NGridItem><NFormItem label="最小间隔（分钟）"><NInputNumber v-model:value="ads.fullScreen.minimumIntervalMinutes" :min="1" :max="1440" class="w-full" /></NFormItem></NGridItem>
               </NGrid>
+              <div v-if="contentType === 'quiz'" class="mb-4 flex items-center justify-between rounded-lg border border-gray-700 px-4 py-3">
+                <div><div>本次启动首局免广告</div><div class="mt-1 text-xs text-gray-500">首局成绩正常展示，点击“再来一局”时也不会出现插屏。</div></div>
+                <NSwitch v-model:value="ads.fullScreen.skipFirstQuizRound" :disabled="!canUpdate" />
+              </div>
               <NFormItem label="加载超时（毫秒）"><NInputNumber v-model:value="ads.fullScreen.loadTimeoutMs" :min="2000" :max="30000" class="w-full" /></NFormItem>
               <NFormItem label="展示安全超时（毫秒）"><NInputNumber v-model:value="ads.fullScreen.showTimeoutMs" :min="30000" :max="600000" class="w-full" /></NFormItem>
             </NCard>
@@ -136,7 +157,11 @@ onMounted(load);
           <NGridItem>
             <NCard size="small" title="激励视频" embedded>
               <template #header-extra><NSwitch v-model:value="ads.reward.enabled" :disabled="!canUpdate" /></template>
-              <NFormItem :label="`${adProviderLabel} 广告位 ID`"><NInput v-model:value="ads.reward.placementId" /></NFormItem>
+              <NFormItem :label="`${adProviderLabel} 广告位 ID`"><NInput v-model:value="ads.reward.placementId" disabled /></NFormItem>
+              <NFormItem v-if="advertisingProvider === 'taku'" label="加载模式">
+                <NSelect v-model:value="ads.reward.loadMode" :disabled="!canUpdate" :options="[{label:'手动加载（页面预加载）',value:'MANUAL'},{label:'自动加载（SDK 维护缓存）',value:'AUTO'}]" />
+              </NFormItem>
+              <NAlert v-if="advertisingProvider === 'taku' && ads.reward.loadMode === 'AUTO'" type="info" :bordered="false" class="mb-3">自动加载会在进入福利页后注册广告位，并在展示完成后由 SDK 自动补充缓存。</NAlert>
               <div class="text-sm leading-6 text-gray-500">这里只控制客户端请求。金币结算仍以服务端回调、风控和每日次数限制为准。</div>
             </NCard>
           </NGridItem>

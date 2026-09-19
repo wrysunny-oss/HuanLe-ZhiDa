@@ -6,6 +6,7 @@ type ProviderPlacementConfig = {
   appId: string;
   splashPlacementId: string;
   feedPlacementId: string;
+  bannerPlacementId?: string;
   fullScreenPlacementId: string;
   rewardPlacementId: string;
 };
@@ -33,9 +34,15 @@ export const adConfig = {
     placementId: selected?.feedPlacementId ?? '',
     insertEvery: 8,
   },
+  banner: {
+    placementId: selected?.bannerPlacementId ?? '',
+  },
   fullScreen: {
     placementId: selected?.fullScreenPlacementId ?? '',
     playbackThreshold: 5,
+    quizRoundInterval: 3,
+    dailyLimit: 5,
+    skipFirstQuizRound: true,
     minimumIntervalMs: 20 * 60 * 1000,
     loadTimeoutMs: 8000,
     showTimeoutMs: 2 * 60 * 1000,

@@ -1905,6 +1905,11 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
+"@taku_anythink/react-native-sdk@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/@taku_anythink/react-native-sdk/-/react-native-sdk-1.0.1.tgz"
+  integrity sha512-dQezrqpX8whiK/ay//ezgmiCT6lArSoNUKVHpfE2wfmtkrhcfJ3tleFwHHd7iJk8mW/9LQW1FmTeX4aklIc6qg==
+
 "@tamagui/accordion@2.7.7":
   version "2.7.7"
   resolved "https://registry.npmmirror.com/@tamagui/accordion/-/accordion-2.7.7.tgz"

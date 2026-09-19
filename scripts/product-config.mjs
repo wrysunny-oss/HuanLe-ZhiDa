@@ -37,9 +37,21 @@ function optionalNumericId(value, key) {
   return normalized;
 }
 
+function providerId(value, key) {
+  const normalized = required(value, key);
+  if (!/^[A-Za-z0-9]+$/.test(normalized)) throw new Error(`${key} 必须是字母或数字字符串`);
+  return normalized;
+}
+
+function optionalProviderId(value, key) {
+  const normalized = String(value ?? '').trim();
+  if (normalized && !/^[A-Za-z0-9]+$/.test(normalized)) throw new Error(`${key} 必须是字母或数字字符串`);
+  return normalized;
+}
+
 function providerConfig(config, provider, selectedProvider) {
   const source = config.advertising?.providers?.[provider] ?? {};
-  const readId = selectedProvider === provider ? numericId : optionalNumericId;
+  const readId = selectedProvider === provider ? providerId : optionalProviderId;
   return {
     registeredAppName: selectedProvider === provider
       ? required(source.registeredAppName, `advertising.providers.${provider}.registeredAppName`)
@@ -47,6 +59,9 @@ function providerConfig(config, provider, selectedProvider) {
     appId: readId(source.appId, `advertising.providers.${provider}.appId`),
     splashPlacementId: readId(source.splashPlacementId, `advertising.providers.${provider}.splashPlacementId`),
     feedPlacementId: readId(source.feedPlacementId, `advertising.providers.${provider}.feedPlacementId`),
+    ...(source.bannerPlacementId != null ? {
+      bannerPlacementId: optionalProviderId(source.bannerPlacementId, `advertising.providers.${provider}.bannerPlacementId`),
+    } : {}),
     fullScreenPlacementId: readId(source.fullScreenPlacementId, `advertising.providers.${provider}.fullScreenPlacementId`),
     rewardPlacementId: readId(source.rewardPlacementId, `advertising.providers.${provider}.rewardPlacementId`),
   };

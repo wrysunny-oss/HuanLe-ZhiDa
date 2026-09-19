@@ -30,6 +30,7 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="${usesCleartextTraffic}"
       android:supportsRtl="true">
+      <uses-library android:name="org.apache.http.legacy" android:required="false" />
       <!-- 承载穿山甲 Pangrowth SDK 返回的官方短剧播放器 Fragment。 -->
       <activity
         android:name=".DramaPlayerActivity"
