@@ -1,30 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {AccessibilityInfo, Animated, StyleSheet, View, ViewProps} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, ViewProps} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, layout } from '../theme';
 export function Screen({children, style, ...props}: ViewProps) {
-  const entrance = useRef(new Animated.Value(0)).current;
-  const [reduceMotion, setReduceMotion] = useState(false);
-
-  useEffect(() => {
-    AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion).catch(() => undefined);
-    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
-    return () => subscription.remove();
-  }, []);
-
-  useEffect(() => {
-    entrance.setValue(reduceMotion ? 1 : 0);
-    if (!reduceMotion) {
-      Animated.spring(entrance, {
-        toValue: 1,
-        damping: 20,
-        stiffness: 180,
-        mass: 0.75,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [entrance, reduceMotion]);
-
   return (
     <SafeAreaView style={s.safe}>
       <View pointerEvents="none" style={s.decoration} accessibilityElementsHidden>
@@ -32,18 +10,9 @@ export function Screen({children, style, ...props}: ViewProps) {
         <View style={s.dotSmall} />
         <View style={s.dash} />
       </View>
-      <Animated.View
-        style={[
-          s.body,
-          style,
-          {
-            opacity: entrance,
-            transform: [{translateY: entrance.interpolate({inputRange: [0, 1], outputRange: [10, 0]})}],
-          },
-        ]}
-        {...props}>
+      <View style={[s.body, style]} {...props}>
         {children}
-      </Animated.View>
+      </View>
     </SafeAreaView>
   );
 }

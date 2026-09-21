@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { calculateAdDistribution, calculateAgentCommission, normalizeRewardMilestones, usesDailyRewardedAdLimit } from "./admin.service.js";
+import { calculateAdDistribution, calculateAgentCommission, calculateVerifiedCoinDistribution, normalizeRewardMilestones, usesDailyRewardedAdLimit } from "./admin.service.js";
 import { updateAdRewardConfigSchema } from "./admin.schema.js";
 
 test("全局广告配置要求合法的每日次数上限", () => {
@@ -50,4 +50,13 @@ test("小额收益始终向下取整且不会超发", () => {
 test("代理无限下级佣金由平台按代理独立比例额外支付", () => {
   assert.equal(calculateAgentCommission(5000n, 800), 400n);
   assert.equal(calculateAgentCommission(1n, 800), 0n);
+});
+
+test("Taku S2S 最终金币完整发给用户且返佣由平台额外承担", () => {
+  assert.deepEqual(calculateVerifiedCoinDistribution({ awardedCoins: 1000n, directRateBps: 2000, indirectRateBps: 1000, hasDirect: true, hasIndirect: true }), {
+    baseUserCoins: 1000n,
+    awardedCoins: 1000n,
+    directAwardedCoins: 200n,
+    indirectAwardedCoins: 100n,
+  });
 });

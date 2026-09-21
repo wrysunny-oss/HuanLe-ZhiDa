@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {RefreshControl, SectionList, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Svg, {Circle, Defs, LinearGradient, Path, Stop} from 'react-native-svg';
 import {appApi} from '../../api/app';
@@ -80,9 +80,11 @@ export function EarningsScreen() {
   const [ledgers, setLedgers] = useState<RewardLedger[]>([]);
   const [config, setConfig] = useState<WithdrawalConfig>();
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (refresh = false) => {
+    if (refresh) setRefreshing(true);
     setError('');
     try {
       const [user, ledgerResult, withdrawalConfig] = await Promise.all([
@@ -97,6 +99,7 @@ export function EarningsScreen() {
       setError(requestError instanceof Error ? requestError.message : '收益信息加载失败');
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, []);
 
@@ -123,96 +126,85 @@ export function EarningsScreen() {
   }, [ledgers]);
 
   const groups = useMemo(
-    () => ['今天', '昨天', '更早'].map(title => ({title, items: ledgers.filter(item => groupName(item.createdAt) === title)})).filter(group => group.items.length),
+    () => ['今天', '昨天', '更早'].map(title => ({title, data: ledgers.filter(item => groupName(item.createdAt) === title)})).filter(group => group.data.length),
     [ledgers],
   );
   const balance = Number(profile?.coinBalance ?? 0);
   const estimatedYuan = config?.coinsPerCent ? balance / config.coinsPerCent / 100 : 0;
 
   return (
-    <Screen>
-      <ScrollView
+    <Screen style={styles.screen}>
+      <SectionList
+        sections={groups}
+        keyExtractor={item => String(item.id)}
+        initialNumToRender={8}
+        maxToRenderPerBatch={8}
+        windowSize={7}
         showsVerticalScrollIndicator={false}
+        stickySectionHeadersEnabled={false}
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl refreshing={loading} onRefresh={load} tintColor={colors.primary} colors={[colors.primary]} />}>
-        <View style={styles.header}>
-          <Text style={styles.title}>我的收益</Text>
-          <Text style={styles.subtitle}>每一笔金币变动都清晰可查</Text>
-        </View>
+        ListHeaderComponent={<>
+          <View style={styles.header}>
+            <Text style={styles.title}>我的收益</Text>
+            <Text style={styles.subtitle}>每一笔金币变动都清晰可查</Text>
+          </View>
 
-        {loading && !profile ? (
-          <SkeletonBlock style={styles.balanceSkeleton} />
-        ) : error && !profile ? (
-          <EmptyState title="收益加载失败" description={error} action="重新加载" onAction={load} icon="wallet" />
-        ) : (
-          <AppCard style={styles.balanceCard} elevated>
-            <View style={styles.balanceTop}>
-              <View>
-                <Text style={styles.balanceLabel}>可用金币</Text>
-                <Text style={styles.balance}>{balance.toLocaleString('zh-CN')}</Text>
-                {productModules.withdrawals ? <Text style={styles.estimate}>约 ¥{estimatedYuan.toFixed(2)} · 实际以提现结算为准</Text> : null}
-              </View>
-              <IconTile name="coins" size={54} />
-            </View>
-            {productModules.withdrawals ? <AppButton title="立即提现" icon="wallet" onPress={() => navigation.navigate('Withdrawal')} /> : null}
-          </AppCard>
-        )}
-
-        <AppCard style={styles.metrics}>
-          <Metric label="今日收益" value={`+${summary.todayIncome}`} accent />
-          <View style={styles.metricDivider} />
-          <Metric label="累计收益" value={summary.total.toLocaleString('zh-CN')} />
-          <View style={styles.metricDivider} />
-          <Metric label="冻结金币" value={Number(profile?.frozenCoinBalance ?? 0).toLocaleString('zh-CN')} />
-        </AppCard>
-
-        <View style={styles.section}>
-          <SectionHeader title="收益趋势" description="最近 7 天金币收入" action="近 7 天" />
-          <AppCard style={styles.chartCard}>
-            <TrendChart values={summary.trend} />
-            <View style={styles.chartLabels}>
-              {['6天前', '', '', '3天前', '', '', '今天'].map((label, index) => <Text key={index} style={styles.chartLabel}>{label}</Text>)}
-            </View>
-          </AppCard>
-        </View>
-
-        <View style={styles.section}>
-          <SectionHeader title="收益明细" description="收入为绿色，支出为红色" />
-          {!loading && !ledgers.length ? (
-            <EmptyState title="暂无收益明细" description="完成签到、答题或邀请好友后，记录会显示在这里" icon="trend" />
+          {loading && !profile ? (
+            <SkeletonBlock style={styles.balanceSkeleton} />
+          ) : error && !profile ? (
+            <EmptyState title="收益加载失败" description={error} action="重新加载" onAction={() => load()} icon="wallet" />
           ) : (
-            groups.map(group => (
-              <View key={group.title} style={styles.group}>
-                <Text style={styles.groupTitle}>{group.title}</Text>
-                <AppCard style={styles.ledgerCard}>
-                  {group.items.map((item, index) => {
-                    const amount = Number(item.amount);
-                    const meta = ledgerMeta[item.type] ?? {label: '金币变动', icon: 'coins' as const};
-                    return (
-                      <View key={item.id} style={[styles.ledgerRow, index > 0 && styles.ledgerBorder]}>
-                        <IconTile name={meta.icon} color={amount >= 0 ? colors.success : colors.danger} size={40} />
-                        <View style={styles.ledgerBody}>
-                          <Text style={styles.ledgerTitle}>{item.title || meta.label}</Text>
-                          <Text style={styles.ledgerMeta}>{meta.label} · {formatTime(item.createdAt)}</Text>
-                        </View>
-                        <Text style={[styles.amount, {color: amount >= 0 ? colors.success : colors.danger}]}>
-                          {amount >= 0 ? '+' : ''}{amount}
-                        </Text>
-                      </View>
-                    );
-                  })}
-                </AppCard>
+            <AppCard style={styles.balanceCard} elevated>
+              <View style={styles.balanceTop}>
+                <View>
+                  <Text style={styles.balanceLabel}>可用金币</Text>
+                  <Text style={styles.balance}>{balance.toLocaleString('zh-CN')}</Text>
+                  {productModules.withdrawals ? <Text style={styles.estimate}>约 ¥{estimatedYuan.toFixed(2)} · 实际以提现结算为准</Text> : null}
+                </View>
+                <IconTile name="coins" size={54} />
               </View>
-            ))
+              {productModules.withdrawals ? <AppButton title="立即提现" icon="wallet" onPress={() => navigation.navigate('Withdrawal')} /> : null}
+            </AppCard>
           )}
-        </View>
-      </ScrollView>
+
+          <AppCard style={styles.metrics}>
+            <Metric label="今日收益" value={`+${summary.todayIncome}`} accent />
+            <View style={styles.metricDivider} />
+            <Metric label="累计收益" value={summary.total.toLocaleString('zh-CN')} />
+            <View style={styles.metricDivider} />
+            <Metric label="冻结金币" value={Number(profile?.frozenCoinBalance ?? 0).toLocaleString('zh-CN')} />
+          </AppCard>
+
+          <View style={styles.section}>
+            <SectionHeader title="收益趋势" description="最近 7 天金币收入" action="近 7 天" />
+            <AppCard style={styles.chartCard}>
+              <TrendChart values={summary.trend} />
+              <View style={styles.chartLabels}>
+                {['6天前', '', '', '3天前', '', '', '今天'].map((label, index) => <Text key={index} style={styles.chartLabel}>{label}</Text>)}
+              </View>
+            </AppCard>
+          </View>
+
+          <View style={[styles.section, styles.detailHeading]}>
+            <SectionHeader title="收益明细" description="收入为绿色，支出为红色" />
+          </View>
+        </>}
+        ListEmptyComponent={!loading && (profile || !error) ? <EmptyState title="暂无收益明细" description="完成签到、答题或邀请好友后，记录会显示在这里" icon="trend" /> : null}
+        renderSectionHeader={({section}) => <Text style={styles.groupTitle}>{section.title}</Text>}
+        renderItem={({item, index, section}) => {
+          const amount = Number(item.amount);
+          const meta = ledgerMeta[item.type] ?? {label: '金币变动', icon: 'coins' as const};
+          return <View style={[styles.ledgerCard, index === 0 && styles.ledgerCardFirst, index === section.data.length - 1 && styles.ledgerCardLast]}><View style={[styles.ledgerRow, index > 0 && styles.ledgerBorder]}><IconTile name={meta.icon} color={amount >= 0 ? colors.success : colors.danger} size={40} /><View style={styles.ledgerBody}><Text style={styles.ledgerTitle}>{item.title || meta.label}</Text><Text style={styles.ledgerMeta}>{meta.label} · {formatTime(item.createdAt)}</Text></View><Text style={[styles.amount, {color: amount >= 0 ? colors.success : colors.danger}]}>{amount >= 0 ? '+' : ''}{amount}</Text></View></View>;
+        }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => load(true)} tintColor={colors.primary} colors={[colors.primary]} />}
+      />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {paddingBottom: spacing.xxl},
+  screen: {paddingHorizontal: 0},
+  content: {paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl},
   header: {paddingTop: spacing.lg, paddingBottom: spacing.xl},
   title: {color: colors.text, ...typography.title},
   subtitle: {color: colors.muted, ...typography.body, marginTop: spacing.xs},
@@ -228,9 +220,11 @@ const styles = StyleSheet.create({
   chartCard: {paddingBottom: spacing.md},
   chartLabels: {flexDirection: 'row', justifyContent: 'space-between'},
   chartLabel: {color: colors.subtle, ...typography.caption, flex: 1, textAlign: 'center'},
-  group: {gap: spacing.sm},
-  groupTitle: {color: colors.muted, ...typography.label, marginLeft: spacing.xs},
-  ledgerCard: {paddingVertical: 0},
+  detailHeading: {marginBottom: spacing.md},
+  groupTitle: {color: colors.muted, ...typography.label, marginLeft: spacing.xs, marginTop: spacing.md, marginBottom: spacing.sm},
+  ledgerCard: {paddingHorizontal: spacing.lg, backgroundColor: colors.surface, borderLeftWidth: 1, borderRightWidth: 1, borderColor: colors.border},
+  ledgerCardFirst: {borderTopWidth: 1, borderTopLeftRadius: radii.lg, borderTopRightRadius: radii.lg},
+  ledgerCardLast: {borderBottomWidth: 1, borderBottomLeftRadius: radii.lg, borderBottomRightRadius: radii.lg, marginBottom: spacing.sm},
   ledgerRow: {minHeight: 72, flexDirection: 'row', alignItems: 'center'},
   ledgerBorder: {borderTopWidth: 1, borderTopColor: colors.divider},
   ledgerBody: {flex: 1, marginLeft: spacing.md},

@@ -10,6 +10,7 @@ import type { LedgerListQuery, UserListQuery } from "./admin.schema.js";
 import { assertFreshRiskAssessment } from "../safety/safety.service.js";
 import { createUserNotification } from "../notification/notification.service.js";
 import { assertAgentCanViewUser, getAgentDescendantIds, getAgentDescendants } from "./agent-scope.js";
+import { contentType } from "../../generated/product.generated.js";
 
 export async function getDashboard(agentId?: bigint) {
   const descendantIds = agentId ? await getAgentDescendantIds(agentId) : undefined;
@@ -19,12 +20,15 @@ export async function getDashboard(agentId?: bigint) {
       prisma.rewardLedger.aggregate({ _sum: { amount: true }, where: { userId: { in: descendantIds! }, amount: { gt: 0 } } }),
     ]);
     // 代理看板不返回全平台内容、工单及资金对账信息。
-    return { users, coinsIssued: coins._sum.amount ?? 0n, publishedDramas: 0, feedbackPending: 0, reconciliationPending: 0, latestReconciliation: null };
+    return { users, coinsIssued: coins._sum.amount ?? 0n, publishedContent: 0, contentStatusDistribution: [], feedbackPending: 0, reconciliationPending: 0, latestReconciliation: null };
   }
+  const publishedContentQuery = contentType === "quiz"
+    ? prisma.quizQuestion.count({ where: { reviewStatus: "APPROVED", status: "PUBLISHED" } })
+    : prisma.drama.count({ where: { status: "PUBLISHED" } });
   // 独立统计放入批量事务，只占用一次数据库往返。
-  const [users, publishedDramas, feedbackPending, coins, reconciliationPending, latestReconciliation] = await prisma.$transaction([
+  const [users, publishedContent, feedbackPending, coins, reconciliationPending, latestReconciliation] = await prisma.$transaction([
     prisma.user.count({ where: descendantIds ? { id: { in: descendantIds } } : undefined }),
-    prisma.drama.count({ where: { status: "PUBLISHED" } }),
+    publishedContentQuery,
     prisma.feedback.count({ where: { status: "PENDING" } }),
     prisma.rewardLedger.aggregate({ _sum: { amount: true }, where: { amount: { gt: 0 }, ...(descendantIds ? { userId: { in: descendantIds } } : {}) } }),
     prisma.riskEvent.count({ where: { status: "PENDING", ruleCode: { startsWith: "RECONCILIATION_" } } }),
@@ -46,7 +50,7 @@ export async function getDashboard(agentId?: bigint) {
     };
   });
 
-  const [trend, userStatusGroups, dramaStatusGroups] = await Promise.all([
+  const [trend, userStatusGroups, contentStatusGroups] = await Promise.all([
     Promise.all(dayRanges.map(async ({ date, end, start }) => {
       const [newUsers, ads] = await Promise.all([
         prisma.user.count({ where: { createdAt: { gte: start, lt: end } } }),
@@ -65,13 +69,15 @@ export async function getDashboard(agentId?: bigint) {
       };
     })),
     prisma.user.groupBy({ by: ["status"], _count: { _all: true } }),
-    prisma.drama.groupBy({ by: ["status"], _count: { _all: true } }),
+    contentType === "quiz"
+      ? prisma.quizQuestion.groupBy({ by: ["status"], _count: { _all: true } })
+      : prisma.drama.groupBy({ by: ["status"], _count: { _all: true } }),
   ]);
 
   const today = trend.at(-1)!;
   return {
     users,
-    publishedDramas,
+    publishedContent,
     feedbackPending,
     coinsIssued: coins._sum.amount ?? 0,
     reconciliationPending,
@@ -84,7 +90,7 @@ export async function getDashboard(agentId?: bigint) {
       newUsers: today.newUsers,
     },
     userStatusDistribution: userStatusGroups.map((item) => ({ count: item._count._all, status: item.status })),
-    dramaStatusDistribution: dramaStatusGroups.map((item) => ({ count: item._count._all, status: item.status })),
+    contentStatusDistribution: contentStatusGroups.map((item) => ({ count: item._count._all, status: item.status })),
   };
 }
 
@@ -210,6 +216,16 @@ export function calculateAdDistribution(input: { revenueMicros: bigint; coinsPer
   return { baseUserCoins, awardedCoins: baseUserCoins, directAwardedCoins, indirectAwardedCoins };
 }
 
+/** 平台 S2S 已签名给出最终金币时，用户全额取得，推荐返佣仍由平台额外支付。 */
+export function calculateVerifiedCoinDistribution(input: { awardedCoins: bigint; directRateBps: number; indirectRateBps: number; hasDirect: boolean; hasIndirect: boolean }) {
+  return {
+    baseUserCoins: input.awardedCoins,
+    awardedCoins: input.awardedCoins,
+    directAwardedCoins: input.hasDirect ? input.awardedCoins * BigInt(input.directRateBps) / 10_000n : 0n,
+    indirectAwardedCoins: input.hasIndirect ? input.awardedCoins * BigInt(input.indirectRateBps) / 10_000n : 0n,
+  };
+}
+
 /** 代理佣金以观看用户的基础广告收益为基数，由平台额外支付并向下取整。 */
 export function calculateAgentCommission(baseUserCoins: bigint, agentShareRateBps: number) {
   return baseUserCoins * BigInt(agentShareRateBps) / 10_000n;
@@ -236,7 +252,7 @@ const rewardSwitchByFormat = {
   CONTENT_UNLOCK: "dramaUnlockRewardEnabled",
 } as const;
 
-export function settleAdReward(operatorId: bigint | null, input: { requestId: string; revenueYuan: string; source: string; userId: bigint; format?: AdRewardFormat; enforceDailyLimit?: boolean }, request: Pick<Request, "method" | "path" | "ip" | "header">) {
+export function settleAdReward(operatorId: bigint | null, input: { requestId: string; revenueYuan: string; source: string; userId: bigint; format?: AdRewardFormat; enforceDailyLimit?: boolean; verifiedAwardCoins?: bigint }, request: Pick<Request, "method" | "path" | "ip" | "header">) {
   return assertFreshRiskAssessment(input.userId, "reward").then(() => prisma.$transaction(async (tx) => {
     const existing = await tx.adRewardSettlement.findUnique({ where: { requestId: input.requestId } });
     if (existing) return existing;
@@ -276,10 +292,12 @@ export function settleAdReward(operatorId: bigint | null, input: { requestId: st
       completedRewardedAds = settledToday + 1;
       lifetimeRewardedAds = settledLifetime + 1;
     }
-    const revenueMicros = yuanToMicros(input.revenueYuan);
+    const revenueMicros = input.verifiedAwardCoins === undefined ? yuanToMicros(input.revenueYuan) : 0n;
     const shareRateBps = user.adShareRateBps ?? globalConfig.defaultShareRateBps;
     const indirectInviterId = invitation?.inviter.invitedBy?.inviterId;
-    const { baseUserCoins, awardedCoins, directAwardedCoins, indirectAwardedCoins } = calculateAdDistribution({ revenueMicros, coinsPerCent: withdrawalConfig.coinsPerCent, userRateBps: shareRateBps, directRateBps: globalConfig.directShareRateBps, indirectRateBps: globalConfig.indirectShareRateBps, hasDirect: Boolean(invitation), hasIndirect: Boolean(indirectInviterId) });
+    const { baseUserCoins, awardedCoins, directAwardedCoins, indirectAwardedCoins } = input.verifiedAwardCoins === undefined
+      ? calculateAdDistribution({ revenueMicros, coinsPerCent: withdrawalConfig.coinsPerCent, userRateBps: shareRateBps, directRateBps: globalConfig.directShareRateBps, indirectRateBps: globalConfig.indirectShareRateBps, hasDirect: Boolean(invitation), hasIndirect: Boolean(indirectInviterId) })
+      : calculateVerifiedCoinDistribution({ awardedCoins: input.verifiedAwardCoins, directRateBps: globalConfig.directShareRateBps, indirectRateBps: globalConfig.indirectShareRateBps, hasDirect: Boolean(invitation), hasIndirect: Boolean(indirectInviterId) });
     if (awardedCoins <= 0n) {
       completedRewardedAds = 0;
       lifetimeRewardedAds = 0;
@@ -345,7 +363,7 @@ export function settleAdReward(operatorId: bigint | null, input: { requestId: st
       await credit(agent.agentId, agent.awardedCoins, `代理下级广告分成（第 ${agent.depth} 层）`, `agent:${agent.agentId}`);
     }
     const agentAwardedCoins = ancestorAgents.reduce((sum, item) => sum + item.awardedCoins, 0n);
-    await tx.auditLog.create({ data: { operatorId, action: "ad.reward.settle", method: request.method, path: request.path, targetType: "ad_reward_settlement", targetId: settlement.id, ip: request.ip, userAgent: request.header("user-agent"), detail: { requestId: input.requestId, format, revenueYuan: input.revenueYuan, shareRateBps, directShareRateBps: globalConfig.directShareRateBps, indirectShareRateBps: globalConfig.indirectShareRateBps, baseUserCoins: baseUserCoins.toString(), awardedCoins: awardedCoins.toString(), milestoneBonusCoins: milestoneBonusCoins.toString(), completedRewardedAds, lifetimeRewardedAds, directAwardedCoins: directAwardedCoins.toString(), indirectAwardedCoins: indirectAwardedCoins.toString(), agentAwardedCoins: agentAwardedCoins.toString(), agentCount: ancestorAgents.length, source: input.source } } });
+    await tx.auditLog.create({ data: { operatorId, action: "ad.reward.settle", method: request.method, path: request.path, targetType: "ad_reward_settlement", targetId: settlement.id, ip: request.ip, userAgent: request.header("user-agent"), detail: { requestId: input.requestId, format, revenueYuan: input.revenueYuan, verifiedAwardCoins: input.verifiedAwardCoins?.toString(), shareRateBps, directShareRateBps: globalConfig.directShareRateBps, indirectShareRateBps: globalConfig.indirectShareRateBps, baseUserCoins: baseUserCoins.toString(), awardedCoins: awardedCoins.toString(), milestoneBonusCoins: milestoneBonusCoins.toString(), completedRewardedAds, lifetimeRewardedAds, directAwardedCoins: directAwardedCoins.toString(), indirectAwardedCoins: indirectAwardedCoins.toString(), agentAwardedCoins: agentAwardedCoins.toString(), agentCount: ancestorAgents.length, source: input.source } } });
     return settlement;
   }, { isolationLevel: "Serializable" }));
 }

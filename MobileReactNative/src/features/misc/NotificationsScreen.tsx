@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Pressable, RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Pressable, RefreshControl, StyleSheet, Text, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFocusEffect} from '@react-navigation/native';
 import {appApi} from '../../api/app';
@@ -36,6 +36,10 @@ function parseReadIds(stored: string | null) {
   } catch {
     return new Set<string>();
   }
+}
+
+function NoticeSeparator() {
+  return <View style={styles.separator} />;
 }
 
 export function NotificationsScreen() {
@@ -120,21 +124,33 @@ export function NotificationsScreen() {
   };
 
   const unread = list.filter(item => !item.read).length;
+  const header = (
+    <>
+      <View style={styles.header}><View><Text style={styles.title}>通知中心</Text><Text style={styles.subtitle}>{unread ? `${unread} 条未读消息` : '消息已全部阅读'}</Text></View>{unread ? <Pressable disabled={markingAll} onPress={() => markAllRead().catch(() => undefined)}><Text style={styles.readAll}>{markingAll ? '处理中…' : '全部已读'}</Text></Pressable> : null}</View>
+      <View style={styles.sectionRow}><Text style={styles.sectionTitle}>全部消息</Text><Text style={styles.count}>共 {list.length} 条</Text></View>
+      {error && list.length ? <AppCard style={styles.warning}><Text style={styles.warningText}>刷新失败，当前显示上次成功加载的数据。</Text></AppCard> : null}
+    </>
+  );
   return (
-    <Screen>
-      <ScrollView
+    <Screen style={styles.screen}>
+      <FlatList
+        data={loading && !list.length ? [] : list}
+        keyExtractor={item => `${item.source}-${item.id}`}
+        initialNumToRender={8}
+        maxToRenderPerBatch={8}
+        windowSize={7}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.primary} colors={[colors.primary]} />}>
-        <View style={styles.header}><View><Text style={styles.title}>通知中心</Text><Text style={styles.subtitle}>{unread ? `${unread} 条未读消息` : '消息已全部阅读'}</Text></View>{unread ? <Pressable disabled={markingAll} onPress={() => markAllRead().catch(() => undefined)}><Text style={styles.readAll}>{markingAll ? '处理中…' : '全部已读'}</Text></Pressable> : null}</View>
-        <View style={styles.sectionRow}><Text style={styles.sectionTitle}>全部消息</Text><Text style={styles.count}>共 {list.length} 条</Text></View>
-        {error && list.length ? <AppCard style={styles.warning}><Text style={styles.warningText}>刷新失败，当前显示上次成功加载的数据。</Text></AppCard> : null}
-        {loading && !list.length ? <View style={styles.list}><SkeletonBlock style={styles.skeleton} /><SkeletonBlock style={styles.skeleton} /></View> : error && !list.length ? <EmptyState title="通知加载失败" description={error} action="重新加载" onAction={load} icon="bell" /> : !list.length ? <EmptyState title="暂无消息" description="奖励到账、提现进度和平台公告会显示在这里" icon="bell" /> : <View style={styles.list}>{list.map(item => <Pressable key={`${item.source}-${item.id}`} onPress={() => markRead(item).catch(() => undefined)} style={({pressed}) => pressed && styles.pressed}><AppCard style={[styles.card, !item.read && styles.unreadCard]}><IconTile name={iconByType[item.type] ?? 'bell'} size={44} color={item.read ? colors.muted : colors.primary} /><View style={styles.body}><View style={styles.titleRow}><Text style={styles.noticeTitle}>{item.title}</Text>{!item.read ? <View style={styles.dot} /> : null}</View><Text style={styles.noticeContent}>{item.content}</Text>{item.createdAt ? <Text style={styles.time}>{new Date(item.createdAt).toLocaleString('zh-CN', {hour12: false})}</Text> : null}</View></AppCard></Pressable>)}</View>}
-      </ScrollView>
+        ItemSeparatorComponent={NoticeSeparator}
+        ListHeaderComponent={header}
+        ListEmptyComponent={loading ? <View style={styles.list}><SkeletonBlock style={styles.skeleton} /><SkeletonBlock style={styles.skeleton} /></View> : error ? <EmptyState title="通知加载失败" description={error} action="重新加载" onAction={load} icon="bell" /> : <EmptyState title="暂无消息" description="奖励到账、提现进度和平台公告会显示在这里" icon="bell" />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.primary} colors={[colors.primary]} />}
+        renderItem={({item}) => <Pressable onPress={() => markRead(item).catch(() => undefined)} style={({pressed}) => pressed && styles.pressed}><AppCard style={[styles.card, !item.read && styles.unreadCard]}><IconTile name={iconByType[item.type] ?? 'bell'} size={44} color={item.read ? colors.muted : colors.primary} /><View style={styles.body}><View style={styles.titleRow}><Text style={styles.noticeTitle}>{item.title}</Text>{!item.read ? <View style={styles.dot} /> : null}</View><Text style={styles.noticeContent}>{item.content}</Text>{item.createdAt ? <Text style={styles.time}>{new Date(item.createdAt).toLocaleString('zh-CN', {hour12: false})}</Text> : null}</View></AppCard></Pressable>}
+      />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {paddingBottom: spacing.xxl}, header: {paddingTop: spacing.lg, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}, title: {color: colors.text, ...typography.title}, subtitle: {color: colors.muted, ...typography.caption, marginTop: spacing.xs}, readAll: {color: colors.primary, ...typography.label}, sectionRow: {flexDirection: 'row', alignItems: 'center', marginVertical: spacing.xl}, sectionTitle: {color: colors.text, ...typography.section}, count: {color: colors.muted, ...typography.caption, marginLeft: 'auto'}, list: {gap: spacing.md}, skeleton: {height: 112}, warning: {marginBottom: spacing.md, backgroundColor: colors.warningSoft, borderColor: colors.warningSoft}, warningText: {color: colors.muted, ...typography.caption}, card: {flexDirection: 'row', padding: spacing.md}, unreadCard: {borderColor: colors.secondarySoft, backgroundColor: colors.secondarySoft}, body: {flex: 1, marginLeft: spacing.md}, titleRow: {flexDirection: 'row', alignItems: 'center'}, noticeTitle: {flexShrink: 1, color: colors.text, ...typography.body, fontWeight: '600'}, dot: {width: 7, height: 7, borderRadius: 4, backgroundColor: colors.primary, marginLeft: spacing.sm}, noticeContent: {color: colors.muted, ...typography.body, marginTop: spacing.xs}, time: {color: colors.subtle, ...typography.caption, marginTop: spacing.sm}, pressed: {opacity: 0.68},
+  screen: {paddingHorizontal: 0}, content: {paddingHorizontal: spacing.lg, paddingBottom: spacing.xxl}, header: {paddingTop: spacing.lg, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}, title: {color: colors.text, ...typography.title}, subtitle: {color: colors.muted, ...typography.caption, marginTop: spacing.xs}, readAll: {color: colors.primary, ...typography.label}, sectionRow: {flexDirection: 'row', alignItems: 'center', marginVertical: spacing.xl}, sectionTitle: {color: colors.text, ...typography.section}, count: {color: colors.muted, ...typography.caption, marginLeft: 'auto'}, list: {gap: spacing.md}, separator: {height: spacing.md}, skeleton: {height: 112}, warning: {marginBottom: spacing.md, backgroundColor: colors.warningSoft, borderColor: colors.warningSoft}, warningText: {color: colors.muted, ...typography.caption}, card: {flexDirection: 'row', padding: spacing.md}, unreadCard: {borderColor: colors.secondarySoft, backgroundColor: colors.secondarySoft}, body: {flex: 1, marginLeft: spacing.md}, titleRow: {flexDirection: 'row', alignItems: 'center'}, noticeTitle: {flexShrink: 1, color: colors.text, ...typography.body, fontWeight: '600'}, dot: {width: 7, height: 7, borderRadius: 4, backgroundColor: colors.primary, marginLeft: spacing.sm}, noticeContent: {color: colors.muted, ...typography.body, marginTop: spacing.xs}, time: {color: colors.subtle, ...typography.caption, marginTop: spacing.sm}, pressed: {opacity: 0.68},
 });

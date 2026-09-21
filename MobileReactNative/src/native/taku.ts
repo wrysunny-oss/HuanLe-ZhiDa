@@ -15,6 +15,7 @@ import type {EcpmInfo, RewardVerify} from 'react-native-playnest-unionad';
 import {adConfig} from '../config/ad-config';
 import {appConfig} from '../config/app-config';
 import {getAdRuntimeConfig} from './ad-runtime';
+import {assertRewardLoadReady, recordRewardAdClosed} from './reward-load-cooldown';
 import {reportAdEcpm, reportAdEvent} from './ad-telemetry';
 import type {AdFormat, AdProvider, RewardLifecycle, RewardResult} from './ad-provider.types';
 
@@ -31,6 +32,7 @@ let rewardLifecycle: RewardLifecycle | undefined;
 let rewardFormat: AdFormat = 'REWARD';
 let rewardArrived = false;
 let rewardInfo: ATAdInfo | undefined;
+let rewardUserId = '';
 let rewardEcpm: EcpmInfo | null = null;
 let rewardAutoMode = false;
 let autoRewardPlacementId: string | undefined;
@@ -73,8 +75,20 @@ function toEcpmInfo(info?: ATAdInfo): EcpmInfo | null {
   return Object.values(value).some(Boolean) ? value : null;
 }
 
-function transactionIdOf(info?: ATAdInfo) {
-  return firstString(info, ['request_id', 'requestId', 'requestID', 'id']);
+export function transactionIdOf(info?: ATAdInfo) {
+  // Taku S2S 的 trans_id 对应展示级 showId；不同 SDK/桥接版本字段名存在差异。
+  return firstString(info, ['id', 'show_id', 'showId', 'trans_id', 'transId']);
+}
+
+function debugRewardInfo(stage: 'show' | 'reward', info?: ATAdInfo) {
+  if (!__DEV__) return;
+  console.info(`[Taku reward] ${stage} callback fields`, {
+    showIdPresent: Boolean(transactionIdOf(info)),
+    requestIdPresent: Boolean(firstString(info, ['request_id', 'requestId', 'requestID'])),
+    encryptedEcpmPresent: Boolean(firstString(info, ['e_c'])),
+    secretIdPresent: Boolean(firstString(info, ['s_id'])),
+    encryptedCnyEcpmPresent: Boolean(firstString(info, ['e_c_cny'])),
+  });
 }
 
 export function reportTakuRevenue(format: 'SPLASH' | 'FEED' | 'BANNER' | 'FULL_SCREEN' | AdFormat, placementId: string, info: ATAdInfo) {
@@ -94,6 +108,7 @@ function resetRewardSession() {
   rewardFormat = 'REWARD';
   rewardArrived = false;
   rewardInfo = undefined;
+  rewardUserId = '';
   rewardEcpm = null;
   rewardAutoMode = false;
   state = 'idle';
@@ -299,9 +314,11 @@ export const takuAdProvider: AdProvider = {
     const runtime = getAdRuntimeConfig();
     if (!runtime.enabled || !runtime.reward.enabled) throw new Error('激励广告暂未开放');
     if (state !== 'idle' || fullScreenPromise) throw new Error('已有广告正在加载或展示');
+    await assertRewardLoadReady(userId, runtime.reward.loadCooldownSeconds);
     await takuAdProvider.initialize();
 
     state = 'loading';
+    rewardUserId = userId;
     rewardFormat = format;
     rewardLifecycle = lifecycle;
     rewardArrived = false;
@@ -311,8 +328,10 @@ export const takuAdProvider: AdProvider = {
     const autoLoad = runtime.reward.loadMode === 'AUTO';
     rewardAutoMode = autoLoad;
     const localExtra = {
-      kATAdLoadingExtraUserIDKey: userId,
-      kATAdLoadingExtraUserDataKeywordKey: extra,
+      // Taku Android ATAdConst.KEY values. The iOS-style
+      // kATAdLoadingExtra... names are not recognized by the Android SDK.
+      user_id: userId,
+      user_custom_data: extra,
     };
     rewardAd = autoLoad ? undefined : new ATRewardVideoAd(placementId);
     rewardAd?.setLocalExtra(localExtra);
@@ -343,6 +362,7 @@ export const takuAdProvider: AdProvider = {
         },
         onRewardedVideoAdFailed: error => finishLoad(new Error(messageOf(error, '激励视频加载失败'))),
         onRewardedVideoAdPlayStart: info => {
+          debugRewardInfo('show', info);
           reportAdEvent({format: rewardFormat, eventType: 'SHOW', placementId});
           rewardEcpm = reportTakuRevenue(rewardFormat, placementId, info);
           rewardLifecycle?.onEcpm?.(rewardEcpm);
@@ -350,6 +370,7 @@ export const takuAdProvider: AdProvider = {
         onRewardedVideoAdPlayClicked: () => reportAdEvent({format: rewardFormat, eventType: 'CLICK', placementId}),
         onRewardedVideoAdPlayFailed: error => finishRewardShow(new Error(messageOf(error, '激励视频播放失败'))),
         onReward: info => {
+          debugRewardInfo('reward', info);
           rewardArrived = true;
           rewardInfo = info;
           const signal: RewardVerify = {
@@ -367,6 +388,8 @@ export const takuAdProvider: AdProvider = {
           rewardInfo = info;
         },
         onRewardedVideoAdClosed: info => {
+          recordRewardAdClosed(rewardUserId);
+          if (rewardAutoMode) ATRewardVideoAutoAd.removePlacement(placementId);
           rewardInfo ??= info;
           reportAdEvent({format: rewardFormat, eventType: 'CLOSE', placementId});
           finishRewardShow();

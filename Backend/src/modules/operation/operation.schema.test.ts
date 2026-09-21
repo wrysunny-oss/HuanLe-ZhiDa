@@ -22,6 +22,7 @@ test("广告运行配置兼容旧数据并默认使用手动加载", () => {
   const parsed = adRuntimeConfigSchema.parse(baseConfig);
   assert.equal(parsed.fullScreen.loadMode, "MANUAL");
   assert.equal(parsed.reward.loadMode, "MANUAL");
+  assert.equal(parsed.reward.loadCooldownSeconds, 8);
 });
 
 test("Taku 插屏和激励视频可以独立切换自动加载", () => {
@@ -32,6 +33,18 @@ test("Taku 插屏和激励视频可以独立切换自动加载", () => {
   });
   assert.equal(parsed.fullScreen.loadMode, "AUTO");
   assert.equal(parsed.reward.loadMode, "AUTO");
+  assert.equal(parsed.reward.loadCooldownSeconds, 8);
+});
+
+test("激励视频再次拉取间隔允许关闭并拒绝超出范围", () => {
+  assert.equal(adRuntimeConfigSchema.parse({
+    ...baseConfig,
+    reward: { ...baseConfig.reward, loadCooldownSeconds: 0 },
+  }).reward.loadCooldownSeconds, 0);
+  assert.equal(adRuntimeConfigSchema.safeParse({
+    ...baseConfig,
+    reward: { ...baseConfig.reward, loadCooldownSeconds: 121 },
+  }).success, false);
 });
 
 test("旧广告配置会补齐答题插屏频控默认值", () => {

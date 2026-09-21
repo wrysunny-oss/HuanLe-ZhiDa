@@ -90,6 +90,8 @@ export interface QuizHistory {
   page: number;
   pageSize: number;
   dailyRewardLimit: number;
+  roundRewardCoins: string | number;
+  roundRewardEnabled: boolean;
 }
 export interface AuthUser {
   id: string;
@@ -224,7 +226,7 @@ export interface AdRuntimeConfig {
     quizRoundInterval: number; dailyLimit: number; skipFirstQuizRound: boolean;
     minimumIntervalMinutes: number; loadTimeoutMs: number; showTimeoutMs: number;
   };
-  reward: {enabled: boolean; placementId: string; loadMode: 'MANUAL' | 'AUTO'};
+  reward: {enabled: boolean; placementId: string; loadMode: 'MANUAL' | 'AUTO'; loadCooldownSeconds: number};
 }
 export interface ShortDramaRuntimeConfig {
   unlockMode: 'COMMON' | 'SPECIFIC';

@@ -1,6 +1,7 @@
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import {
   ActivityIndicator,
+  Animated,
   Pressable,
   StyleProp,
   StyleSheet,
@@ -11,11 +12,31 @@ import {
 import {AppIcon, AppIconName} from './AppIcon';
 import {colors, radii, spacing, typography} from '../theme';
 import {MotionPressable} from './MotionPressable';
-import {
-  motionDurations,
-  opacityAnimatedProperty,
-} from '../theme/motion.tokens';
-import {View as TamaguiView} from '@tamagui/core';
+
+const skeletonOpacity = new Animated.Value(1);
+let skeletonAnimation: Animated.CompositeAnimation | undefined;
+let skeletonUsers = 0;
+
+function acquireSkeletonAnimation() {
+  skeletonUsers += 1;
+  if (skeletonUsers > 1) return;
+  skeletonOpacity.setValue(1);
+  skeletonAnimation = Animated.loop(
+    Animated.sequence([
+      Animated.timing(skeletonOpacity, {toValue: 0.48, duration: 850, useNativeDriver: true}),
+      Animated.timing(skeletonOpacity, {toValue: 1, duration: 850, useNativeDriver: true}),
+    ]),
+  );
+  skeletonAnimation.start();
+}
+
+function releaseSkeletonAnimation() {
+  skeletonUsers = Math.max(0, skeletonUsers - 1);
+  if (skeletonUsers !== 0) return;
+  skeletonAnimation?.stop();
+  skeletonAnimation = undefined;
+  skeletonOpacity.setValue(1);
+}
 
 /** 统一卡片容器：同一层级共享背景、描边、圆角和内边距。 */
 export function AppCard({
@@ -193,21 +214,12 @@ export function EmptyState({
 }
 
 export function SkeletonBlock({style}: {style?: StyleProp<ViewStyle>}) {
-  const [dimmed, setDimmed] = useState(false);
   useEffect(() => {
-    const timer = setInterval(
-      () => setDimmed(current => !current),
-      motionDurations.breathe,
-    );
-    return () => clearInterval(timer);
+    acquireSkeletonAnimation();
+    return releaseSkeletonAnimation;
   }, []);
   return (
-    <TamaguiView
-      transition="breathe"
-      animateOnly={opacityAnimatedProperty}
-      opacity={dimmed ? 0.48 : 1}
-      style={[styles.skeleton, style]}
-    />
+    <Animated.View style={[styles.skeleton, style, {opacity: skeletonOpacity}]} />
   );
 }
 

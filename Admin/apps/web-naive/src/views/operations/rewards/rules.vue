@@ -20,7 +20,7 @@ const rows = ref<RewardRule[]>([]);
 const visible = ref(false);
 const saving = ref(false);
 const form = reactive({ code: '', name: '', amount: '0', enabled: true });
-const adShare = reactive({ viewer: 50, direct: 0, indirect: 0, dailyLimit: 5, splashEnabled: false, feedEnabled: false, fullScreenEnabled: false, rewardedVideoEnabled: true, contentUnlockEnabled: true, rewardedAdMilestones: [] as RewardMilestone[], inviteMilestones: [] as RewardMilestone[] });
+const adShare = reactive({ viewer: 50, direct: 0, indirect: 0, dailyLimit: 5, splashEnabled: false, feedEnabled: false, fullScreenEnabled: false, rewardedVideoEnabled: true, contentUnlockEnabled: contentType === 'shortDrama', rewardedAdMilestones: [] as RewardMilestone[], inviteMilestones: [] as RewardMilestone[] });
 const periodOptions = [{ label: '每日', value: 'DAILY' }, { label: '永久累计', value: 'LIFETIME' }];
 const goldenConfig = reactive({ enabled: true, requiredMinutes: 5, heartbeatSeconds: 15, firstStart: '12:00', firstEnd: '14:00', secondStart: '18:00', secondEnd: '22:00' });
 const columns: DataTableColumns<RewardRule> = [
@@ -34,7 +34,7 @@ const columns: DataTableColumns<RewardRule> = [
 function applyAdRewardConfig(config: Awaited<ReturnType<typeof getAdRewardConfigApi>>) {
   Object.assign(adShare, { viewer: config.defaultShareRateBps / 100, direct: config.directShareRateBps / 100, indirect: config.indirectShareRateBps / 100, dailyLimit: config.dailyRewardedAdLimit, splashEnabled: config.splashRewardEnabled, feedEnabled: config.feedRewardEnabled, fullScreenEnabled: config.fullScreenRewardEnabled, rewardedVideoEnabled: config.rewardedVideoRewardEnabled, contentUnlockEnabled: config.contentUnlockRewardEnabled, rewardedAdMilestones: (config.rewardedAdMilestones ?? []).map(item => ({...item})), inviteMilestones: (config.inviteMilestones ?? []).map(item => ({...item})) });
 }
-async function load() { loading.value = true; try { const [rules, config, systemConfigs] = await Promise.all([getRewardRulesApi(), getAdRewardConfigApi(), getSystemConfigsApi()]); rows.value = rules; applyAdRewardConfig(config); const value = systemConfigs.find(item => item.key === 'reward.golden_watch')?.value as any; if (value) Object.assign(goldenConfig, {enabled: value.enabled !== false, requiredMinutes: Math.max(1, Math.round(Number(value.requiredSeconds ?? 300) / 60)), heartbeatSeconds: Number(value.heartbeatSeconds ?? 15), firstStart: value.periods?.[0]?.start ?? '12:00', firstEnd: value.periods?.[0]?.end ?? '14:00', secondStart: value.periods?.[1]?.start ?? '18:00', secondEnd: value.periods?.[1]?.end ?? '22:00'}); } finally { loading.value = false; } }
+async function load() { loading.value = true; try { const [rules, config, systemConfigs] = await Promise.all([getRewardRulesApi(), getAdRewardConfigApi(), contentType === 'shortDrama' ? getSystemConfigsApi() : Promise.resolve([])]); rows.value = rules; applyAdRewardConfig(config); if (contentType !== 'shortDrama') adShare.contentUnlockEnabled = false; const value = systemConfigs.find(item => item.key === 'reward.golden_watch')?.value as any; if (value) Object.assign(goldenConfig, {enabled: value.enabled !== false, requiredMinutes: Math.max(1, Math.round(Number(value.requiredSeconds ?? 300) / 60)), heartbeatSeconds: Number(value.heartbeatSeconds ?? 15), firstStart: value.periods?.[0]?.start ?? '12:00', firstEnd: value.periods?.[0]?.end ?? '14:00', secondStart: value.periods?.[1]?.start ?? '18:00', secondEnd: value.periods?.[1]?.end ?? '22:00'}); } finally { loading.value = false; } }
 function addMilestone(target: 'inviteMilestones' | 'rewardedAdMilestones') { adShare[target].push({ count: 1, rewardCoins: 100, period: 'DAILY' }); }
 function removeMilestone(target: 'inviteMilestones' | 'rewardedAdMilestones', index: number) { adShare[target].splice(index, 1); }
 async function saveGoldenConfig() {
@@ -55,7 +55,7 @@ async function saveGlobalAdShare() {
   if (hasDuplicate(adShare.rewardedAdMilestones) || hasDuplicate(adShare.inviteMilestones)) return message.error('同一任务、周期和次数不能重复配置');
   savingAdConfig.value = true;
   try {
-    const saved = await updateAdRewardConfigApi({ defaultShareRateBps: Math.round(adShare.viewer * 100), directShareRateBps: Math.round(adShare.direct * 100), indirectShareRateBps: Math.round(adShare.indirect * 100), dailyRewardedAdLimit: adShare.dailyLimit, splashRewardEnabled: adShare.splashEnabled, feedRewardEnabled: adShare.feedEnabled, fullScreenRewardEnabled: adShare.fullScreenEnabled, rewardedVideoRewardEnabled: adShare.rewardedVideoEnabled, contentUnlockRewardEnabled: adShare.contentUnlockEnabled, rewardedAdMilestones: adShare.rewardedAdMilestones.map(item => ({...item})), inviteMilestones: adShare.inviteMilestones.map(item => ({...item})) });
+    const saved = await updateAdRewardConfigApi({ defaultShareRateBps: Math.round(adShare.viewer * 100), directShareRateBps: Math.round(adShare.direct * 100), indirectShareRateBps: Math.round(adShare.indirect * 100), dailyRewardedAdLimit: adShare.dailyLimit, splashRewardEnabled: adShare.splashEnabled, feedRewardEnabled: adShare.feedEnabled, fullScreenRewardEnabled: adShare.fullScreenEnabled, rewardedVideoRewardEnabled: adShare.rewardedVideoEnabled, contentUnlockRewardEnabled: contentType === 'shortDrama' && adShare.contentUnlockEnabled, rewardedAdMilestones: adShare.rewardedAdMilestones.map(item => ({...item})), inviteMilestones: adShare.inviteMilestones.map(item => ({...item})) });
     applyAdRewardConfig(saved);
     // PUT 成功后再从数据库读一次，页面不会把“发送成功”误当成“持久化成功”。
     const persisted = await getAdRewardConfigApi();
@@ -92,24 +92,26 @@ onMounted(load);
       </div>
       <div class="text-gray-500">时段按北京时间判断；仅累计穿山甲播放器在前台的有效观看时长，退出、锁屏或切到后台会停止持续累计。</div>
     </NCard>
-    <NCard class="mb-4" title="全局广告分成">
-      <div class="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+    <NCard class="mb-4" title="广告收益与分成">
+      <div class="mb-4 grid grid-cols-1 gap-3" :class="contentType === 'shortDrama' ? 'sm:grid-cols-2' : ''">
         <div class="flex items-center justify-between rounded-lg border border-gray-700 px-4 py-3"><div><div>激励视频发币</div><div class="text-xs text-gray-500">服务端回调验真后结算</div></div><NSwitch v-model:value="adShare.rewardedVideoEnabled" /></div>
-        <div class="flex items-center justify-between rounded-lg border border-gray-700 px-4 py-3"><div><div>内容解锁广告发币</div><div class="text-xs text-gray-500">解锁成功并经服务端验真后结算</div></div><NSwitch v-model:value="adShare.contentUnlockEnabled" /></div>
+        <div v-if="contentType === 'shortDrama'" class="flex items-center justify-between rounded-lg border border-gray-700 px-4 py-3"><div><div>内容解锁广告发币</div><div class="text-xs text-gray-500">解锁成功并经服务端验真后结算</div></div><NSwitch v-model:value="adShare.contentUnlockEnabled" /></div>
       </div>
-      <div class="grid grid-cols-1 gap-x-4 sm:grid-cols-2 lg:grid-cols-5">
-        <NFormItem label="观看用户"><NInputNumber v-model:value="adShare.viewer" :min="0" :max="100" :precision="2" class="w-full"><template #suffix>%</template></NInputNumber></NFormItem>
-        <NFormItem label="直推分成"><NInputNumber v-model:value="adShare.direct" :min="0" :max="100" :precision="2" class="w-full"><template #suffix>%</template></NInputNumber></NFormItem>
-        <NFormItem label="间推分成"><NInputNumber v-model:value="adShare.indirect" :min="0" :max="100" :precision="2" class="w-full"><template #suffix>%</template></NInputNumber></NFormItem>
+      <div class="grid grid-cols-1 gap-x-4 sm:grid-cols-2 lg:grid-cols-4">
+        <NFormItem label="用户收益比例"><NInputNumber v-model:value="adShare.viewer" :min="0" :max="100" :precision="2" class="w-full"><template #suffix>%</template></NInputNumber></NFormItem>
+        <NFormItem label="直推返佣"><NInputNumber v-model:value="adShare.direct" :min="0" :max="100" :precision="2" class="w-full"><template #suffix>%</template></NInputNumber></NFormItem>
+        <NFormItem label="间推返佣"><NInputNumber v-model:value="adShare.indirect" :min="0" :max="100" :precision="2" class="w-full"><template #suffix>%</template></NInputNumber></NFormItem>
         <NFormItem label="每日激励收益次数"><NInputNumber v-model:value="adShare.dailyLimit" :min="0" :max="1000" :precision="0" class="w-full"><template #suffix>次</template></NInputNumber></NFormItem>
-        <NFormItem label="操作"><NButton class="w-full" type="primary" :loading="savingAdConfig" @click="saveGlobalAdShare">保存全局配置</NButton></NFormItem>
       </div>
-      <div class="text-gray-500">观看用户取得广告收入乘用户比例后的完整收益；直推、间推返佣由平台额外支付。福利中心任务激励与内容解锁激励共用每日收益次数，达到上限后内容仍可按自身规则解锁，但不再发放金币。</div>
+      <div class="flex flex-col gap-3 border-t border-gray-700 pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="text-gray-500">用户按有效广告收入和上述比例获得金币；直推、间推返佣由平台额外支付。福利中心的激励视频任务共用每日有效收益次数上限。</div>
+        <NButton type="primary" :loading="savingAdConfig" @click="saveGlobalAdShare">保存收益配置</NButton>
+      </div>
     </NCard>
     <NCard class="mb-4" title="阶梯任务配置">
       <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <div>
-          <div class="mb-3 flex items-center justify-between"><div><div class="font-medium">激励广告收益任务</div><div class="text-xs text-gray-500">普通激励与内容解锁的成功收益次数合并统计</div></div><NButton size="small" @click="addMilestone('rewardedAdMilestones')">新增档位</NButton></div>
+          <div class="mb-3 flex items-center justify-between"><div><div class="font-medium">激励广告收益任务</div><div class="text-xs text-gray-500">按服务端确认成功的激励视频收益次数统计</div></div><NButton size="small" @click="addMilestone('rewardedAdMilestones')">新增档位</NButton></div>
           <div v-if="!adShare.rewardedAdMilestones.length" class="rounded-lg border border-dashed border-gray-700 p-5 text-center text-gray-500">尚未配置阶梯档位</div>
           <div v-for="(item, index) in adShare.rewardedAdMilestones" :key="`ad-${index}`" class="mb-2 grid grid-cols-[120px_1fr_1fr_auto] items-center gap-2 rounded-lg border border-gray-700 p-3">
             <NSelect v-model:value="item.period" :options="periodOptions" />

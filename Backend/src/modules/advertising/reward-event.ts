@@ -13,6 +13,8 @@ export interface RewardEvent {
   source: string;
   format: AdRewardFormat;
   enforceDailyLimit?: boolean;
+  /** 已通过广告平台 S2S 验签的最终用户金币数。 */
+  verifiedAwardCoins?: bigint;
   context?: {
     purpose: "CONTENT_UNLOCK";
     contentType: string;
@@ -30,5 +32,6 @@ export function settleRewardEvent(event: RewardEvent, request: Pick<Request, "me
     source: event.source,
     format: event.format,
     enforceDailyLimit: event.enforceDailyLimit,
+    verifiedAwardCoins: event.verifiedAwardCoins,
   }, request);
 }

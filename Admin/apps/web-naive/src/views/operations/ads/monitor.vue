@@ -14,6 +14,7 @@ import {
 } from 'naive-ui';
 
 import { getAdEventsApi, getAdEventSummaryApi } from '#/api';
+import { contentType } from '#/config/product.generated';
 import { formatDateTime } from '#/utils/date-time';
 
 defineOptions({ name: 'AdMonitor' });
@@ -36,12 +37,13 @@ const hoursOptions = [
   { label: '最近 1 小时', value: 1 }, { label: '最近 24 小时', value: 24 },
   { label: '最近 7 天', value: 168 }, { label: '最近 30 天', value: 720 },
 ];
-const formatOptions: Array<{ label: string; value: AdEventFormat }> = [
+const allFormatOptions: Array<{ label: string; value: AdEventFormat }> = [
   { label: '开屏广告', value: 'SPLASH' }, { label: '信息流广告', value: 'FEED' },
   { label: '横幅广告', value: 'BANNER' },
   { label: '插全屏广告', value: 'FULL_SCREEN' }, { label: '激励视频', value: 'REWARD' },
   { label: '内容解锁', value: 'CONTENT_UNLOCK' },
 ];
+const formatOptions = allFormatOptions.filter((item) => contentType === 'shortDrama' || item.value !== 'CONTENT_UNLOCK');
 const eventOptions: Array<{ label: string; value: AdEventType }> = [
   { label: '请求', value: 'REQUEST' }, { label: '加载成功', value: 'LOADED' },
   { label: '展示', value: 'SHOW' }, { label: '点击', value: 'CLICK' },
@@ -49,7 +51,7 @@ const eventOptions: Array<{ label: string; value: AdEventType }> = [
   { label: '奖励到账', value: 'REWARD_ARRIVED' }, { label: 'eCPM 上报', value: 'ECPM' },
   { label: '不感兴趣', value: 'DISLIKE' },
 ];
-const formatLabels = Object.fromEntries(formatOptions.map((item) => [item.value, item.label])) as Record<AdEventFormat, string>;
+const formatLabels = Object.fromEntries(allFormatOptions.map((item) => [item.value, item.label])) as Record<AdEventFormat, string>;
 const eventLabels = Object.fromEntries(eventOptions.map((item) => [item.value, item.label])) as Record<AdEventType, string>;
 
 function queryValue(value: unknown) {

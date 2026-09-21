@@ -7,6 +7,7 @@ import { useAccess } from '@vben/access';
 import { NButton, NCard, NDataTable, NDescriptions, NDescriptionsItem, NForm, NFormItem, NInput, NInputNumber, NModal, NSpace, NTag } from 'naive-ui';
 import { message } from '#/adapter/naive';
 import { adjustUserCoinsApi, getCoinLedgersApi, getUserDetailApi, getUserTeamApi, updateAgentShareRateApi, updateUserAdShareApi } from '#/api';
+import { contentType } from '#/config/product.generated';
 import { formatDateTime } from '#/utils/date-time';
 
 defineOptions({ name: 'UserDetail' });
@@ -88,8 +89,8 @@ onMounted(load);
           <NDescriptionsItem label="广告分成">{{ user.adShareRateBps == null ? '继承全局' : `${user.adShareRateBps / 100}%` }}</NDescriptionsItem>
           <NDescriptionsItem v-if="isAgent" label="代理无限下级分成">{{ (user.agentShareRateBps ?? 0) / 100 }}%</NDescriptionsItem>
           <NDescriptionsItem label="角色">{{ user.roles.map((item) => item.role.name).join('、') || '普通用户' }}</NDescriptionsItem>
-          <NDescriptionsItem label="收藏数">{{ user._count.favorites }}</NDescriptionsItem>
-          <NDescriptionsItem label="观看历史">{{ user._count.histories }}</NDescriptionsItem>
+          <NDescriptionsItem v-if="contentType === 'shortDrama'" label="收藏数">{{ user._count.favorites }}</NDescriptionsItem>
+          <NDescriptionsItem v-if="contentType === 'shortDrama'" label="观看历史">{{ user._count.histories }}</NDescriptionsItem>
           <NDescriptionsItem label="流水数">{{ user._count.ledgers }}</NDescriptionsItem>
         </NDescriptions>
       </NCard>
@@ -115,7 +116,7 @@ onMounted(load);
     </NModal>
     <NModal v-model:show="showAgentShare" preset="card" title="代理无限下级广告分成" class="modal-sm">
       <NForm label-placement="top"><NFormItem label="代理分成比例（%）"><NInputNumber v-model:value="agentSharePercent" :min="0" :max="100" :precision="2" class="w-full"><template #suffix>%</template></NInputNumber></NFormItem></NForm>
-      <div class="text-gray-500">该代理邀请树中所有层级用户观看广告时，平台按此比例额外向代理发放佣金，不减少观看用户及直推、间推收益。</div>
+      <div class="text-gray-500">该代理邀请树中所有层级用户产生有效广告收益时，平台按此比例额外向代理发放佣金，不减少用户及直推、间推收益。</div>
       <template #footer><div class="flex justify-end"><NButton type="primary" :loading="submitting" @click="saveAgentShare">保存</NButton></div></template>
     </NModal>
   </Page>

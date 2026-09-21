@@ -18,6 +18,7 @@ import {getAdRuntimeConfig} from '../native/ad-runtime';
 import {reportAdEvent} from '../native/ad-telemetry';
 import {reportTakuRevenue, takuAdProvider} from '../native/taku';
 import {BrandLoader} from './BrandLoader';
+import {useDeferredAdMount} from './useDeferredAdMount';
 
 const AD_HEIGHT = 280;
 
@@ -29,9 +30,11 @@ export function TakuFeedAd() {
   const adRef = useRef<NativeAd | undefined>(undefined);
   const runtime = getAdRuntimeConfig();
   const placementId = runtime.feed.placementId;
+  const enabled = runtime.enabled && runtime.feed.enabled && Boolean(placementId);
+  const mountReady = useDeferredAdMount(enabled);
 
   useEffect(() => {
-    if (!runtime.enabled || !runtime.feed.enabled || !placementId) return;
+    if (!mountReady || !placementId) return;
     let cancelled = false;
     let loader: ATNative | undefined;
 
@@ -73,9 +76,9 @@ export function TakuFeedAd() {
       adRef.current = undefined;
       loader?.dispose();
     };
-  }, [placementId, runtime.enabled, runtime.feed.enabled]);
+  }, [mountReady, placementId]);
 
-  if (hidden || !runtime.enabled || !runtime.feed.enabled) return null;
+  if (hidden || !mountReady) return null;
   const width = Math.min(windowWidth - spacing.lg * 2, 420);
 
   return (

@@ -3,13 +3,13 @@ import {StyleSheet, Text, useWindowDimensions, View} from 'react-native';
 import {
   ATBannerView,
   ATBannerViewComponent,
-  BannerCallback,
 } from '@taku_anythink/react-native-sdk';
 import {adConfig} from '../config/ad-config';
 import {colors, radii, spacing, typography} from '../theme';
 import {getAdRuntimeConfig} from '../native/ad-runtime';
 import {reportAdEvent} from '../native/ad-telemetry';
 import {reportTakuRevenue, takuAdProvider} from '../native/taku';
+import {useDeferredAdMount} from './useDeferredAdMount';
 
 const HEIGHT = 50;
 
@@ -21,13 +21,30 @@ export function TakuBannerAd() {
   const runtime = getAdRuntimeConfig();
   const placementId = adConfig.banner.placementId;
   const width = Math.min(windowWidth - spacing.lg * 2, 420);
+  const enabled = runtime.enabled && runtime.banner.enabled && Boolean(placementId);
+  const mountReady = useDeferredAdMount(enabled);
 
   useEffect(() => {
-    if (!runtime.enabled || !runtime.banner.enabled || !placementId) return;
+    if (!mountReady || !placementId) return;
     const banner = new ATBannerView();
     controller.current = banner;
     takuAdProvider.initialize().then(() => {
       banner.setPlacementId(placementId);
+      banner.setBannerAdListener({
+        onBannerAdLoaded: () => reportAdEvent({format: 'BANNER', eventType: 'LOADED', placementId}),
+        onBannerAdShow: () => reportAdEvent({format: 'BANNER', eventType: 'SHOW', placementId}),
+        onBannerAdClicked: () => reportAdEvent({format: 'BANNER', eventType: 'CLICK', placementId}),
+        onBannerAdClose: () => {
+          reportAdEvent({format: 'BANNER', eventType: 'CLOSE', placementId});
+          setHidden(true);
+        },
+        onBannerAdLoadFail: error => {
+          reportAdEvent({format: 'BANNER', eventType: 'FAIL', placementId, errorMessage: error.desc || error.fullErrorInfo});
+          setHidden(true);
+        },
+        onBannerAdAutoRefreshed: () => reportAdEvent({format: 'BANNER', eventType: 'SHOW', placementId}),
+        onBannerAdAutoRefreshFail: error => reportAdEvent({format: 'BANNER', eventType: 'FAIL', placementId, errorMessage: error.desc || error.fullErrorInfo}),
+      });
       banner.setAdRevenueListener(info => reportTakuRevenue('BANNER', placementId, info));
       reportAdEvent({format: 'BANNER', eventType: 'REQUEST', placementId});
       banner.loadAd(undefined, {width, height: HEIGHT});
@@ -39,9 +56,9 @@ export function TakuBannerAd() {
       banner.destroy();
       controller.current = undefined;
     };
-  }, [placementId, runtime.banner.enabled, runtime.enabled, width]);
+  }, [mountReady, placementId, width]);
 
-  if (hidden || !runtime.enabled || !runtime.banner.enabled || !placementId) return null;
+  if (hidden || !mountReady || !placementId) return null;
   return (
     <View style={styles.wrapper}>
       <Text style={styles.caption}>广告</Text>
@@ -50,19 +67,6 @@ export function TakuBannerAd() {
         width={width}
         height={HEIGHT}
         style={{width, height: HEIGHT}}
-        onAdEvent={event => {
-          if (event.callbackName === BannerCallback.loaded) reportAdEvent({format: 'BANNER', eventType: 'LOADED', placementId});
-          else if (event.callbackName === BannerCallback.show) reportAdEvent({format: 'BANNER', eventType: 'SHOW', placementId});
-          else if (event.callbackName === BannerCallback.click) reportAdEvent({format: 'BANNER', eventType: 'CLICK', placementId});
-          else if (event.callbackName === BannerCallback.close) {
-            reportAdEvent({format: 'BANNER', eventType: 'CLOSE', placementId});
-            setHidden(true);
-          }
-          else if (event.callbackName === BannerCallback.loadFail) {
-            reportAdEvent({format: 'BANNER', eventType: 'FAIL', placementId, errorMessage: event.requestMessage});
-            setHidden(true);
-          }
-        }}
       />
     </View>
   );

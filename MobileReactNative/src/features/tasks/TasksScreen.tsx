@@ -26,6 +26,11 @@ import {
   type RewardReceipt,
 } from '../../components/RewardSuccessDialog';
 import { adProvider } from '../../native/ad-provider';
+import { getAdRuntimeConfig } from '../../native/ad-runtime';
+import {
+  getRewardLoadCooldownRemainingMs,
+  hydrateRewardLoadCooldown,
+} from '../../native/reward-load-cooldown';
 import {
   forgetPendingAdReward,
   getPendingAdRewards,
@@ -207,17 +212,21 @@ export function TasksScreen() {
   const [center, setCenter] = useState<RewardCenter>();
   const [profile, setProfile] = useState<AuthUser>();
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [signing, setSigning] = useState(false);
   const [adState, setAdState] = useState<AdState>('idle');
   const [error, setError] = useState('');
   const [rewardReceipt, setRewardReceipt] = useState<RewardReceipt>();
   const [preloadRequest, setPreloadRequest] = useState(0);
+  const [cooldownRemainingSeconds, setCooldownRemainingSeconds] = useState(0);
   const adOperationActive = useRef(false);
   const preloadPromise = useRef<Promise<void> | undefined>(undefined);
   const preloadVersion = useRef(0);
+  const hasLoaded = useRef(false);
 
-  const load = useCallback(async () => {
-    setLoading(true);
+  const load = useCallback(async (mode: 'initial' | 'refresh' | 'silent' = 'silent') => {
+    if (mode === 'initial') setLoading(true);
+    if (mode === 'refresh') setRefreshing(true);
     setError('');
     try {
       const [rewardCenter, user] = await Promise.all([
@@ -225,6 +234,7 @@ export function TasksScreen() {
         appApi.me(),
       ]);
       setCenter(rewardCenter);
+      hasLoaded.current = true;
       setProfile(user);
       setUser(user);
 
@@ -268,11 +278,12 @@ export function TasksScreen() {
       );
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, [setUser]);
   useFocusEffect(
     useCallback(() => {
-      load().catch(() => undefined);
+      load(hasLoaded.current ? 'silent' : 'initial').catch(() => undefined);
     }, [load]),
   );
 
@@ -310,7 +321,7 @@ export function TasksScreen() {
           : `签到成功，+${result.awardedCoins} 金币`,
         'success',
       );
-      load().catch(() => undefined);
+      load('silent').catch(() => undefined);
     } catch (requestError) {
       toast.show(
         requestError instanceof Error
@@ -326,6 +337,9 @@ export function TasksScreen() {
   const completedAds = center?.rewardedAdCountToday ?? 0;
   const dailyAdLimit = center?.rewardedAdDailyLimit ?? 0;
   const rewardedVideoEnabled = center?.rewardedVideoRewardEnabled !== false;
+  const rewardLoadCooldownSeconds = adProvider.name === 'taku'
+    ? getAdRuntimeConfig().reward.loadCooldownSeconds
+    : 0;
   const adProgress =
     dailyAdLimit > 0 ? Math.min(100, (completedAds / dailyAdLimit) * 100) : 0;
   const adAction =
@@ -337,6 +351,8 @@ export function TasksScreen() {
       ? '播放中'
       : adState === 'confirming'
       ? '确认中'
+      : cooldownRemainingSeconds > 0
+      ? `请等待 ${cooldownRemainingSeconds} 秒`
       : adState === 'ready'
       ? '去完成'
       : '去完成';
@@ -347,6 +363,26 @@ export function TasksScreen() {
       .map(period => `${period.start}–${period.end}`)
       .join(' 或 ') ?? '12:00–14:00 或 18:00–22:00';
 
+  useEffect(() => {
+    if (!isFocused || !profile?.id || rewardLoadCooldownSeconds <= 0) {
+      setCooldownRemainingSeconds(0);
+      return;
+    }
+    let active = true;
+    const update = () => {
+      if (!active) return;
+      const remaining = getRewardLoadCooldownRemainingMs(profile.id, rewardLoadCooldownSeconds);
+      setCooldownRemainingSeconds(Math.ceil(remaining / 1000));
+    };
+    hydrateRewardLoadCooldown(profile.id).then(update);
+    update();
+    const timer = setInterval(update, 500);
+    return () => {
+      active = false;
+      clearInterval(timer);
+    };
+  }, [isFocused, profile?.id, rewardLoadCooldownSeconds]);
+
   /** 进入福利中心后只预加载任务广告，不提前触发风控采集或发奖。 */
   useEffect(() => {
     if (
@@ -355,6 +391,7 @@ export function TasksScreen() {
       !productModules.advertising ||
       !rewardedVideoEnabled ||
       (dailyAdLimit > 0 && completedAds >= dailyAdLimit) ||
+      cooldownRemainingSeconds > 0 ||
       adOperationActive.current ||
       adProvider.state !== 'idle'
     ) return;
@@ -387,12 +424,14 @@ export function TasksScreen() {
         setAdState('idle');
       }
     };
-  }, [completedAds, dailyAdLimit, isFocused, preloadRequest, profile?.id, rewardedVideoEnabled]);
+  }, [completedAds, cooldownRemainingSeconds, dailyAdLimit, isFocused, preloadRequest, profile?.id, rewardedVideoEnabled]);
 
   /** 客户端只展示过程，最终金币到账仍以广告平台服务端回调后的中心数据为准。 */
   const watchRewardAd = async () => {
     if (!profile?.id || adOperationActive.current) return;
     if (!rewardedVideoEnabled) return toast.show('激励视频收益暂未开放');
+    if (cooldownRemainingSeconds > 0)
+      return toast.show(`请等待 ${cooldownRemainingSeconds} 秒后再拉取激励广告`);
     if (dailyAdLimit > 0 && completedAds >= dailyAdLimit)
       return toast.show('今日广告任务已全部完成');
     let confirmationContinuesInBackground = false;
@@ -558,8 +597,8 @@ export function TasksScreen() {
         contentContainerStyle={styles.content}
         refreshControl={
           <RefreshControl
-            refreshing={loading}
-            onRefresh={load}
+            refreshing={refreshing}
+            onRefresh={() => load('refresh')}
             tintColor={colors.primary}
             colors={[colors.primary]}
           />
@@ -579,7 +618,7 @@ export function TasksScreen() {
             title="福利加载失败"
             description={error}
             action="重新加载"
-            onAction={load}
+            onAction={() => load('initial')}
             icon="gift"
           />
         ) : (
@@ -678,7 +717,7 @@ export function TasksScreen() {
                   !rewardedVideoEnabled ||
                   (dailyAdLimit > 0 && completedAds >= dailyAdLimit)
                 }
-                busy={adState !== 'idle' && adState !== 'ready'}
+                busy={(adState !== 'idle' && adState !== 'ready') || cooldownRemainingSeconds > 0}
                 action={rewardedVideoEnabled ? adAction : '未开放'}
                 onPress={rewardedVideoEnabled ? watchRewardAd : undefined}
               />
@@ -690,7 +729,7 @@ export function TasksScreen() {
               <MilestoneTasks
                 items={center?.rewardedAdMilestones}
                 kind="ad"
-                busy={adState !== 'idle' && adState !== 'ready'}
+                busy={(adState !== 'idle' && adState !== 'ready') || cooldownRemainingSeconds > 0}
                 action={rewardedVideoEnabled ? adAction : '未开放'}
                 onPress={rewardedVideoEnabled ? watchRewardAd : undefined}
               /></> : null}

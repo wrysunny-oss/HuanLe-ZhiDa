@@ -27,6 +27,18 @@ const financeChildren: RouteRecordRaw[] = [
   ] : []),
 ];
 
+const operationChildren: RouteRecordRaw[] = [
+  ...(contentType === 'shortDrama' ? [
+    { name: 'ContentCenter', path: 'content', component: () => import('#/views/operations/content/index.vue'), meta: { authority: ['operation:read'], title: '短剧内容中心' } },
+    { name: 'OperationSlots', path: 'slots', component: () => import('#/views/operations/config/slots.vue'), meta: { authority: ['operation:read'], title: '首页与弹窗' } },
+  ] : []),
+  { name: 'Announcements', path: 'announcements', component: () => import('#/views/operations/config/announcements.vue'), meta: { authority: ['operation:read'], title: '公告管理' } },
+  { name: 'SystemConfigs', path: 'system-configs', component: () => import('#/views/operations/config/system-configs.vue'), meta: { authority: ['operation:read'], title: '参数与开关' } },
+  ...(productModules.advertising ? [{ name: 'AdMonitor', path: 'ad-monitor', component: () => import('#/views/operations/ads/monitor.vue'), meta: { authority: ['operation:read'], title: '广告监控' } }] : []),
+  { name: 'AppDocuments', path: 'documents', component: () => import('#/views/operations/config/documents.vue'), meta: { authority: ['operation:read'], title: '协议与关于' } },
+  { name: 'AppVersions', path: 'versions', component: () => import('#/views/operations/config/versions.vue'), meta: { authority: ['operation:read'], title: 'App 版本' } },
+];
+
 /** 固定路由和按钮统一使用后端权限码。 */
 const routes: RouteRecordRaw[] = [
   {
@@ -71,17 +83,9 @@ const routes: RouteRecordRaw[] = [
     ],
   }] : []),
   {
-    name: 'OperationCenter', path: '/operations', redirect: '/operations/slots',
+    name: 'OperationCenter', path: '/operations', redirect: `/operations/${String(operationChildren[0]?.path)}`,
     meta: { authority: ['operation:read'], icon: 'lucide:panels-top-left', order: 30, title: '运营配置' },
-    children: [
-      ...(contentType === 'shortDrama' ? [{ name: 'ContentCenter', path: 'content', component: () => import('#/views/operations/content/index.vue'), meta: { authority: ['operation:read'], title: '短剧内容中心' } }] : []),
-      { name: 'OperationSlots', path: 'slots', component: () => import('#/views/operations/config/slots.vue'), meta: { authority: ['operation:read'], title: '首页与弹窗' } },
-      { name: 'Announcements', path: 'announcements', component: () => import('#/views/operations/config/announcements.vue'), meta: { authority: ['operation:read'], title: '公告管理' } },
-      { name: 'SystemConfigs', path: 'system-configs', component: () => import('#/views/operations/config/system-configs.vue'), meta: { authority: ['operation:read'], title: '参数与开关' } },
-      ...(productModules.advertising ? [{ name: 'AdMonitor', path: 'ad-monitor', component: () => import('#/views/operations/ads/monitor.vue'), meta: { authority: ['operation:read'], title: '广告监控' } }] : []),
-      { name: 'AppDocuments', path: 'documents', component: () => import('#/views/operations/config/documents.vue'), meta: { authority: ['operation:read'], title: '协议与关于' } },
-      { name: 'AppVersions', path: 'versions', component: () => import('#/views/operations/config/versions.vue'), meta: { authority: ['operation:read'], title: 'App 版本' } },
-    ],
+    children: operationChildren,
   },
   {
     name: 'SafetyCenter', path: '/safety', redirect: '/safety/center',

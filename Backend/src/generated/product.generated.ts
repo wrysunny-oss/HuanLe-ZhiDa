@@ -31,7 +31,7 @@ export const productConfig = {
     }
   },
   "domains": {
-    "productionApiOrigin": "https://api.example.com"
+    "productionApiOrigin": "https://api.hyljzn.cn"
   },
   "advertising": {
     "provider": "taku",

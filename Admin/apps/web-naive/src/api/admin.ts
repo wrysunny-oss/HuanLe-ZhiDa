@@ -23,10 +23,10 @@ function withSecondaryVerification<T>(send: (headers: Record<string, string>) =>
 
 export interface DashboardStats {
   coinsIssued: string;
-  dramaStatusDistribution: Array<{ count: number; status: 'DRAFT' | 'OFFLINE' | 'PUBLISHED' }>;
+  contentStatusDistribution: Array<{ count: number; status: 'DRAFT' | 'OFFLINE' | 'PUBLISHED' }>;
   feedbackPending: number;
   latestReconciliation?: null | { issueCount: number; startedAt: string; status: 'FAILED' | 'PASSED' | 'RUNNING' };
-  publishedDramas: number;
+  publishedContent: number;
   reconciliationPending: number;
   today: {
     adRevenueMicros: string;
@@ -235,7 +235,7 @@ export interface AdRuntimeConfig {
     playbackThreshold: number; quizRoundInterval: number; showTimeoutMs: number;
     skipFirstQuizRound: boolean;
   };
-  reward: { enabled: boolean; loadMode: 'AUTO' | 'MANUAL'; placementId: string };
+  reward: { enabled: boolean; loadMode: 'AUTO' | 'MANUAL'; placementId: string; loadCooldownSeconds: number };
 }
 export interface ShortDramaRuntimeConfig {
   unlockMode: 'COMMON' | 'SPECIFIC'; freeEpisodes: number; unlockEpisodes: number;

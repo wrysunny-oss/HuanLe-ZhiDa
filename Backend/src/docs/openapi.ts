@@ -96,7 +96,7 @@ const baseOpenApiDocument = {
       get: { tags: ["App-提现"], summary: "读取绑定的收款账户", description: "仅返回渠道和脱敏账号，不返回完整敏感信息。", security: bearer, responses: ok() },
       put: { tags: ["App-提现"], summary: "绑定或换绑收款账户", description: "姓名和账号在服务端加密保存；历史提现单保留申请时快照。", security: bearer, requestBody: jsonBody({ channel: { type: "string", enum: ["ALIPAY", "WECHAT", "BANK"] }, realName: { type: "string" }, account: { type: "string" } }, ["channel", "realName", "account"]), responses: ok() },
     },
-    "/admin/dashboard": { get: { tags: ["后台-用户"], summary: "运营看板", description: "返回用户、短剧、反馈、金币、近七日用户及广告趋势、业务状态构成，以及待处理对账异常和最近对账状态。需要 dashboard:read。", security: bearer, responses: ok() } },
+    "/admin/dashboard": { get: { tags: ["后台-用户"], summary: "运营看板", description: "返回用户、当前产品内容、反馈、金币、近七日用户及广告趋势、业务状态构成，以及待处理对账异常和最近对账状态。需要 dashboard:read。", security: bearer, responses: ok() } },
     "/admin/users": {
       get: { tags: ["后台-用户"], summary: "用户列表", description: "分页查询用户，可按手机号或昵称搜索。需要 user:read。", security: bearer, parameters: [...pageParameters, { in: "query", name: "keyword", description: "手机号或昵称关键词", schema: { type: "string" } }], responses: ok() },
       post: { tags: ["后台-用户"], summary: "创建代理", description: "仅管理员可创建代理，无需上级邀请码；设置独立的无限下级广告佣金比例并自动生成邀请码。需要 user:update 和二次密码验证。", security: bearer, requestBody: jsonBody({ phone: { type: "string", pattern: "^1\\d{10}$" }, nickname: { type: "string", maxLength: 50 }, password: { type: "string", minLength: 8, maxLength: 72 }, agentShareRateBps: { type: "integer", minimum: 0, maximum: 10000 } }, ["phone", "nickname", "password", "agentShareRateBps"]), responses: { ...ok(), "201": { description: "代理创建成功" }, "409": { description: "手机号已存在" } } },
@@ -208,6 +208,17 @@ const baseOpenApiDocument = {
       { in: "query", name: "mediation_rit", required: true, schema: { type: "string", example: "000000" } }, { in: "query", name: "ecpm", required: true, schema: { type: "string" } },
       { in: "query", name: "sign", required: true, schema: { type: "string" } },
     ], responses: { "200": { description: "GroMore 约定响应" } } } },
+    "/webhooks/taku/reward": { get: { tags: ["平台回调"], summary: "Taku 服务端激励验证", description: "Taku 以 GET 方式回调；按官方 MD5 规则验签，校验激励广告位、Android 包名和用户上下文，并用 trans_id 幂等结算后台配置的最终金币。is_test=1 仅用于 Taku 保存配置时探测连通性。", parameters: [
+      { in: "query", name: "user_id", required: true, schema: { type: "string" } }, { in: "query", name: "trans_id", required: true, schema: { type: "string" } },
+      { in: "query", name: "reward_amount", required: true, schema: { type: "string" } }, { in: "query", name: "reward_name", required: true, schema: { type: "string" } },
+      { in: "query", name: "placement_id", required: true, schema: { type: "string" } }, { in: "query", name: "adsource_id", required: true, schema: { type: "string" } },
+      { in: "query", name: "extra_data", schema: { type: "string" } }, { in: "query", name: "network_firm_id", schema: { type: "string" } },
+      { in: "query", name: "scenario_id", schema: { type: "string" } }, { in: "query", name: "package_name", schema: { type: "string", example: "com.hylj.app" } },
+      { in: "query", name: "platform", schema: { type: "string", enum: ["1", "2"] } }, { in: "query", name: "sign", required: true, schema: { type: "string" } },
+      { in: "query", name: "e_c", schema: { type: "string", description: "Taku encrypted USD eCPM" } },
+      { in: "query", name: "e_c_cny", schema: { type: "string", description: "Taku encrypted CNY eCPM used for dynamic settlement" } },
+      { in: "query", name: "s_id", schema: { type: "string", description: "Taku eCPM Key ID" } },
+    ], responses: { "200": { description: "处理成功或测试探测成功" }, "601": { description: "签名验证失败" }, "602": { description: "参数、配置或结算失败" } } } },
     "/admin/reward-rules/{code}": { put: { tags: ["后台-奖励"], summary: "更新奖励规则", description: "修改奖励金币和启用状态并记录审计日志。需要 reward:update。", security: bearer, parameters: [{ in: "path", name: "code", required: true, description: "奖励规则编码", schema: { type: "string", example: "SIGNIN_DAY_1" } }], requestBody: jsonBody({ amount: { type: "string", description: "非负整数" }, enabled: { type: "boolean" } }, ["amount", "enabled"]), responses: ok() } },
     "/admin/invite-relations": { get: { tags: ["后台-奖励"], summary: "邀请记录", description: "分页查看邀请人与受邀用户关系。需要 reward:read。", security: bearer, parameters: pageParameters, responses: ok() } },
     "/admin/check-ins": { get: { tags: ["后台-奖励"], summary: "签到记录", description: "分页查看用户签到日期、连续天数和实际奖励。需要 reward:read。", security: bearer, parameters: pageParameters, responses: ok() } },
@@ -236,6 +247,7 @@ const shortDramaPathPrefixes = [
 const disabledPathPrefixes = [
   ...(contentType === "shortDrama" ? [] : shortDramaPathPrefixes),
   ...(advertisingProvider === "gromore" ? [] : ["/webhooks/pangle"]),
+  ...(advertisingProvider === "taku" ? [] : ["/webhooks/taku"]),
 ];
 
 export const openApiDocument = {

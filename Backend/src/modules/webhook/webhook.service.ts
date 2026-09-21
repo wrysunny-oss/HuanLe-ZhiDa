@@ -1,12 +1,15 @@
-import { createHash, createHmac, timingSafeEqual } from "node:crypto";
+import { constants, createHash, createHmac, privateDecrypt, timingSafeEqual } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import type { Request } from "express";
 import { env } from "../../config.js";
 import { AppError } from "../../lib/http.js";
 import { prisma } from "../../lib/prisma.js";
 import { settleRewardEvent, type RewardEvent } from "../advertising/reward-event.js";
-import type { GroMoreRewardQuery } from "./webhook.schema.js";
+import type { GroMoreRewardQuery, TakuRewardQuery } from "./webhook.schema.js";
 import { verifyDramaUnlockIntent } from "../reward/ad-reward-intent.js";
 import { getAdRuntimeConfig } from "../operation/ad-runtime.service.js";
+import { productConfig } from "../../generated/product.generated.js";
 
 const MAX_CLOCK_SKEW_SECONDS = 300;
 
@@ -79,6 +82,296 @@ export function verifyGroMoreSign(transId: string, signature: string, securityKe
   const actualBuffer = Buffer.from(signature.toLowerCase(), "utf8");
   const expectedBuffer = Buffer.from(expected, "utf8");
   return actualBuffer.length === expectedBuffer.length && timingSafeEqual(actualBuffer, expectedBuffer);
+}
+
+/** Taku 严格按官方字段顺序拼接；是否携带 ilrd 会改变签名原文。 */
+export function takuRewardSignatureText(input: Pick<TakuRewardQuery, "trans_id" | "placement_id" | "adsource_id" | "reward_amount" | "reward_name" | "ilrd">, securityKey: string) {
+  const base = `trans_id=${input.trans_id}&placement_id=${input.placement_id}&adsource_id=${input.adsource_id}&reward_amount=${input.reward_amount}&reward_name=${input.reward_name}&sec_key=${securityKey}`;
+  return input.ilrd === undefined ? base : `${base}&ilrd=${input.ilrd}`;
+}
+
+export function verifyTakuRewardSign(input: Pick<TakuRewardQuery, "trans_id" | "placement_id" | "adsource_id" | "reward_amount" | "reward_name" | "ilrd" | "sign">, securityKey = env.TAKU_CALLBACK_SECRET) {
+  if (!securityKey) return false;
+  const expected = createHash("md5").update(takuRewardSignatureText(input, securityKey)).digest("hex");
+  const actualBuffer = Buffer.from(input.sign.toLowerCase(), "utf8");
+  const expectedBuffer = Buffer.from(expected, "utf8");
+  return actualBuffer.length === expectedBuffer.length && timingSafeEqual(actualBuffer, expectedBuffer);
+}
+
+function takuPayload(input: TakuRewardQuery) {
+  let ilrdSummary: {
+    fields: string[];
+    encryptedEcpmPresent: boolean;
+    encryptedCnyEcpmPresent: boolean;
+    secretIdPresent: boolean;
+  } | undefined;
+  if (input.ilrd !== undefined) {
+    try {
+      const parsed = JSON.parse(input.ilrd) as unknown;
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        const fields = parsed as Record<string, unknown>;
+        ilrdSummary = {
+          fields: Object.keys(fields),
+          encryptedEcpmPresent: typeof fields.e_c === "string" && fields.e_c.length > 0,
+          encryptedCnyEcpmPresent: typeof fields.e_c_cny === "string" && fields.e_c_cny.length > 0,
+          secretIdPresent: fields.s_id !== undefined && fields.s_id !== null,
+        };
+      }
+    } catch {
+      // Invalid ILRD is rejected during settlement; do not log its raw contents.
+    }
+  }
+  return {
+    ...input,
+    user_id: input.user_id.toString(),
+    sign: "[REDACTED]",
+    ...(input.ilrd !== undefined ? { ilrd: ilrdSummary ?? "[INVALID_ILRD]" } : {}),
+    ...(input.e_c ? { e_c: "[ENCRYPTED]" } : {}),
+    ...(input.e_c_cny ? { e_c_cny: "[ENCRYPTED]" } : {}),
+  };
+}
+
+/** Only signed ILRD encrypted fields may supplement the reward callback's top-level fields. */
+export function resolveTakuEncryptedEcpm(input: TakuRewardQuery) {
+  if (input.ilrd === undefined) return input;
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(input.ilrd);
+  } catch {
+    throw new Error("Taku ILRD JSON is invalid");
+  }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("Taku ILRD must be an object");
+  }
+  const ilrd = parsed as Record<string, unknown>;
+  if (String(ilrd.id ?? "") !== input.trans_id) throw new Error("Taku ILRD show ID mismatch");
+  if (String(ilrd.adunit_id ?? "") !== input.placement_id) throw new Error("Taku ILRD placement ID mismatch");
+  if (String(ilrd.adsource_id ?? "") !== input.adsource_id) throw new Error("Taku ILRD ad source ID mismatch");
+  if (ilrd.adunit_format !== "RewardedVideo") throw new Error("Taku ILRD format mismatch");
+  if (input.network_firm_id && String(ilrd.network_firm_id ?? "") !== input.network_firm_id) {
+    throw new Error("Taku ILRD network ID mismatch");
+  }
+  for (const key of ["e_c", "e_c_cny", "s_id"] as const) {
+    const nested = ilrd[key];
+    if (nested !== undefined && nested !== null && typeof nested !== "string" && typeof nested !== "number") {
+      throw new Error(`Taku ILRD ${key} type is invalid`);
+    }
+    if (input[key] !== undefined && nested !== undefined && String(input[key]) !== String(nested)) {
+      throw new Error(`Taku ILRD ${key} mismatch`);
+    }
+  }
+  return {
+    ...input,
+    e_c: input.e_c ?? (typeof ilrd.e_c === "string" ? ilrd.e_c : undefined),
+    e_c_cny: input.e_c_cny ?? (typeof ilrd.e_c_cny === "string" ? ilrd.e_c_cny : undefined),
+    s_id: input.s_id ?? (ilrd.s_id === undefined || ilrd.s_id === null ? undefined : String(ilrd.s_id)),
+  };
+}
+
+function normalizePrivateKey(value: string) {
+  const normalized = value.replace(/\\n/g, "\n").trim();
+  if (normalized.includes("-----BEGIN")) return normalized;
+  const body = normalized.replace(/\s/g, "").match(/.{1,64}/g)?.join("\n") ?? normalized;
+  return `-----BEGIN PRIVATE KEY-----\n${body}\n-----END PRIVATE KEY-----`;
+}
+
+function parseKeyMap(raw: string | undefined, label: string) {
+  if (!raw) return {} as Record<string, unknown>;
+  const parsed = JSON.parse(raw) as unknown;
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error(`${label}必须是 JSON 对象`);
+  return parsed as Record<string, unknown>;
+}
+
+export function parseTakuEcpmPrivateKeys(
+  raw: string | undefined = env.TAKU_ECPM_PRIVATE_KEYS_JSON,
+  fileRaw: string | undefined = env.TAKU_ECPM_PRIVATE_KEY_FILES_JSON,
+) {
+  const result: Record<string, string> = {};
+  for (const [id, value] of Object.entries(parseKeyMap(raw, "Taku eCPM 私钥映射"))) {
+    if (!/^\d+$/.test(id) || typeof value !== "string" || value.trim().length < 64) {
+      throw new Error(`Taku eCPM 私钥配置无效：${id}`);
+    }
+    result[id] = normalizePrivateKey(value);
+  }
+  for (const [id, file] of Object.entries(parseKeyMap(fileRaw, "Taku eCPM 私钥文件映射"))) {
+    if (!/^\d+$/.test(id) || typeof file !== "string" || !file.trim()) {
+      throw new Error(`Taku eCPM 私钥文件配置无效：${id}`);
+    }
+    result[id] = normalizePrivateKey(readFileSync(resolve(file), "utf8"));
+  }
+  return result;
+}
+
+export function decryptTakuCnyEcpm(
+  input: Pick<TakuRewardQuery, "adsource_id" | "e_c_cny" | "s_id">,
+  privateKeys = parseTakuEcpmPrivateKeys(),
+) {
+  if (!input.e_c_cny || !input.s_id) throw new Error("Taku 回调缺少 e_c_cny 或 s_id");
+  const privateKey = privateKeys[input.s_id];
+  if (!privateKey) throw new Error(`Taku eCPM Key ID 未配置：${input.s_id}`);
+  const encrypted = Buffer.from(input.e_c_cny.replace(/ /g, "+"), "base64");
+  const plaintext = privateDecrypt(
+    { key: privateKey, padding: constants.RSA_PKCS1_PADDING },
+    encrypted,
+  ).toString("utf8");
+  const parts = plaintext.split("_");
+  if (parts.length < 2 || parts[0] !== input.adsource_id) throw new Error("Taku eCPM 广告源校验失败");
+  const ecpm = parts[1] ?? "";
+  if (!/^\d+(\.\d{1,8})?$/.test(ecpm) || Number(ecpm) <= 0 || Number(ecpm) > 1_000_000) {
+    throw new Error("Taku eCPM 数值无效");
+  }
+  return { ecpmCny: ecpm, requestId: parts.slice(2).join("_") || undefined };
+}
+
+/** 人民币 eCPM（元/千次展示）换算为单次展示人民币金额，向下截断到百万分之一元。 */
+export function takuCnyEcpmToRevenueYuan(ecpm: string) {
+  const [integer = "0", fraction = ""] = ecpm.split(".");
+  const scale = 10n ** BigInt(fraction.length);
+  const scaledEcpm = BigInt(integer) * scale + BigInt(fraction || "0");
+  const revenueMicros = scaledEcpm * 1_000n / scale;
+  return `${revenueMicros / 1_000_000n}.${(revenueMicros % 1_000_000n).toString().padStart(6, "0")}`;
+}
+
+async function recordRejectedTakuReward(input: TakuRewardQuery, request: Request, reason: string) {
+  try {
+    await prisma.adCallbackLog.create({
+      data: {
+        eventId: `taku:${input.trans_id}`,
+        status: "FAILED",
+        reason,
+        payload: takuPayload(input),
+        ip: request.ip,
+      },
+    });
+  } catch (error) {
+    if ((error as { code?: string }).code !== "P2002") throw error;
+  }
+}
+
+/** 记录在完整解析前就被拒绝的 Taku 请求；签名始终脱敏，后续同交易重试仍可正常认领。 */
+export async function recordInvalidTakuReward(query: Request["query"], request: Request, invalidFields: string[]) {
+  const rawTransactionId = typeof query.trans_id === "string" ? query.trans_id.trim() : "";
+  const fallbackId = createHash("sha256")
+    .update(`${request.ip ?? ""}:${request.originalUrl}`)
+    .digest("hex")
+    .slice(0, 32);
+  const eventId = rawTransactionId && rawTransactionId.length <= 90
+    ? `taku:${rawTransactionId}`
+    : `taku-invalid:${fallbackId}`;
+  const payload = Object.fromEntries(Object.entries(query).map(([key, value]) => [
+    key,
+    key === "sign" ? "[REDACTED]" : typeof value === "string" ? value : JSON.stringify(value),
+  ]));
+  const reason = `Taku 回调参数校验失败：${invalidFields.length ? invalidFields.join(", ") : "未知字段"}`;
+
+  await prisma.adCallbackLog.upsert({
+    where: { eventId },
+    create: { eventId, status: "FAILED", reason, payload, ip: request.ip },
+    update: { status: "FAILED", reason, payload, ip: request.ip },
+  });
+}
+
+function takuExtraMatchesUser(extraData: string | undefined, userId: bigint) {
+  if (!extraData) return true;
+  try {
+    const value = JSON.parse(extraData) as Record<string, unknown>;
+    return value.userId === undefined || String(value.userId) === userId.toString();
+  } catch {
+    return true;
+  }
+}
+
+/**
+ * Taku 服务端激励：验签、校验广告位和用户上下文，再使用 trans_id 幂等结算。
+ * reward_amount 是 Taku 后台配置并经 S2S 签名保护的最终用户金币数。
+ */
+export async function receiveTakuReward(input: TakuRewardQuery, request: Request) {
+  if (!env.TAKU_CALLBACK_SECRET) {
+    await recordRejectedTakuReward(input, request, "Taku 回调密钥未配置");
+    return 602 as const;
+  }
+  if (!verifyTakuRewardSign(input)) {
+    await recordRejectedTakuReward(input, request, "Taku 回调签名校验失败");
+    return 601 as const;
+  }
+
+  const runtimeConfig = await getAdRuntimeConfig();
+  if (!runtimeConfig.enabled || !runtimeConfig.reward.enabled || input.placement_id !== runtimeConfig.reward.placementId) {
+    await recordRejectedTakuReward(input, request, `Taku 激励广告位未启用或不匹配：${input.placement_id}`);
+    return 602 as const;
+  }
+  if (input.package_name && input.package_name !== productConfig.android.applicationId) {
+    await recordRejectedTakuReward(input, request, `Taku Android 包名不匹配：${input.package_name}`);
+    return 602 as const;
+  }
+  if (input.platform && input.platform !== "1") {
+    await recordRejectedTakuReward(input, request, `Taku 回调平台不是 Android：${input.platform}`);
+    return 602 as const;
+  }
+  if (!takuExtraMatchesUser(input.extra_data, input.user_id)) {
+    await recordRejectedTakuReward(input, request, "Taku extra_data 用户与 user_id 不一致");
+    return 602 as const;
+  }
+
+  const eventId = `taku:${input.trans_id}`;
+  const payload = takuPayload(input);
+  try {
+    await prisma.adCallbackLog.create({ data: { eventId, status: "PROCESSING", payload, ip: request.ip } });
+  } catch (error) {
+    if ((error as { code?: string }).code !== "P2002") throw error;
+    const existing = await prisma.adCallbackLog.findUniqueOrThrow({ where: { eventId } });
+    if (existing.status === "SUCCESS") return 200 as const;
+    if (existing.status === "PROCESSING") return 602 as const;
+    const claimed = await prisma.adCallbackLog.updateMany({
+      where: { eventId, status: "FAILED" },
+      data: { status: "PROCESSING", reason: null, payload, ip: request.ip },
+    });
+    if (claimed.count !== 1) return 602 as const;
+  }
+
+  try {
+    const ecpmPrivateKeys = parseTakuEcpmPrivateKeys();
+    const dynamicRevenueEnabled = Object.keys(ecpmPrivateKeys).length > 0;
+    let revenueYuan = "0";
+    if (dynamicRevenueEnabled) {
+      try {
+        const encryptedInfo = resolveTakuEncryptedEcpm(input);
+        const { ecpmCny } = decryptTakuCnyEcpm(encryptedInfo, ecpmPrivateKeys);
+        revenueYuan = takuCnyEcpmToRevenueYuan(ecpmCny);
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : "Taku eCPM 解密失败";
+        await prisma.adCallbackLog.update({ where: { eventId }, data: { status: "FAILED", reason } });
+        return 602 as const;
+      }
+    }
+
+    const event: RewardEvent = {
+      provider: "taku",
+      eventId,
+      userId: input.user_id,
+      placementId: input.placement_id,
+      revenueYuan,
+      source: `TAKU:${input.network_firm_id || "UNKNOWN"}`.slice(0, 30),
+      format: "REWARD",
+      enforceDailyLimit: true,
+      ...(dynamicRevenueEnabled ? {} : { verifiedAwardCoins: BigInt(input.reward_amount) }),
+    };
+    try {
+      await settleRewardEvent(event, request);
+    } catch (error) {
+      if (error instanceof AppError && [3401, 3410, 3411].includes(error.code)) {
+        await prisma.adCallbackLog.update({ where: { eventId }, data: { status: "SUCCESS", reason: `REWARD_NO_COIN:${error.code}` } });
+        return 200 as const;
+      }
+      throw error;
+    }
+    await prisma.adCallbackLog.update({ where: { eventId }, data: { status: "SUCCESS" } });
+    return 200 as const;
+  } catch (error) {
+    const reason = error instanceof Error ? error.message.slice(0, 500) : "未知错误";
+    await prisma.adCallbackLog.update({ where: { eventId }, data: { status: "FAILED", reason } });
+    return 602 as const;
+  }
 }
 
 /**

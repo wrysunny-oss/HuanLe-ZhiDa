@@ -55,6 +55,10 @@ const schema = z.object({
   /** Taku 服务端回调凭据；只有选择 Taku provider 时由适配器读取。 */
   TAKU_APP_KEY: optionalString(16),
   TAKU_CALLBACK_SECRET: optionalString(16),
+  /** Taku eCPM Key ID 到 RSA 私钥 PEM 的 JSON 映射；配置后自动启用实际收益结算。 */
+  TAKU_ECPM_PRIVATE_KEYS_JSON: optionalString(2),
+  /** 推荐：Taku eCPM Key ID 到本地 PEM 文件路径的 JSON 映射，避免把私钥正文写入环境变量。 */
+  TAKU_ECPM_PRIVATE_KEY_FILES_JSON: optionalString(2),
   /** 内容输出服务端接口密钥，严禁下发到 APP 或写入接口响应。 */
   PANGLE_CONTENT_SERVER_KEY: z.string().min(16).optional(),
   /** 支付宝商家转账配置；支持证书模式（推荐）或支付宝公钥模式。 */

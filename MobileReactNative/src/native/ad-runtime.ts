@@ -22,7 +22,7 @@ const defaults: AdRuntimeConfig = {
     loadTimeoutMs: adConfig.fullScreen.loadTimeoutMs,
     showTimeoutMs: adConfig.fullScreen.showTimeoutMs,
   },
-  reward: {enabled: true, ...adConfig.reward, loadMode: 'MANUAL'},
+  reward: {enabled: true, ...adConfig.reward, loadMode: 'MANUAL', loadCooldownSeconds: 8},
 };
 
 let current: AdRuntimeConfig = defaults;

@@ -17,7 +17,6 @@ export function QuizPlayScreen() {
   const session = route.params.session as QuizSession;
   const [question, setQuestion] = useState<QuizQuestion | null>(session.question);
   const [selected, setSelected] = useState<number>();
-  const [pressedIndex, setPressedIndex] = useState<number>();
   const [result, setResult] = useState<QuizAnswerResult>();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -54,13 +53,12 @@ export function QuizPlayScreen() {
     }
     setQuestion(result.nextQuestion);
     setSelected(undefined);
-    setPressedIndex(undefined);
     setResult(undefined);
     setError('');
   };
 
-  const optionState = (index: number): QuizOptionVisualState =>
-    quizOptionVisualState(index, selected, pressedIndex, result);
+  const optionState = (index: number, pressed = false): QuizOptionVisualState =>
+    quizOptionVisualState(index, selected, pressed ? index : undefined, result);
 
   return (
     <Screen style={styles.screen}>
@@ -76,20 +74,17 @@ export function QuizPlayScreen() {
 
         <View style={styles.options}>
           {question.options.map((option, index) => {
-            const state = optionState(index);
             return (
               <MotionPressable
                 key={`${question.position}-${index}`}
                 feedback="answerOption"
                 disabled={Boolean(result)}
-                onPressIn={() => setPressedIndex(index)}
-                onPressOut={() => setPressedIndex(undefined)}
                 onPress={() => setSelected(index)}
-                style={[styles.option, styles[`option_${state}`]]}>
-                <View style={[styles.optionIndex, styles[`optionIndex_${state}`]]}>
-                  {state === 'correct' ? <AppIcon name="check" color={colors.success} size={18} /> : state === 'wrong' ? <AppIcon name="x" color={colors.danger} size={18} /> : <Text style={[styles.optionIndexText, (state === 'selected' || state === 'pressed') && styles.optionIndexTextSelected]}>{String.fromCharCode(65 + index)}</Text>}
-                </View>
-                <Text style={[styles.optionText, state === 'disabled' && styles.optionTextDisabled]}>{option}</Text>
+                style={({pressed}) => [styles.option, styles[`option_${optionState(index, pressed)}`]]}>
+                {({pressed}) => {
+                  const state = optionState(index, pressed);
+                  return <><View style={[styles.optionIndex, styles[`optionIndex_${state}`]]}>{state === 'correct' ? <AppIcon name="check" color={colors.success} size={18} /> : state === 'wrong' ? <AppIcon name="x" color={colors.danger} size={18} /> : <Text style={[styles.optionIndexText, (state === 'selected' || state === 'pressed') && styles.optionIndexTextSelected]}>{String.fromCharCode(65 + index)}</Text>}</View><Text style={[styles.optionText, state === 'disabled' && styles.optionTextDisabled]}>{option}</Text></>;
+                }}
               </MotionPressable>
             );
           })}

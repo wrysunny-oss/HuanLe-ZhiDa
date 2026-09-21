@@ -297,7 +297,7 @@ export function submitQuizAnswer(userId: bigint, sessionId: string, input: Submi
 
 export async function listQuizHistory(userId: bigint, query: QuizHistoryQuery) {
   const where = { userId, status: "COMPLETED" as const, mode: "NORMAL" as const };
-  const [list, total] = await prisma.$transaction([
+  const [list, total, rewardRule] = await prisma.$transaction([
     prisma.quizSession.findMany({
       where,
       skip: (query.page - 1) * query.pageSize,
@@ -306,6 +306,10 @@ export async function listQuizHistory(userId: bigint, query: QuizHistoryQuery) {
       orderBy: { completedAt: "desc" },
     }),
     prisma.quizSession.count({ where }),
+    prisma.rewardRule.findUnique({
+      where: { code: QUIZ_REWARD_RULE_CODE },
+      select: { amount: true, enabled: true },
+    }),
   ]);
   return {
     list: list.map((session) => ({
@@ -320,5 +324,7 @@ export async function listQuizHistory(userId: bigint, query: QuizHistoryQuery) {
     page: query.page,
     pageSize: query.pageSize,
     dailyRewardLimit: DAILY_REWARDED_ROUND_LIMIT,
+    roundRewardCoins: rewardRule?.amount ?? 0n,
+    roundRewardEnabled: rewardRule?.enabled ?? false,
   };
 }

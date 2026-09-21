@@ -156,4 +156,27 @@ patchFile(
     ),
 );
 
+patchFile(
+  'node_modules/@taku_anythink/react-native-sdk/android/src/main/java/com/anythink/reactnative/reward/ATAutoLoadRewardVideoHelper.java',
+  source => source.replace(
+    [
+      '        String[] arr = new String[]{placementId};',
+      '        ATRewardVideoAutoAd.init(activity, arr, autoLoadListener);',
+      '        if (settings != null) {',
+      '            ATRewardVideoAutoAd.setLocalExtra(placementId, settings);',
+      '        }',
+      '        ATRewardVideoAutoAd.addPlacementId(arr);',
+    ].join('\n'),
+    [
+      '        String[] arr = new String[]{placementId};',
+      '        // S2S user data must be attached before init starts the first auto-load.',
+      '        if (settings != null) {',
+      '            ATRewardVideoAutoAd.setLocalExtra(placementId, settings);',
+      '        }',
+      '        ATRewardVideoAutoAd.init(activity, arr, autoLoadListener);',
+      '        ATRewardVideoAutoAd.addPlacementId(arr);',
+    ].join('\n'),
+  ),
+);
+
 require('./patch-playnest-unionad');

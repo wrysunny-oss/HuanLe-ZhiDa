@@ -42,6 +42,7 @@ export const adRuntimeConfigSchema = z.object({
   reward: z.object({
     enabled: z.boolean(), placementId,
     loadMode: z.enum(["MANUAL", "AUTO"]).default("MANUAL"),
+    loadCooldownSeconds: z.number().int().min(0).max(120).default(8),
   }),
 });
 export type AdRuntimeConfig = z.infer<typeof adRuntimeConfigSchema>;

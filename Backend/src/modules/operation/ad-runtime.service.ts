@@ -37,7 +37,7 @@ export const defaultAdRuntimeConfig: AdRuntimeConfig = {
     loadTimeoutMs: 8000,
     showTimeoutMs: 120000,
   },
-  reward: { enabled: true, placementId: providerConfig?.rewardPlacementId ?? "000000", loadMode: "MANUAL" },
+  reward: { enabled: true, placementId: providerConfig?.rewardPlacementId ?? "000000", loadMode: "MANUAL", loadCooldownSeconds: 8 },
 };
 
 function useCurrentProviderPlacements(config: AdRuntimeConfig): AdRuntimeConfig {

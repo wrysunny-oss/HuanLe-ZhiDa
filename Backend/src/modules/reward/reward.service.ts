@@ -403,9 +403,9 @@ export async function checkIn(userId: bigint) {
 
 /** 查询 SDK 交易号对应的服务端结算，不以客户端“观看完成”作为到账依据。 */
 export async function getAdRewardStatus(userId: bigint, transactionId: string) {
-  const eventId = `gromore:${transactionId}`;
-  const settlement = await prisma.adRewardSettlement.findUnique({
-    where: { requestId: eventId },
+  const eventIds = [`gromore:${transactionId}`, `taku:${transactionId}`];
+  const settlement = await prisma.adRewardSettlement.findFirst({
+    where: { requestId: { in: eventIds } },
     select: { id: true, userId: true, awardedCoins: true, milestoneBonusCoins: true, createdAt: true },
   });
   if (settlement?.userId === userId) {
@@ -422,8 +422,8 @@ export async function getAdRewardStatus(userId: bigint, transactionId: string) {
     };
   }
 
-  const callback = await prisma.adCallbackLog.findUnique({
-    where: { eventId },
+  const callback = await prisma.adCallbackLog.findFirst({
+    where: { eventId: { in: eventIds } },
     select: { status: true, reason: true, payload: true, updatedAt: true },
   });
   const payload = callback?.payload as Record<string, unknown> | undefined;
@@ -434,7 +434,7 @@ export async function getAdRewardStatus(userId: bigint, transactionId: string) {
     return { status: "FAILED" as const, message: "奖励暂未到账，广告平台可能继续重试", updatedAt: callback.updatedAt };
   }
   // 短剧解锁发币关闭或风控只会取消金币，不撤销已经通过 SSV 的解锁资格。
-  if (callback.status === "SUCCESS" && callback.reason?.startsWith("CONTENT_UNLOCK_")) {
+  if (callback.status === "SUCCESS" && (callback.reason?.startsWith("CONTENT_UNLOCK_") || callback.reason?.startsWith("REWARD_NO_COIN:"))) {
     const user = await prisma.user.findUniqueOrThrow({where: {id: userId}, select: {coinBalance: true}});
     return {
       status: "VERIFIED" as const,
@@ -460,7 +460,7 @@ export function issueDramaUnlockAdIntent(userId: bigint, input: {dramaId: string
 
 /**
  * SDK 的 onClose 偶尔先于 onRewardArrived 到达，导致客户端暂时拿不到 trans_id。
- * 此接口只查询当前登录用户、最近 24 小时内且来自 GroMore 的第一笔结算，
+ * 此接口只查询当前登录用户、最近 24 小时内且来自当前广告服务端回调的第一笔结算，
  * 用广告开始时间建立安全边界，不接受客户端指定奖励金额。
  */
 export async function getLatestAdReward(userId: bigint, after: Date, format: "REWARD" | "CONTENT_UNLOCK" = "REWARD") {
@@ -470,7 +470,7 @@ export async function getLatestAdReward(userId: bigint, after: Date, format: "RE
     where: {
       userId,
       format,
-      source: {startsWith: "GROMORE:"},
+      OR: [{ source: { startsWith: "GROMORE:" } }, { source: { startsWith: "TAKU:" } }],
       createdAt: {gte: effectiveAfter},
     },
     orderBy: {createdAt: "asc"},
@@ -497,7 +497,7 @@ export async function getLatestAdReward(userId: bigint, after: Date, format: "RE
     const user = await prisma.user.findUniqueOrThrow({where: {id: userId}, select: {coinBalance: true}});
     return {
       status: "VERIFIED" as const,
-      transactionId: callback.eventId.replace(/^gromore:/, ""),
+      transactionId: callback.eventId.replace(/^(?:gromore|taku):/, ""),
       coinBalance: user.coinBalance,
       updatedAt: callback.updatedAt,
     };
@@ -506,7 +506,7 @@ export async function getLatestAdReward(userId: bigint, after: Date, format: "RE
   return {
     status: "SETTLED" as const,
     settlementId: settlement.id,
-    transactionId: settlement.requestId.replace(/^gromore:/, ""),
+    transactionId: settlement.requestId.replace(/^(?:gromore|taku):/, ""),
     awardedCoins: settlement.awardedCoins + settlement.milestoneBonusCoins,
     adAwardedCoins: settlement.awardedCoins,
     milestoneBonusCoins: settlement.milestoneBonusCoins,
@@ -529,8 +529,8 @@ export async function getRewardCenter(userId: bigint) {
     prisma.rewardRule.findMany({ where: { code: { startsWith: "SIGNIN_DAY_" } }, orderBy: { code: "asc" } }),
     prisma.rewardRule.findMany({ where: { code: { in: ["INVITE_DIRECT", "INVITE_INDIRECT"] } }, orderBy: { code: "asc" } }),
     prisma.adRewardConfig.upsert({ where: { id: 1 }, create: { id: 1 }, update: {} }),
-    prisma.adRewardSettlement.count({ where: { userId, format: {in: [...DAILY_REWARDED_AD_FORMATS]}, source: { startsWith: "GROMORE:" }, awardedCoins: {gt: 0n}, createdAt: { gte: adDay.start, lt: adDay.end } } }),
-    prisma.adRewardSettlement.count({ where: { userId, format: {in: [...DAILY_REWARDED_AD_FORMATS]}, source: { startsWith: "GROMORE:" }, awardedCoins: {gt: 0n} } }),
+    prisma.adRewardSettlement.count({ where: { userId, format: {in: [...DAILY_REWARDED_AD_FORMATS]}, awardedCoins: {gt: 0n}, createdAt: { gte: adDay.start, lt: adDay.end } } }),
+    prisma.adRewardSettlement.count({ where: { userId, format: {in: [...DAILY_REWARDED_AD_FORMATS]}, awardedCoins: {gt: 0n} } }),
     getGoldenWatchStatus(userId),
   ]);
   const latest = recentCheckIns[0];

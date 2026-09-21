@@ -1,8 +1,7 @@
-import React from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {Animated, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {View as TamaguiView} from '@tamagui/core';
 import {AppIcon} from '../components/AppIcon';
 import {BrandLoader} from '../components/BrandLoader';
 import {AuthScreen} from '../features/auth/AuthScreen';
@@ -28,10 +27,6 @@ import {isShortDramaEnabled, productModules} from '../config/modules';
 import {ContentHomeScreen} from '../content/content-registry';
 import {useAuthStore} from '../stores/auth';
 import {colors} from '../theme';
-import {
-  motionAnimatedProperties,
-  tabMotionStates,
-} from '../theme/motion.tokens';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,17 +35,29 @@ type TabIconName = 'book-open' | 'gift' | 'wallet' | 'user';
 
 /** 选中图标使用轻量金色底，避免依赖字符图标导致设备间样式不一致。 */
 function TabIcon({name, color, focused}: TabIconProps & {name: TabIconName}) {
-  const motionState = focused ? tabMotionStates.active : tabMotionStates.inactive;
+  const progress = useRef(new Animated.Value(focused ? 1 : 0)).current;
+  useEffect(() => {
+    Animated.timing(progress, {
+      toValue: focused ? 1 : 0,
+      duration: 120,
+      useNativeDriver: true,
+    }).start();
+  }, [focused, progress]);
   return (
-    <TamaguiView
-      transition="feedback"
-      animateOnly={motionAnimatedProperties}
-      opacity={motionState.opacity}
-      scale={motionState.scale}
-      y={motionState.y}
-      style={[styles.tabIcon, focused && styles.tabIconActive]}>
+    <Animated.View
+      style={[
+        styles.tabIcon,
+        focused && styles.tabIconActive,
+        {
+          opacity: progress.interpolate({inputRange: [0, 1], outputRange: [0.82, 1]}),
+          transform: [
+            {scale: progress.interpolate({inputRange: [0, 1], outputRange: [1, 1.04]})},
+            {translateY: progress.interpolate({inputRange: [0, 1], outputRange: [0, -1]})},
+          ],
+        },
+      ]}>
       <AppIcon name={name} color={color} size={22} />
-    </TamaguiView>
+    </Animated.View>
   );
 }
 
@@ -115,5 +122,5 @@ export function RootNavigator() {
 
 const styles = StyleSheet.create({
   tabIcon: {width: 44, height: 31, borderRadius: 12, alignItems: 'center', justifyContent: 'center'},
-  tabIconActive: {backgroundColor: colors.primarySoft, transform: [{rotate: '-2deg'}]},
+  tabIconActive: {backgroundColor: colors.primarySoft},
 });

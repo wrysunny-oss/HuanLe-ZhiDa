@@ -12,7 +12,7 @@ import { EchartsUI, useEcharts } from '@vben/plugins/echarts';
 import { NAlert, NCard, NDataTable, NEmpty, NGi, NGrid, NProgress, NSkeleton, NStatistic, NTag } from 'naive-ui';
 
 import { getAgentOverviewApi, getDashboardApi } from '#/api';
-import { productConfig } from '#/config/product.generated';
+import { contentType, productConfig } from '#/config/product.generated';
 
 defineOptions({ name: 'DashboardOverview' });
 const loading = ref(true);
@@ -20,8 +20,8 @@ const { hasAccessByCodes } = useAccess();
 const isReadonlyAgent = hasAccessByCodes(['agent:readonly']);
 const brandName = productConfig.brand.appDisplayName;
 const stats = ref<DashboardStats>({
-  coinsIssued: '0', dramaStatusDistribution: [], feedbackPending: 0,
-  publishedDramas: 0, reconciliationPending: 0,
+  coinsIssued: '0', contentStatusDistribution: [], feedbackPending: 0,
+  publishedContent: 0, reconciliationPending: 0,
   today: { adRevenueMicros: '0', adSettlements: 0, awardedCoins: '0', newUsers: 0 },
   trend: [], userStatusDistribution: [], users: 0,
 });
@@ -33,7 +33,9 @@ const { renderEcharts: renderDistributionChart } = useEcharts(distributionChartR
 const yuan = (micros: string) => (Number(micros) / 1_000_000).toFixed(2);
 const numberText = (value: number | string) => Number(value).toLocaleString('zh-CN');
 const userStatusText = { ACTIVE: '正常用户', DISABLED: '已禁用' } as const;
-const contentStatusText = { DRAFT: '草稿', OFFLINE: '已下架', PUBLISHED: '已上架' } as const;
+const contentStatusText = { DRAFT: '草稿', OFFLINE: '已下线', PUBLISHED: '已发布' } as const;
+const contentLabel = contentType === 'quiz' ? '题目状态' : '内容状态';
+const publishedContentLabel = contentType === 'quiz' ? '已发布题目' : '已发布内容';
 
 function renderAdminCharts() {
   const trend = stats.value.trend;
@@ -57,7 +59,7 @@ function renderAdminCharts() {
     color: ['#18a058', '#d03050', '#2080f0', '#f0a020', '#8a8a8a'],
     graphic: [
       { left: '20%', style: { fontSize: 13, text: '用户状态' }, top: '42%', type: 'text' },
-      { left: '70%', style: { fontSize: 13, text: '内容状态' }, top: '42%', type: 'text' },
+      { left: '70%', style: { fontSize: 13, text: contentLabel }, top: '42%', type: 'text' },
     ],
     legend: { bottom: 0, type: 'scroll' },
     series: [
@@ -68,8 +70,8 @@ function renderAdminCharts() {
       },
       {
         center: ['75%', '43%'],
-        data: stats.value.dramaStatusDistribution.map((item) => ({ name: contentStatusText[item.status], value: item.count })),
-        label: { fontSize: 11, formatter: '{b}\n{c}' }, name: '内容状态', radius: ['40%', '62%'], type: 'pie',
+        data: stats.value.contentStatusDistribution.map((item) => ({ name: contentStatusText[item.status], value: item.count })),
+        label: { fontSize: 11, formatter: '{b}\n{c}' }, name: contentLabel, radius: ['40%', '62%'], type: 'pie',
       },
     ],
     tooltip: { formatter: '{b}：{c}（{d}%）', trigger: 'item' },
@@ -111,7 +113,7 @@ v-for="item in [
       <NGrid cols="1 s:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
         <NGi
 v-for="item in [
-          { label: '注册用户', value: numberText(stats.users) }, { label: '已上架内容', value: numberText(stats.publishedDramas) },
+          { label: '注册用户', value: numberText(stats.users) }, { label: publishedContentLabel, value: numberText(stats.publishedContent) },
           { label: '累计发放金币', value: numberText(stats.coinsIssued) }, { label: '今日广告收入（元）', value: yuan(stats.today.adRevenueMicros) },
         ]" :key="item.label"
 >
@@ -145,7 +147,7 @@ v-for="item in [
         </NGi>
         <NGi>
           <NCard title="业务构成" class="chart-card">
-            <EchartsUI v-if="stats.userStatusDistribution.length || stats.dramaStatusDistribution.length" ref="distributionChartRef" class="dashboard-chart" />
+            <EchartsUI v-if="stats.userStatusDistribution.length || stats.contentStatusDistribution.length" ref="distributionChartRef" class="dashboard-chart" />
             <NEmpty v-else description="暂无构成数据" class="empty-chart" />
           </NCard>
         </NGi>

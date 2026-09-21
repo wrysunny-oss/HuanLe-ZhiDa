@@ -92,7 +92,12 @@ export function QuizHomeScreen() {
               <Text style={styles.heroLabel}>每日知识挑战</Text>
               <Text style={styles.heroTitle}>10 题 · 约 3 分钟</Text>
             </View>
-            <View style={styles.rewardBadge}><AppIcon name="coins" color={colors.warning} size={16} /><Text style={styles.rewardText}>完成 +10</Text></View>
+            {history?.roundRewardEnabled ? (
+              <View style={styles.rewardBadge}>
+                <AppIcon name="coins" color={colors.warning} size={16} />
+                <Text style={styles.rewardText}>完成 +{String(history.roundRewardCoins)}</Text>
+              </View>
+            ) : null}
           </View>
           <Text style={styles.heroDescription}>沿着知识轨道完成一局。每道题提交后即可查看答案与解析。</Text>
           <KnowledgeRail progress={0.25} />
