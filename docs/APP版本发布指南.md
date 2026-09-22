@@ -1,6 +1,6 @@
 # APP 版本发布指南
 
-本文说明奖励应用模板 Android APP 的版本号修改、正式打包、安装包上传和后台更新策略配置。
+本文说明幻乐智答 Android APP 的版本号修改、正式打包、安装包上传和后台更新策略配置。
 
 ## 1. 版本字段
 
@@ -37,26 +37,29 @@ defaultConfig {
 在仓库根目录执行：
 
 ```powershell
-npm.cmd run product:doctor -- --production
+npm.cmd run product:check
+npm.cmd run product:doctor
 ```
+
+服务器环境变量与 PEM 文件另在服务器用 `node scripts/doctor-product.mjs --production --backend-only` 检查；不要用本机的 Android 签名目录代替服务器证书目录。
 
 至少确认：
 
-- `product.config.json` 中的 APP 名称、Android 包名、线上 API 和 GroMore 广告位正确。
+- `product.config.json` 中的 APP 名称、`com.hylj.app`、线上 API 和 Taku 广告位正确。
 - `versionCode` 高于上一个线上版本。
 - 正式签名文件存在，签名密码通过环境变量提供。
 - API 地址为正式 HTTPS 域名，不包含 `/api/v1`。
-- GroMore 及聚合 ADN 所需 AAR 已准备完整。
+- Taku SDK 依赖已准备完整，`android/taku.properties` 或构建环境变量已提供 Taku App Key。
 
 ## 3. 配置正式签名与环境
 
 PowerShell 示例：
 
 ```powershell
-cd D:\Project\Reward-App-Template\MobileReactNative\android
+cd D:\Project\HuanLe-ZhiDa\MobileReactNative\android
 
 $env:REWARD_APP_ENV = "production"
-$env:REWARD_APP_API_ORIGIN = "https://api.example.com"
+$env:REWARD_APP_API_ORIGIN = "https://api.hyljzn.cn"
 $env:REWARD_APP_RELEASE_STORE_PASSWORD = "证书库密码"
 $env:REWARD_APP_RELEASE_KEY_ALIAS = "证书别名"
 $env:REWARD_APP_RELEASE_KEY_PASSWORD = "密钥密码"
@@ -103,7 +106,7 @@ MobileReactNative/android/app/build/outputs/bundle/release/app-release.aab
 
 - 新安装、覆盖安装、登录和重新启动正常。
 - APP 名称、图标、版本号和签名正确。
-- 首页、短剧播放、激励广告、短剧解锁和金币到账正常。
+- 首页、答题、激励广告、金币到账和广告冷却倒计时正常。
 - 注册短信、邀请关系、提现和协议页面正常。
 - APP 连接的是正式 API，不是本地地址或内网穿透地址。
 

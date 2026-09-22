@@ -52,8 +52,7 @@ const schema = z.object({
   PANGLE_RSS_PRIVATE_KEY: z.string().min(32).optional(),
   PANGLE_GROMORE_APP_ID: z.string().default(productConfig.advertising.providers.gromore?.appId ?? "000000"),
   PANGLE_GROMORE_REWARDED_PLACEMENT_ID: z.string().default(productConfig.advertising.providers.gromore?.rewardPlacementId ?? "000000"),
-  /** Taku 服务端回调凭据；只有选择 Taku provider 时由适配器读取。 */
-  TAKU_APP_KEY: optionalString(16),
+  /** Taku 服务端回调验签密钥；Android SDK App Key 只在 APP 构建时配置。 */
   TAKU_CALLBACK_SECRET: optionalString(16),
   /** Taku eCPM Key ID 到 RSA 私钥 PEM 的 JSON 映射；配置后自动启用实际收益结算。 */
   TAKU_ECPM_PRIVATE_KEYS_JSON: optionalString(2),

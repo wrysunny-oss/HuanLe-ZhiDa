@@ -1,6 +1,6 @@
 # 幻乐智答
 
-幻乐智答是幻乐灵玑旗下的奖励型答题 APP，包含 Android APP、运营管理后台、Node.js API、MySQL 数据库及 Docker 生产部署配置。当前内容类型为 `quiz`；短剧插件和广告模块均已关闭，取得 Taku 正式资料后再接入广告。
+幻乐智答是幻乐灵玑旗下的奖励型答题 APP，包含 Android APP、运营管理后台、Node.js API、MySQL 数据库及 Docker 生产部署配置。当前内容类型为 `quiz`；短剧插件关闭，广告使用 Taku。生产部署前须配置服务端回调签名密钥和 eCPM 私钥文件映射。
 
 ## 项目组成
 

@@ -13,10 +13,11 @@ const findings = [];
 const options = parseArguments(process.argv.slice(2));
 
 function parseArguments(argv) {
-  const parsed = { production: false, live: false, json: false, envFile: '', deployEnvFile: '' };
+  const parsed = { production: false, backendOnly: false, live: false, json: false, envFile: '', deployEnvFile: '' };
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
     if (argument === '--production') parsed.production = true;
+    else if (argument === '--backend-only') parsed.backendOnly = true;
     else if (argument === '--live') parsed.live = true;
     else if (argument === '--json') parsed.json = true;
     else if (argument === '--help' || argument === '-h') parsed.help = true;
@@ -38,6 +39,7 @@ function usage() {
 
 参数：
   --production                 严格检查生产部署文件与配置
+  --backend-only               不检查 Android 签名与打包环境，供服务器部署时使用
   --live                       请求线上 /ready 和 /download
   --env-file=<路径>            指定 Backend 环境变量文件
   --deploy-env-file=<路径>     指定 Docker Compose 环境变量文件
@@ -116,6 +118,57 @@ function checkPlainValue(env, key, required = true) {
   }
   pass(`env.${key}`, `${key} 已配置`);
   return true;
+}
+
+function checkTakuEcpmKeys(env, deployEnv) {
+  const key = 'TAKU_ECPM_PRIVATE_KEY_FILES_JSON';
+  const raw = env[key]?.trim();
+  if (!raw) {
+    const report = options.production ? fail : warn;
+    report(`env.${key}`, `${key} 未配置，Taku 实际收益无法解密`, '将 Key ID 映射到 /app/certs 下的 PEM 文件');
+    return;
+  }
+
+  let files;
+  try {
+    files = JSON.parse(raw);
+  } catch {
+    fail(`env.${key}`, `${key} 不是合法 JSON 对象`);
+    return;
+  }
+  if (!files || typeof files !== 'object' || Array.isArray(files) || Object.keys(files).length === 0) {
+    fail(`env.${key}`, `${key} 必须包含至少一个 Key ID 到 PEM 路径的映射`);
+    return;
+  }
+
+  let invalid = false;
+  for (const [id, file] of Object.entries(files)) {
+    if (!/^\d+$/.test(id) || typeof file !== 'string' || !file.trim()
+      || (options.production && !/^\/app\/certs\/[^/]+\.pem$/.test(file))) {
+      invalid = true;
+      break;
+    }
+  }
+  if (invalid) {
+    fail(`env.${key}`, options.production
+      ? `${key} 应为数字 Key ID 到 /app/certs/*.pem 的映射`
+      : `${key} 应为数字 Key ID 到 PEM 文件路径的映射`);
+    return;
+  }
+  pass(`env.${key}`, `Taku eCPM 私钥映射包含 ${Object.keys(files).length} 个 Key ID`);
+
+  if (options.production) {
+    if (!deployEnv?.CERT_ROOT || isPlaceholder(deployEnv.CERT_ROOT)) {
+      fail('deploy.cert-root', 'CERT_ROOT 未配置，无法验证 Taku 私钥文件');
+      return;
+    }
+    const missing = Object.values(files)
+      .map((file) => path.join(deployEnv.CERT_ROOT, path.basename(file)))
+      .filter((file) => !fs.existsSync(file));
+    missing.length
+      ? fail('env.taku-ecpm-files', `服务器缺少 ${missing.length} 个 Taku eCPM 私钥文件`, '将 PEM 文件放入 CERT_ROOT 指向的宿主机目录')
+      : pass('env.taku-ecpm-files', 'Taku eCPM 私钥文件均存在');
+  }
 }
 
 function stableJson(value) {
@@ -212,8 +265,8 @@ function checkRuntimeEnv(env, product, deployEnv) {
   }
 
   if (product.modules.advertising && product.advertising.provider === 'taku') {
-    checkSecret(env, 'TAKU_APP_KEY', 16);
     checkSecret(env, 'TAKU_CALLBACK_SECRET', 16);
+    checkTakuEcpmKeys(env, deployEnv);
   }
 
   if (product.content.type === 'shortDrama') checkSecret(env, 'PANGLE_CONTENT_SERVER_KEY', 16, false);
@@ -418,7 +471,7 @@ async function main() {
   const runtime = selectRuntimeEnv();
   const deployEnv = checkDeployEnv();
   checkRuntimeEnv(runtime.values, product, deployEnv);
-  checkAndroid(product);
+  if (!options.backendOnly) checkAndroid(product);
   checkRepository();
   if (options.live) await checkLive(product);
   printReport();
