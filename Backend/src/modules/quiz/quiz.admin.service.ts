@@ -1,9 +1,10 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import type { Request } from "express";
 import { Prisma, type PublishStatus, type QuizReviewStatus } from "@prisma/client";
 import { AppError } from "../../lib/http.js";
 import { prisma } from "../../lib/prisma.js";
 import type {
+  CreateQuizQuestionInput,
   QuizQuestionListQuery,
   ReviewQuizQuestionInput,
   UpdateQuizQuestionInput,
@@ -61,6 +62,50 @@ export async function listQuizQuestions(query: QuizQuestionListQuery) {
     prisma.quizCategory.findMany({ orderBy: [{ sort: "asc" }, { id: "asc" }] }),
   ]);
   return { list, page, pageSize, total, summary: { statusGroups, reviewGroups }, categories };
+}
+
+export async function createQuizQuestion(
+  operatorId: bigint,
+  input: CreateQuizQuestionInput,
+  request: AuditRequest,
+) {
+  return prisma.$transaction(async (tx) => {
+    const category = await tx.quizCategory.findUnique({ where: { id: input.categoryId } });
+    if (!category?.enabled) throw new AppError(422, 3702, "题目分类不存在或已停用");
+    const hash = contentHash(input);
+    if (await tx.quizQuestion.findUnique({ where: { contentHash: hash }, select: { id: true } })) {
+      throw new AppError(409, 3706, "题库中已有相同内容的题目");
+    }
+    const question = await tx.quizQuestion.create({
+      data: {
+        externalKey: `manual:${randomUUID()}`,
+        categoryId: input.categoryId,
+        questionType: "SINGLE_CHOICE",
+        prompt: input.prompt,
+        options: input.options as Prisma.InputJsonValue,
+        answerIndexes: input.answerIndexes as Prisma.InputJsonValue,
+        explanation: input.explanation || null,
+        difficulty: input.difficulty,
+        tags: input.tags as Prisma.InputJsonValue,
+        status: "DRAFT",
+        reviewStatus: "PENDING",
+        sourceName: input.sourceName,
+        sourceUrl: input.sourceUrl,
+        sourceLicense: input.sourceLicense,
+        contentHash: hash,
+      },
+      include: { category: true },
+    });
+    await tx.auditLog.create({ data: {
+      operatorId,
+      action: "quiz.question.create",
+      targetType: "quiz_question",
+      targetId: question.id.toString(),
+      ...auditContext(request),
+      detail: { sourceName: input.sourceName, sourceLicense: input.sourceLicense },
+    } });
+    return question;
+  });
 }
 
 export async function updateQuizQuestion(

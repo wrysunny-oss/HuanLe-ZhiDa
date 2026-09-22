@@ -42,6 +42,7 @@ import {
 import {
   bulkReviewQuizQuestionsApi,
   bulkUpdateQuizQuestionStatusApi,
+  createQuizQuestionApi,
   getQuizQuestionsApi,
   reviewQuizQuestionApi,
   updateQuizQuestionApi,
@@ -55,6 +56,7 @@ const router = useRouter();
 const message = useMessage();
 const dialog = useDialog();
 const { hasAccessByCodes } = useAccess();
+const canCreate = hasAccessByCodes(['content:create']);
 const canUpdate = hasAccessByCodes(['content:update']);
 
 const rows = ref<QuizQuestion[]>([]);
@@ -83,6 +85,9 @@ const editForm = reactive({
   explanation: '',
   options: ['', '', '', ''],
   prompt: '',
+  sourceLicense: '',
+  sourceName: '',
+  sourceUrl: '',
   tagsText: '',
 });
 
@@ -183,14 +188,33 @@ function openEditor(row: QuizQuestion) {
   editorVisible.value = true;
 }
 
+function openCreate() {
+  editingId.value = '';
+  editForm.categoryId = categories.value.find((item) => item.enabled)?.id ?? '';
+  editForm.prompt = '';
+  editForm.options = ['', '', '', ''];
+  editForm.answerIndex = 0;
+  editForm.explanation = '';
+  editForm.difficulty = 1;
+  editForm.tagsText = '';
+  editForm.sourceName = '';
+  editForm.sourceLicense = '';
+  editForm.sourceUrl = '';
+  editorVisible.value = true;
+}
+
 async function saveQuestion() {
   const options = editForm.options.map((item) => item.trim());
+  if (!editForm.categoryId) return message.error('请选择分类');
   if (!editForm.prompt.trim()) return message.error('请填写题干');
   if (options.some((item) => !item)) return message.error('选项不能为空');
   if (editForm.answerIndex >= options.length) return message.error('请选择有效的正确答案');
+  if (!editingId.value && (!editForm.sourceName.trim() || !editForm.sourceLicense.trim())) {
+    return message.error('请填写来源名称和授权说明');
+  }
   saving.value = true;
   try {
-    await updateQuizQuestionApi(editingId.value, {
+    const input = {
       categoryId: editForm.categoryId,
       prompt: editForm.prompt.trim(),
       options,
@@ -198,9 +222,26 @@ async function saveQuestion() {
       explanation: editForm.explanation.trim() || null,
       difficulty: editForm.difficulty,
       tags: editForm.tagsText.split(/[，,]/).map((item) => item.trim()).filter(Boolean),
-    });
+    };
+    if (editingId.value) {
+      await updateQuizQuestionApi(editingId.value, input);
+    } else {
+      await createQuizQuestionApi({
+        ...input,
+        sourceName: editForm.sourceName.trim(),
+        sourceLicense: editForm.sourceLicense.trim(),
+        sourceUrl: editForm.sourceUrl.trim(),
+      });
+    }
     editorVisible.value = false;
-    message.success('题目已保存，审核状态已重置为待审核');
+    message.success(editingId.value ? '题目已保存，审核状态已重置为待审核' : '题目已新增为草稿，等待审核');
+    if (!editingId.value) {
+      keyword.value = '';
+      statusFilter.value = 'DRAFT';
+      reviewFilter.value = 'PENDING';
+      categoryFilter.value = '';
+      page.value = 1;
+    }
     await load();
   } finally {
     saving.value = false;
@@ -343,6 +384,7 @@ onBeforeUnmount(() => { if (searchTimer) clearTimeout(searchTimer); requestSeque
         <NSelect v-model:value="reviewFilter" :options="reviewOptions" class="compact-filter" aria-label="审核状态" />
         <NSelect v-model:value="statusFilter" :options="statusOptions" class="compact-filter" aria-label="发布状态" />
         <NButton :loading="loading" @click="load">刷新</NButton>
+        <NButton v-if="canCreate" type="primary" @click="openCreate">新增题目</NButton>
       </div>
 
       <NAlert v-if="checkedRowKeys.length" class="selection-bar" type="info" :bordered="false">
@@ -393,8 +435,8 @@ onBeforeUnmount(() => { if (searchTimer) clearTimeout(searchTimer); requestSeque
     </NCard>
 
     <NDrawer v-model:show="editorVisible" :width="620" placement="right">
-      <NDrawerContent title="校对题目" closable>
-        <NAlert type="warning" :bordered="false" class="mb-4">保存后题目会变为“草稿 / 待审核”，需要重新审核才能发布。</NAlert>
+      <NDrawerContent :title="editingId ? '校对题目' : '新增题目'" closable>
+        <NAlert type="warning" :bordered="false" class="mb-4">{{ editingId ? '保存后题目会变为“草稿 / 待审核”，需要重新审核才能发布。' : '新题目将保存为“草稿 / 待审核”，审核通过后才能发布。' }}</NAlert>
         <NForm label-placement="top" :show-require-mark="false">
           <NFormItem label="分类"><NSelect v-model:value="editForm.categoryId" :options="categoryOptions.slice(1)" /></NFormItem>
           <NFormItem label="题干"><NInput v-model:value="editForm.prompt" type="textarea" :rows="3" :resizable="false" maxlength="2000" show-count /></NFormItem>
@@ -411,9 +453,14 @@ onBeforeUnmount(() => { if (searchTimer) clearTimeout(searchTimer); requestSeque
             <NFormItem label="难度"><NInputNumber v-model:value="editForm.difficulty" :min="1" :max="5" class="w-full" /></NFormItem>
             <NFormItem label="标签"><NInput v-model:value="editForm.tagsText" placeholder="多个标签用逗号分隔" /></NFormItem>
           </div>
+          <template v-if="!editingId">
+            <NFormItem label="来源名称（必填）"><NInput v-model:value="editForm.sourceName" maxlength="120" placeholder="例如：原创题目、某公开题库" /></NFormItem>
+            <NFormItem label="授权说明（必填）"><NInput v-model:value="editForm.sourceLicense" maxlength="80" placeholder="例如：原创、CC BY 4.0" /></NFormItem>
+            <NFormItem label="来源链接（可选）"><NInput v-model:value="editForm.sourceUrl" maxlength="1000" placeholder="https://..." /></NFormItem>
+          </template>
         </NForm>
         <template #footer>
-          <NSpace justify="end"><NButton @click="editorVisible = false">取消</NButton><NButton type="primary" :loading="saving" @click="saveQuestion">保存题目</NButton></NSpace>
+          <NSpace justify="end"><NButton @click="editorVisible = false">取消</NButton><NButton v-if="editingId ? canUpdate : canCreate" type="primary" :loading="saving" @click="saveQuestion">保存题目</NButton></NSpace>
         </template>
       </NDrawerContent>
     </NDrawer>

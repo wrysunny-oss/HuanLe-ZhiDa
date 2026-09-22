@@ -34,6 +34,12 @@ export const updateQuizQuestionSchema = z.object({
   }
 });
 
+export const createQuizQuestionSchema = updateQuizQuestionSchema.safeExtend({
+  sourceName: z.string().trim().min(2).max(120),
+  sourceLicense: z.string().trim().min(2).max(80),
+  sourceUrl: z.union([z.url().max(1000), z.literal("")]).default(""),
+});
+
 export const reviewQuizQuestionSchema = z.object({
   action: z.enum(["APPROVE", "REJECT"]),
   remark: z.string().trim().max(500).optional(),
@@ -57,4 +63,5 @@ export const bulkPublishQuizQuestionsSchema = publishQuizQuestionSchema.extend({
 
 export type QuizQuestionListQuery = z.infer<typeof quizQuestionListSchema>;
 export type UpdateQuizQuestionInput = z.infer<typeof updateQuizQuestionSchema>;
+export type CreateQuizQuestionInput = z.infer<typeof createQuizQuestionSchema>;
 export type ReviewQuizQuestionInput = z.infer<typeof reviewQuizQuestionSchema>;

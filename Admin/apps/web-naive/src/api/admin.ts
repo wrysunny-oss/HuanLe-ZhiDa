@@ -410,7 +410,7 @@ export const getQuizQuestionsApi = (params: {
   reviewStatus?: QuizReviewStatus;
   status?: QuizPublishStatus;
 }) => requestClient.get<QuizQuestionListResult>('/admin/quiz-questions', { params });
-export const updateQuizQuestionApi = (id: string, data: {
+export interface QuizQuestionInput {
   answerIndexes: number[];
   categoryId: string;
   difficulty: number;
@@ -418,7 +418,14 @@ export const updateQuizQuestionApi = (id: string, data: {
   options: string[];
   prompt: string;
   tags: string[];
-}) => requestClient.put<QuizQuestion>(`/admin/quiz-questions/${id}`, data);
+}
+export const createQuizQuestionApi = (data: QuizQuestionInput & {
+  sourceLicense: string;
+  sourceName: string;
+  sourceUrl: string;
+}) => requestClient.post<QuizQuestion>('/admin/quiz-questions', data);
+export const updateQuizQuestionApi = (id: string, data: QuizQuestionInput) =>
+  requestClient.put<QuizQuestion>(`/admin/quiz-questions/${id}`, data);
 export const reviewQuizQuestionApi = (id: string, data: { action: 'APPROVE' | 'REJECT'; remark?: string }) =>
   requestClient.post<{ count: number; reviewStatus: QuizReviewStatus }>(`/admin/quiz-questions/${id}/review`, data);
 export const bulkReviewQuizQuestionsApi = (data: { action: 'APPROVE' | 'REJECT'; ids: string[]; remark?: string }) =>

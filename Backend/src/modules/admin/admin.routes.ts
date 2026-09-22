@@ -76,6 +76,7 @@ import { contentType, productModules } from "../../generated/product.generated.j
 import {
   bulkPublishQuizQuestionsSchema,
   bulkReviewQuizQuestionsSchema,
+  createQuizQuestionSchema,
   publishQuizQuestionSchema,
   quizQuestionIdSchema,
   quizQuestionListSchema,
@@ -122,6 +123,19 @@ router.get(
   permit("content:read"),
   validate(quizQuestionListSchema, "query"),
   async (_req, res) => ok(res, await quizAdminService.listQuizQuestions(res.locals.validatedQuery as QuizQuestionListQuery)),
+);
+
+/** 手动新增题目始终进入草稿和待审核，不允许直接发布。 */
+router.post(
+  "/quiz-questions",
+  permit("content:create"),
+  validate(createQuizQuestionSchema),
+  async (req, res) => ok(
+    res,
+    await quizAdminService.createQuizQuestion(req.auth!.userId, req.body, req),
+    "题目已创建，等待审核",
+    201,
+  ),
 );
 
 /** 编辑题目后旧审核结论失效，服务端自动退回待审核草稿。 */
