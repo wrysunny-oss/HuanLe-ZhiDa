@@ -22,6 +22,7 @@ import webhookRoutes from "./modules/webhook/webhook.routes.js";
 import notificationRoutes from "./modules/notification/notification.routes.js";
 import * as operationService from "./modules/operation/operation.service.js";
 import { renderDownloadPage } from "./modules/operation/invite-page.js";
+import { renderPrivacyPage } from "./modules/operation/privacy-page.js";
 import { requireProductModules } from "./middleware/product-module.js";
 import { contentType, productModules } from "./generated/product.generated.js";
 
@@ -80,6 +81,14 @@ app.get("/invite", async (req, res) => {
   const release = await operationService.getLatestPublicAndroidVersion();
   res.setHeader("Cache-Control", "no-store");
   return res.type("html").send(renderDownloadPage({ brandName: env.APP_BRAND_NAME, inviteCode, release }));
+});
+
+/** GET /privacy-policy：公开网页与 App 展示同一份已发布的隐私政策。 */
+app.get("/privacy-policy", async (_req, res) => {
+  const document = await operationService.getPublicPrivacyDocument();
+  res.setHeader("Cache-Control", "no-store");
+  if (!document) return res.status(503).type("html").send("隐私政策尚未发布，请稍后再试。");
+  return res.type("html").send(renderPrivacyPage(env.APP_BRAND_NAME, document));
 });
 app.use("/api/v1/auth", authRoutes);
 for (const contentRoute of getContentRoutes(contentType)) app.use(contentRoute.path, contentRoute.router);

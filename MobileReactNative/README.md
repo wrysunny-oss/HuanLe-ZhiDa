@@ -39,13 +39,18 @@ gradle :app:assembleDebug -PAPP_ENV=test -PAPP_API_ORIGIN=https://test-api.examp
 cd android
 $env:REWARD_APP_ENV = "production"
 $env:REWARD_APP_API_ORIGIN = "https://api.example.com"
-# 默认读取仓库根目录 my-release-key.keystore；需要使用其他证书时才设置此项。
+# 默认读取仓库根目录 server.keystore；需要使用其他证书时才设置此项。
 # $env:REWARD_APP_RELEASE_STORE_FILE = "D:\path\other-release.keystore"
 $env:REWARD_APP_RELEASE_STORE_PASSWORD = "由本机安全配置提供"
 $env:REWARD_APP_RELEASE_KEY_ALIAS = "由证书信息提供"
 $env:REWARD_APP_RELEASE_KEY_PASSWORD = "由本机安全配置提供"
 .\gradlew.bat :app:assembleRelease
 ```
+
+本地多 APP 打包时，可将 `android/signing.properties.example` 复制为同目录的
+`signing.properties`，为每个项目分别保存 `RELEASE_STORE_PASSWORD`、
+`RELEASE_KEY_ALIAS` 和 `RELEASE_KEY_PASSWORD`。真实配置已被 `.gitignore` 排除；
+Gradle 参数和环境变量的优先级仍高于该文件，适合 CI 临时覆盖。
 
 也可以使用环境变量 `REWARD_APP_ENV` 和 `REWARD_APP_API_ORIGIN`。API 地址不要包含 `/api/v1`，客户端会自动追加。版本展示和请求头统一读取 Android `versionName`、`versionCode`。
 

@@ -37,6 +37,14 @@ export async function getPublishedDocument(code: string) {
   return { ...document, content: sanitizeDocumentContent(document.content) };
 }
 
+export async function getPublicPrivacyDocument() {
+  return prisma.appDocument.findFirst({
+    where: { code: "PRIVACY_POLICY", status: "PUBLISHED" },
+    orderBy: [{ publishedAt: "desc" }, { id: "desc" }],
+    select: { title: true, version: true, content: true, publishedAt: true },
+  });
+}
+
 /** 灰度命中由 deviceId 稳定散列，同一设备不会在多次请求间反复变化。 */
 export async function checkVersion(platform: "ANDROID" | "IOS", currentCode: number, deviceId: string) {
   const release = await prisma.appVersion.findFirst({ where: { platform, enabled: true, publishedAt: { lte: new Date() }, versionCode: { gt: currentCode } }, orderBy: { versionCode: "desc" } });

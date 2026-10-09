@@ -12,6 +12,7 @@ buildscript {
         maven { url 'https://artifact.bytedance.com/repository/pangle' }
         maven { url 'https://artifact.bytedance.com/repository/Volcengine' }
         google()
+        maven { url 'https://maven.aliyun.com/repository/public' }
         mavenCentral()
         gradlePluginPortal()
     }
@@ -27,6 +28,7 @@ allprojects {
         maven { url 'https://artifact.bytedance.com/repository/pangle' }
         maven { url 'https://artifact.bytedance.com/repository/Volcengine' }
         google()
+        maven { url 'https://maven.aliyun.com/repository/public' }
         mavenCentral()
     }
 }

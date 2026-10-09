@@ -3,9 +3,9 @@
   "schemaVersion": 2,
   "productCode": "huanle-zhida",
   "brand": {
-    "appDisplayName": "幻乐智答",
-    "adminTitle": "幻乐智答管理后台",
-    "adminDescription": "幻乐智答运营管理后台",
+    "appDisplayName": "幻乐灵玑笔记",
+    "adminTitle": "幻乐灵玑笔记管理后台",
+    "adminDescription": "幻乐灵玑笔记运营管理后台",
     "companyName": "幻乐灵玑"
   },
   "android": {
@@ -45,7 +45,7 @@
         "rewardPlacementId": "000000"
       },
       "taku": {
-        "registeredAppName": "幻乐智答",
+        "registeredAppName": "幻乐灵玑笔记",
         "appId": "a6aab990f86e52",
         "splashPlacementId": "b6aae2bab20f22",
         "feedPlacementId": "b6aae2b1428a5d",

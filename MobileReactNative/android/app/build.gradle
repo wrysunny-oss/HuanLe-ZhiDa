@@ -85,12 +85,17 @@ def debugAppEnvironment = configuredAppEnvironment ?: "development"
 def releaseAppEnvironment = configuredAppEnvironment ?: "production"
 def debugApiOrigin = configuredApiOrigin ?: "http://10.0.2.2:3000"
 def releaseApiOrigin = configuredApiOrigin
-// 正式签名文件保存在仓库根目录并由 .gitignore 排除；CI 仍可通过属性或环境变量覆盖。
-def defaultReleaseStoreFile = rootProject.file("../../my-release-key.keystore").absolutePath
-def releaseStoreFile = buildProperty("RELEASE_STORE_FILE", "REWARD_APP_RELEASE_STORE_FILE", defaultReleaseStoreFile)
-def releaseStorePassword = buildProperty("RELEASE_STORE_PASSWORD", "REWARD_APP_RELEASE_STORE_PASSWORD", "")
-def releaseKeyAlias = buildProperty("RELEASE_KEY_ALIAS", "REWARD_APP_RELEASE_KEY_ALIAS", "")
-def releaseKeyPassword = buildProperty("RELEASE_KEY_PASSWORD", "REWARD_APP_RELEASE_KEY_PASSWORD", "")
+// 本地签名配置按项目保存并由 .gitignore 排除；Gradle 参数和环境变量仍可用于 CI 覆盖。
+def signingLocalProperties = new Properties()
+def signingLocalPropertiesFile = rootProject.file("signing.properties")
+if (signingLocalPropertiesFile.isFile()) {
+    signingLocalPropertiesFile.withInputStream { signingLocalProperties.load(it) }
+}
+def defaultReleaseStoreFile = rootProject.file("../../server.keystore").absolutePath
+def releaseStoreFile = buildProperty("RELEASE_STORE_FILE", "REWARD_APP_RELEASE_STORE_FILE", signingLocalProperties.getProperty("RELEASE_STORE_FILE", defaultReleaseStoreFile))
+def releaseStorePassword = buildProperty("RELEASE_STORE_PASSWORD", "REWARD_APP_RELEASE_STORE_PASSWORD", signingLocalProperties.getProperty("RELEASE_STORE_PASSWORD", ""))
+def releaseKeyAlias = buildProperty("RELEASE_KEY_ALIAS", "REWARD_APP_RELEASE_KEY_ALIAS", signingLocalProperties.getProperty("RELEASE_KEY_ALIAS", ""))
+def releaseKeyPassword = buildProperty("RELEASE_KEY_PASSWORD", "REWARD_APP_RELEASE_KEY_PASSWORD", signingLocalProperties.getProperty("RELEASE_KEY_PASSWORD", ""))
 def takuLocalProperties = new Properties()
 def takuLocalPropertiesFile = rootProject.file("taku.properties")
 if (takuLocalPropertiesFile.isFile()) {
@@ -119,16 +124,14 @@ def groMoreAdnAars = [
 ]
 def takuSdkFiles = [
     "ads-sdk-pro-7.6.1.2.aar",
-    "anythink_adx_sdk_kuying_6.5.77_necessary.aar",
-    "anythink_common_util_1.1.3.aar",
-    "anythink_core_6.6.22.aar",
-    "anythink_network_adx_kuying_sdk_necessary_6.5.77.1.1.aar",
-    "anythink_network_baidu_9.460.1.2.aar",
+    "anythink_adx_sdk_kuying_6.5.90_necessary.aar",
+    "anythink_common_util_1.1.6.aar",
+    "anythink_core_6.6.51.aar",
+    "anythink_network_adx_kuying_sdk_necessary_6.5.90.1.0.aar",
     "anythink_network_csj_7.6.1.2.1.3.aar",
     "anythink_network_gdt_4.701.1571.1.2.aar",
     "anythink_network_kuaishou_5.6.10.1.1.2.aar",
     "anythink_network_mimo_5.3.9.30.1.0.aar",
-    "Baidu_MobAds_SDK-release_v9.460.aar",
     "GDTSDK.unionNormal.4.701.1571.aar",
     "gson-2.8.4.jar",
     "kssdklite-ad-5.6.10.1-publishRelease-a4998d6ba3.aar",
@@ -258,7 +261,7 @@ if (groMoreEnabled) {
 if (takuEnabled) {
     tasks.register("validateTakuSdkFiles") {
         group = "verification"
-        description = "验证本地 Taku 6.6.22 与所选广告平台 SDK 文件"
+        description = "验证本地 Taku 6.6.51 与所选广告平台 SDK 文件"
         doLast {
             if (productConfig.modules?.advertising == true && configuredAdProvider == "taku" && !takuAppKey) {
                 throw new GradleException("启用 Taku 时必须通过 android/taku.properties、-PTAKU_APP_KEY 或 TAKU_APP_KEY 环境变量提供 App Key")

@@ -31,6 +31,7 @@ MobileReactNative/android/app/libs/*.jar
 !**/.env.example
 !**/.env.*.example
 MobileReactNative/android/taku.properties
+MobileReactNative/android/signing.properties
 *.jks
 *.keystore
 *.p12

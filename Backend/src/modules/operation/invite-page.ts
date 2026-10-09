@@ -124,7 +124,7 @@ export function renderDownloadPage(input: {
         ${renderReleaseNotes(input.release?.releaseNotes)}
       </aside>
     </main>
-    <footer>© ${new Date().getFullYear()} ${brandName} · 官方下载</footer>
+    <footer>© ${new Date().getFullYear()} ${brandName} · 官方下载 · <a href="/privacy-policy">隐私政策</a></footer>
   </div>
 </body>
 </html>`;

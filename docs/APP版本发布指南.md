@@ -1,6 +1,6 @@
 # APP 版本发布指南
 
-本文说明幻乐智答 Android APP 的版本号修改、正式打包、安装包上传和后台更新策略配置。
+本文说明幻乐灵玑笔记 Android APP 的版本号修改、正式打包、安装包上传和后台更新策略配置。
 
 ## 1. 版本字段
 
@@ -65,13 +65,18 @@ $env:REWARD_APP_RELEASE_KEY_ALIAS = "证书别名"
 $env:REWARD_APP_RELEASE_KEY_PASSWORD = "密钥密码"
 ```
 
-默认签名文件为仓库根目录的 `my-release-key.keystore`。需要使用其他文件时设置：
+默认签名文件为仓库根目录的 `server.keystore`。需要使用其他文件时设置：
 
 ```powershell
 $env:REWARD_APP_RELEASE_STORE_FILE = "D:\安全目录\release.keystore"
 ```
 
 密码不要写入 `build.gradle`、`.env` 示例或 Git 仓库。
+
+本地需要在多款 APP 之间切换时，可复制
+`MobileReactNative/android/signing.properties.example` 为同目录的
+`signing.properties`，分别保存每个项目自己的证书密码与别名。该文件已被
+`.gitignore` 排除；Gradle 参数和环境变量仍可在 CI 中覆盖本地配置。
 
 ## 4. 构建 APK 或 AAB
 

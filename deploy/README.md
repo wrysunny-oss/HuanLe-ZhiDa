@@ -1,4 +1,4 @@
-# 幻乐智答生产部署
+# 幻乐灵玑笔记生产部署
 
 目标环境：Alibaba Cloud Linux 3，Nginx 由服务器面板管理，Docker Compose 运行 Backend 与 MySQL 8.4。
 
@@ -27,7 +27,7 @@ chmod 600 .env backend.env
 - `TAKU_ECPM_PRIVATE_KEY_FILES_JSON`：真实 Key ID 对应容器内 `/app/certs/*.pem` 路径；格式见下方
 - 支付宝 App ID、应用私钥、三个证书路径和已审核的转账场景
 - 阿里云 RAM AccessKey、可用短信签名和验证码模板
-- `APP_BRAND_NAME=幻乐智答`
+- `APP_BRAND_NAME=幻乐灵玑笔记`
 - `CORS_ORIGINS=https://admin.hyljzn.cn`
 - `ADMIN_ACCESS_TOKEN_EXPIRES_IN=24h`
 - `REFRESH_TOKEN_EXPIRES_IN=30d`
@@ -90,6 +90,8 @@ pnpm --filter @vben/web-naive run build
 在面板创建两个 HTTPS 站点，将 `nginx/*.location.conf` 的内容加入对应站点。API 站点反向代理本机 `3000`，Admin 站点直接提供静态文件。
 
 发布后打开 `https://admin.hyljzn.cn`，确认登录、数据看板、奖励配置和弹窗滚动均正常。
+
+应用商店使用的隐私政策网址是 `https://api.hyljzn.cn/privacy-policy`。先在管理后台“运营配置 → 协议与关于”中创建并发布 `PRIVACY_POLICY` 文档，再部署 Backend；网页与 App 内使用同一份已发布内容。发布后在未登录的浏览器中打开网址，确认政策正文可见，再提交到应用商店。未发布文档时网页返回 503，不能用于商店审核。
 
 ## 4. APP 正式包
 

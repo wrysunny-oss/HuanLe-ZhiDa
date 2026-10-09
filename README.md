@@ -1,6 +1,6 @@
-# 幻乐智答
+# 幻乐灵玑笔记
 
-幻乐智答是幻乐灵玑旗下的奖励型答题 APP，包含 Android APP、运营管理后台、Node.js API、MySQL 数据库及 Docker 生产部署配置。当前内容类型为 `quiz`；短剧插件关闭，广告使用 Taku。生产部署前须配置服务端回调签名密钥和 eCPM 私钥文件映射。
+幻乐灵玑笔记是幻乐灵玑旗下的奖励型答题 APP，包含 Android APP、运营管理后台、Node.js API、MySQL 数据库及 Docker 生产部署配置。当前内容类型为 `quiz`；短剧插件关闭，广告使用 Taku。生产部署前须配置服务端回调签名密钥和 eCPM 私钥文件映射。
 
 ## 项目组成
 
@@ -70,7 +70,7 @@ npm.cmd test -- --runInBand
 - APP 签名密码只通过本机环境变量或 CI 密钥注入。
 - `src/generated`、`src/contracts` 和 `product.generated.json` 是脚本生成结果，不手动编辑。
 - 修改数据库结构必须创建 Prisma migration，生产环境只执行 `prisma migrate deploy`。
-- APP 保留通用业务能力和交互契约，但必须围绕答题场景重构移动端 UI；当前继承的 `DESIGN.md` 仅作模板参考，后续需替换为幻乐智答自己的设计规范。
+- APP 保留通用业务能力和交互契约，但必须围绕答题场景重构移动端 UI；当前继承的 `DESIGN.md` 仅作模板参考，后续需替换为幻乐灵玑笔记自己的设计规范。
 
 ## 文档维护约定
 

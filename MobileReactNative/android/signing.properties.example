@@ -1,0 +1,5 @@
+# Copy this file to signing.properties and keep the real credentials local.
+# RELEASE_STORE_FILE is optional; the default is ../../server.keystore at the repository root.
+RELEASE_STORE_PASSWORD=replace-with-keystore-password
+RELEASE_KEY_ALIAS=replace-with-key-alias
+RELEASE_KEY_PASSWORD=replace-with-key-password
