@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {AppIcon, AppIconName} from '../../components/AppIcon';
 import {BrandMark} from '../../components/BrandMark';
 import {AppButton, AppCard} from '../../components/DesignSystem';
 import {Screen} from '../../components/Screen';
+import {LegalDocumentViewer, LegalDocumentType} from '../../components/LegalDocumentViewer';
 import {useAuthStore} from '../../stores/auth';
 import {appApi} from '../../api/app';
 import {colors, radii, spacing, typography} from '../../theme';
@@ -29,6 +30,7 @@ export function AuthScreen() {
   const [nickname, setNickname] = useState('');
   const [inviteCode, setInviteCode] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState<LegalDocumentType | null>(null);
   const [busy, setBusy] = useState(false);
   const [smsBusy, setSmsBusy] = useState(false);
   const [smsCountdown, setSmsCountdown] = useState(0);
@@ -101,15 +103,24 @@ export function AuthScreen() {
               {mode === 'register' ? <><AuthInput icon="user" placeholder="昵称" value={nickname} onChangeText={setNickname} />{productModules.invitations ? <AuthInput icon="user-plus" placeholder="邀请码（必填）" value={inviteCode} onChangeText={setInviteCode} autoCapitalize="characters" /> : null}</> : null}
             </View>
             {error ? <View style={styles.errorBox}><AppIcon name="info" color={colors.danger} size={16} /><Text style={styles.errorText}>{error}</Text></View> : null}
-            <Pressable onPress={() => setAgreed(value => !value)} style={styles.agreement}>
-              <View style={[styles.checkbox, agreed && styles.checkboxChecked]}>{agreed ? <AppIcon name="check" color={colors.onPrimary} size={12} strokeWidth={3} /> : null}</View>
-              <Text style={styles.agreementText}>我已阅读并同意 <Text style={styles.link}>《用户协议》</Text> 和 <Text style={styles.link}>《隐私政策》</Text></Text>
-            </Pressable>
+            <View style={styles.agreement}>
+              <Pressable onPress={() => setAgreed(value => !value)} accessibilityRole="checkbox" accessibilityState={{checked: agreed}}>
+                <View style={[styles.checkbox, agreed && styles.checkboxChecked]}>{agreed ? <AppIcon name="check" color={colors.onPrimary} size={12} strokeWidth={3} /> : null}</View>
+              </Pressable>
+              <Text style={styles.agreementText}>
+                我已阅读并同意 <Text style={styles.link} onPress={() => setSelectedDocument('USER_AGREEMENT')} accessibilityRole="link">《用户协议》</Text> 和 <Text style={styles.link} onPress={() => setSelectedDocument('PRIVACY_POLICY')} accessibilityRole="link">《隐私政策》</Text>
+              </Text>
+            </View>
             <AppButton title={mode === 'login' ? '登录' : '注册并登录'} loading={busy} onPress={submit} style={styles.submit} />
             <Text style={styles.securityTip}>登录后才可访问内容，账号数据将被安全保护</Text>
           </AppCard>
         </ScrollView>
       </KeyboardAvoidingView>
+      <Modal visible={selectedDocument !== null} transparent animationType="fade" statusBarTranslucent onRequestClose={() => setSelectedDocument(null)}>
+        <View style={styles.documentBackdrop}>
+          {selectedDocument ? <LegalDocumentViewer type={selectedDocument} onBack={() => setSelectedDocument(null)} /> : null}
+        </View>
+      </Modal>
     </Screen>
   );
 }
@@ -119,4 +130,5 @@ const styles = StyleSheet.create({
   formCard: {borderRadius: radii.xl, padding: spacing.xl, borderColor: colors.secondarySoft, shadowColor: colors.secondary}, tabs: {height: 44, flexDirection: 'row', backgroundColor: colors.surfaceAlt, borderRadius: radii.md, padding: 4, marginBottom: spacing.xl}, tab: {flex: 1, alignItems: 'center', justifyContent: 'center'}, tabText: {color: colors.muted, fontSize: 15, lineHeight: 22, fontWeight: '600'}, tabTextActive: {color: colors.primary}, tabIndicator: {position: 'absolute', left: 8, right: 8, bottom: 0, height: 3, borderRadius: 2, backgroundColor: colors.primary}, fields: {gap: spacing.md},
   inputWrap: {height: 52, borderRadius: radii.md, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceAlt, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.md}, input: {flex: 1, color: colors.text, ...typography.body, paddingVertical: 0}, errorBox: {minHeight: 40, marginTop: spacing.md, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderRadius: radii.sm, backgroundColor: colors.dangerSoft, flexDirection: 'row', alignItems: 'center', gap: spacing.sm}, errorText: {color: colors.danger, ...typography.caption, flex: 1}, agreement: {flexDirection: 'row', alignItems: 'flex-start', marginTop: spacing.lg}, checkbox: {width: 19, height: 19, borderRadius: 6, borderWidth: 1, borderColor: colors.muted, alignItems: 'center', justifyContent: 'center', marginTop: 1}, checkboxChecked: {backgroundColor: colors.primary, borderColor: colors.primary}, agreementText: {color: colors.muted, ...typography.caption, flex: 1, marginLeft: spacing.sm}, link: {color: colors.primary}, submit: {marginTop: spacing.xl}, securityTip: {color: colors.subtle, ...typography.caption, textAlign: 'center', marginTop: spacing.lg},
   smsRow: {flexDirection: 'row', gap: spacing.sm}, smsInput: {flex: 1}, smsButton: {width: 108, height: 52, borderRadius: radii.md, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center'}, smsButtonDisabled: {opacity: 0.55}, smsButtonPressed: {opacity: 0.8}, smsButtonText: {color: colors.onPrimary, fontSize: 14, fontWeight: '700'},
+  documentBackdrop: {flex: 1, backgroundColor: 'rgba(0,0,0,0.72)', alignItems: 'center', justifyContent: 'center', padding: spacing.xl},
 });

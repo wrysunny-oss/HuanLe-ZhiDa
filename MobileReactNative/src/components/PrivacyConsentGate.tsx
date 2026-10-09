@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AppIcon} from './AppIcon';
 import {AppButton, AppCard} from './DesignSystem';
 import {BrandLoader} from './BrandLoader';
+import {LegalDocumentViewer, LegalDocumentType} from './LegalDocumentViewer';
 import {dramaNative} from '../native/drama';
 import {adProvider} from '../native/ad-provider';
 import {refreshAdRuntimeConfig} from '../native/ad-runtime';
@@ -35,6 +36,7 @@ async function initializeNativeSdksAndSplash() {
 export function PrivacyConsentGate({children}: {children: ReactNode}) {
   const [ready, setReady] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState<LegalDocumentType | null>(null);
   useEffect(() => {
     AsyncStorage.getItem(CONSENT_KEY).then(value => {
       if (value) {
@@ -52,7 +54,39 @@ export function PrivacyConsentGate({children}: {children: ReactNode}) {
     setReady(true);
   };
   if (!ready) return <BrandLoader fullScreen label="正在初始化安全服务" />;
-  return <>{children}<Modal visible={visible} transparent animationType="fade" statusBarTranslucent onRequestClose={() => undefined}><View style={styles.backdrop}><AppCard style={styles.dialog} elevated><View style={styles.dialogIcon}><AppIcon name="shield" color={colors.primary} size={28} /></View><Text style={styles.title}>隐私保护说明</Text><Text style={styles.description}>为了提供{nativeServiceDescription}服务，我们需要在获得你的同意后初始化相关 SDK。你可以阅读《用户协议》和《隐私政策》了解详细规则。</Text><View style={styles.links}><Pressable><Text style={styles.link}>《用户协议》</Text></Pressable><Pressable><Text style={styles.link}>《隐私政策》</Text></Pressable></View><AppButton title="同意并继续" icon="check" onPress={() => agree().catch(() => undefined)} /><Pressable onPress={() => BackHandler.exitApp()} style={styles.decline}><Text style={styles.declineText}>不同意并退出</Text></Pressable></AppCard></View></Modal></>;
+  return <>
+    {children}
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      statusBarTranslucent
+      onRequestClose={() => { if (selectedDocument) setSelectedDocument(null); }}>
+      <View style={styles.backdrop}>
+        {selectedDocument ? (
+          <LegalDocumentViewer type={selectedDocument} onBack={() => setSelectedDocument(null)} />
+        ) : (
+          <AppCard style={styles.dialog} elevated>
+            <View style={styles.dialogIcon}><AppIcon name="shield" color={colors.primary} size={28} /></View>
+            <Text style={styles.title}>隐私保护说明</Text>
+            <Text style={styles.description}>为了提供{nativeServiceDescription}服务，我们需要在获得你的同意后初始化相关 SDK。你可以阅读《用户协议》和《隐私政策》了解详细规则。</Text>
+            <View style={styles.links}>
+              <Pressable onPress={() => setSelectedDocument('USER_AGREEMENT')} accessibilityRole="link">
+                <Text style={styles.link}>《用户协议》</Text>
+              </Pressable>
+              <Pressable onPress={() => setSelectedDocument('PRIVACY_POLICY')} accessibilityRole="link">
+                <Text style={styles.link}>《隐私政策》</Text>
+              </Pressable>
+            </View>
+            <AppButton title="同意并继续" icon="check" onPress={() => agree().catch(() => undefined)} />
+            <Pressable onPress={() => BackHandler.exitApp()} style={styles.decline}>
+              <Text style={styles.declineText}>不同意并退出</Text>
+            </Pressable>
+          </AppCard>
+        )}
+      </View>
+    </Modal>
+  </>;
 }
 
 const styles = StyleSheet.create({
