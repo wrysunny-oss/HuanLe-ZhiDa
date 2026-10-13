@@ -27,6 +27,7 @@ import {
 } from '../../components/RewardSuccessDialog';
 import { adProvider } from '../../native/ad-provider';
 import { getAdRuntimeConfig } from '../../native/ad-runtime';
+import {NativeMilestoneAd} from './NativeMilestoneAd';
 import {
   getRewardLoadCooldownRemainingMs,
   hydrateRewardLoadCooldown,
@@ -159,7 +160,7 @@ function MilestoneTasks({
   kind: 'ad' | 'invite';
   busy?: boolean;
   action: string;
-  onPress?: () => void;
+  onPress?: (item: RewardMilestone) => void;
 }) {
   if (!items?.length) return null;
   const isAd = kind === 'ad';
@@ -167,12 +168,15 @@ function MilestoneTasks({
     <>
       {items.map(item => {
         const periodLabel = item.period === 'DAILY' ? '今日' : '累计';
+        const networkName = item.networkFirmId && item.networkFirmId !== 'AUTO'
+          ? ({'8': '优量汇', '15': '穿山甲', '28': '快手', '49': '米盟', '66': 'Taku ADX'} as Record<string, string>)[item.networkFirmId]
+          : '';
         const targetLabel = isAd
-          ? `观看广告 ${item.count} 次`
+          ? `${item.adFormat === 'NATIVE' ? '展示原生广告' : '观看激励广告'} ${item.count} 次${networkName ? ` · ${networkName}` : ''}`
           : `邀请 ${item.count} 位好友`;
         return (
           <TaskCard
-            key={`${kind}-${item.period}-${item.count}`}
+            key={`${kind}-${item.adFormat ?? ''}-${item.networkFirmId ?? ''}-${item.period}-${item.count}`}
             icon={isAd ? 'play' : 'user-plus'}
             title={`${periodLabel}${targetLabel}`}
             description={
@@ -183,9 +187,9 @@ function MilestoneTasks({
             reward={`额外奖励 ${item.rewardCoins} 金币`}
             progress={`${Math.min(item.progress, item.count)}/${item.count}`}
             completed={item.completed}
-            busy={busy}
-            action={action}
-            onPress={onPress}
+            busy={item.adFormat === 'NATIVE' ? false : busy}
+            action={item.adFormat === 'NATIVE' ? '去完成' : action}
+            onPress={onPress ? () => onPress(item) : undefined}
           />
         );
       })}
@@ -217,6 +221,7 @@ export function TasksScreen() {
   const [adState, setAdState] = useState<AdState>('idle');
   const [error, setError] = useState('');
   const [rewardReceipt, setRewardReceipt] = useState<RewardReceipt>();
+  const [nativeMilestone, setNativeMilestone] = useState<RewardMilestone>();
   const [preloadRequest, setPreloadRequest] = useState(0);
   const [cooldownRemainingSeconds, setCooldownRemainingSeconds] = useState(0);
   const adOperationActive = useRef(false);
@@ -427,7 +432,7 @@ export function TasksScreen() {
   }, [completedAds, cooldownRemainingSeconds, dailyAdLimit, isFocused, preloadRequest, profile?.id, rewardedVideoEnabled]);
 
   /** 客户端只展示过程，最终金币到账仍以广告平台服务端回调后的中心数据为准。 */
-  const watchRewardAd = async () => {
+  const watchRewardAd = async (milestone?: RewardMilestone) => {
     if (!profile?.id || adOperationActive.current) return;
     if (!rewardedVideoEnabled) return toast.show('激励视频收益暂未开放');
     if (cooldownRemainingSeconds > 0)
@@ -437,6 +442,13 @@ export function TasksScreen() {
     let confirmationContinuesInBackground = false;
     try {
       adOperationActive.current = true;
+      const selectedNetwork = milestone?.networkFirmId ?? 'AUTO';
+      if (selectedNetwork !== 'AUTO' && adProvider.name === 'taku') {
+        await preloadPromise.current?.catch(() => undefined);
+        preloadPromise.current = undefined;
+        adProvider.dispose();
+        setAdState('idle');
+      }
       const adStartedAt = Date.now();
       let rewardTransactionId = '';
       let confirmationPromise:
@@ -456,11 +468,11 @@ export function TasksScreen() {
           startConfirmation().catch(() => undefined);
         },
       };
-      if (adState !== 'ready' && adProvider.state !== 'ready') {
+      if (selectedNetwork !== 'AUTO' || (adState !== 'ready' && adProvider.state !== 'ready')) {
         setAdState('loading');
         const adPreparation = preloadPromise.current ?? adProvider.loadReward(
           profile.id,
-          JSON.stringify({ source: 'benefits', userId: profile.id }),
+          JSON.stringify({ source: 'benefits', userId: profile.id, networkFirmId: selectedNetwork }),
           'REWARD',
           lifecycle,
         );
@@ -511,6 +523,7 @@ export function TasksScreen() {
                 ...current,
                 rewardedAdCountToday: nextCompletedCount,
                 rewardedAdMilestones: current.rewardedAdMilestones.map(item => {
+                  if (item.adFormat === 'NATIVE' || (item.networkFirmId && item.networkFirmId !== 'AUTO')) return item;
                   const progress = item.progress + taskIncrement;
                   return {
                     ...item,
@@ -719,7 +732,7 @@ export function TasksScreen() {
                 }
                 busy={(adState !== 'idle' && adState !== 'ready') || cooldownRemainingSeconds > 0}
                 action={rewardedVideoEnabled ? adAction : '未开放'}
-                onPress={rewardedVideoEnabled ? watchRewardAd : undefined}
+                onPress={rewardedVideoEnabled ? () => watchRewardAd() : undefined}
               />
               <View style={styles.progressTrack}>
                 <View
@@ -731,7 +744,13 @@ export function TasksScreen() {
                 kind="ad"
                 busy={(adState !== 'idle' && adState !== 'ready') || cooldownRemainingSeconds > 0}
                 action={rewardedVideoEnabled ? adAction : '未开放'}
-                onPress={rewardedVideoEnabled ? watchRewardAd : undefined}
+                onPress={item => {
+                  if (item.adFormat === 'NATIVE') {
+                    if (adProvider.name !== 'taku' || !getAdRuntimeConfig().feed.enabled) return toast.show('原生广告任务暂未开放');
+                    setNativeMilestone(item);
+                  } else if (rewardedVideoEnabled) watchRewardAd(item);
+                  else toast.show('激励视频任务暂未开放');
+                }}
               /></> : null}
               {isShortDramaEnabled ? <TaskCard
                 icon="clock"
@@ -769,6 +788,14 @@ export function TasksScreen() {
         receipt={rewardReceipt}
         onClose={() => setRewardReceipt(undefined)}
       />
+      {nativeMilestone ? <NativeMilestoneAd
+        item={nativeMilestone}
+        onClose={() => setNativeMilestone(undefined)}
+        onComplete={coins => {
+          load('silent').catch(() => undefined);
+          toast.show(Number(coins) > 0 ? `阶梯奖励到账 ${coins} 金币` : '原生广告任务进度已更新', 'success');
+        }}
+      /> : null}
     </Screen>
   );
 }

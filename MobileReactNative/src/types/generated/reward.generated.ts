@@ -5,6 +5,9 @@ export interface RewardMilestoneDefinition {
   count: number;
   rewardCoins: number;
   period: RewardMilestonePeriod;
+  adFormat?: 'REWARD' | 'NATIVE';
+  networkFirmId?: 'AUTO' | '8' | '15' | '28' | '49' | '66';
+  minIntervalSeconds?: number;
 }
 
 export interface UpdateAdRewardConfig {

@@ -2,8 +2,9 @@ import { Router } from "express";
 import { ok } from "../../lib/http.js";
 import { authenticate } from "../../middleware/auth.js";
 import { validate } from "../../middleware/request.js";
-import { adRewardStatusParamsSchema, bindInviteSchema, dramaUnlockAdIntentSchema, goldenWatchProgressSchema, inviteRelationsQuerySchema, latestAdRewardQuerySchema, rewardListQuerySchema, updateInviteCodeSchema, verifiedAdImpressionSchema, type AdRewardStatusParams, type GoldenWatchProgressInput, type InviteRelationsQuery, type LatestAdRewardQuery, type RewardListQuery, type VerifiedAdImpressionInput } from "./reward.schema.js";
+import { adRewardStatusParamsSchema, bindInviteSchema, completeNativeAdTaskSchema, dramaUnlockAdIntentSchema, goldenWatchProgressSchema, inviteRelationsQuerySchema, latestAdRewardQuerySchema, rewardListQuerySchema, startNativeAdTaskSchema, updateInviteCodeSchema, verifiedAdImpressionSchema, type AdRewardStatusParams, type GoldenWatchProgressInput, type InviteRelationsQuery, type LatestAdRewardQuery, type RewardListQuery, type VerifiedAdImpressionInput } from "./reward.schema.js";
 import * as rewardService from "./reward.service.js";
+import * as nativeAdTaskService from "./native-ad-task.service.js";
 import { actionLimiter } from "../../middleware/rate-limit.js";
 import { requireProductModules } from "../../middleware/product-module.js";
 import { contentType } from "../../generated/product.generated.js";
@@ -13,6 +14,10 @@ router.use(authenticate);
 
 /** GET /center：返回个人邀请码、邀请数量、签到状态和签到规则；需要登录。 */
 router.get("/center", requireProductModules("rewards"), async (req, res) => ok(res, await rewardService.getRewardCenter(req.auth!.userId)));
+router.post("/native-ad-tasks/start", requireProductModules("advertising", "rewards"), actionLimiter, validate(startNativeAdTaskSchema), async (req, res) =>
+  ok(res, await nativeAdTaskService.startNativeAdTask(req.auth!.userId, req.body.selectedNetworkId), undefined, 201));
+router.post("/native-ad-tasks/complete", requireProductModules("advertising", "rewards"), actionLimiter, validate(completeNativeAdTaskSchema), async (req, res) =>
+  ok(res, await nativeAdTaskService.completeNativeAdTask(req.auth!.userId, req.body)));
 /** GET /ledgers：分页读取当前用户自己的金币流水；需要登录。 */
 router.get("/ledgers", requireProductModules("rewards"), validate(rewardListQuerySchema, "query"), async (req, res) => ok(res, await rewardService.listMyLedgers(req.auth!.userId, res.locals.validatedQuery as RewardListQuery)));
 /** GET /ad-rewards/:transactionId/status：查询当前用户一次广告的服务端到账状态。 */

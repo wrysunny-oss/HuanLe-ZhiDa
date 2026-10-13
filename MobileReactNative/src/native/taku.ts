@@ -325,6 +325,15 @@ export const takuAdProvider: AdProvider = {
     rewardInfo = undefined;
     rewardEcpm = null;
     const placementId = runtime.reward.placementId;
+    let selectedNetwork = 'AUTO';
+    try {
+      selectedNetwork = String((JSON.parse(extra) as {networkFirmId?: string}).networkFirmId ?? 'AUTO');
+    } catch {
+      // Other reward entry points do not require a network filter.
+    }
+    const networkIds = ['8', '15', '28', '49', '66'];
+    ATSDK.setFilterNetworkFirmIdList(placementId,
+      networkIds.includes(selectedNetwork) ? networkIds.filter(id => id !== selectedNetwork) : []);
     const autoLoad = runtime.reward.loadMode === 'AUTO';
     rewardAutoMode = autoLoad;
     const localExtra = {

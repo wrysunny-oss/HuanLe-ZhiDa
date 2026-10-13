@@ -27,9 +27,9 @@ export const updateAdRewardConfigSchema = updateAdRewardConfigBaseSchema.superRe
   if (value.directShareRateBps + value.indirectShareRateBps > 10_000) {
     context.addIssue({ code: "custom", message: "直推和间推返佣比例合计不能超过 100%" });
   }
-  const adKeys = value.rewardedAdMilestones.map((item) => `${item.period}:${item.count}`);
+  const adKeys = value.rewardedAdMilestones.map((item) => `${item.adFormat ?? "REWARD"}:${item.networkFirmId ?? "AUTO"}:${item.period}:${item.count}`);
   if (new Set(adKeys).size !== adKeys.length) {
-    context.addIssue({ code: "custom", path: ["rewardedAdMilestones"], message: "同一周期和观看次数只能配置一个阶梯奖励" });
+    context.addIssue({ code: "custom", path: ["rewardedAdMilestones"], message: "同一类型、平台、周期和完成次数只能配置一个阶梯奖励" });
   }
   if (value.rewardedAdMilestones.some((item) => item.period === "DAILY" && item.count > value.dailyRewardedAdLimit)) {
     context.addIssue({ code: "custom", path: ["rewardedAdMilestones"], message: "阶梯观看次数不能超过每日激励广告上限" });

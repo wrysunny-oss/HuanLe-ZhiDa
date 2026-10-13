@@ -197,6 +197,7 @@ model User {
   locationPresences         DeviceLocationPresence[]
   riskChallenges            DeviceRiskChallenge[]
   adRewardSettlements       AdRewardSettlement[]
+  nativeAdTaskAttempts      NativeAdTaskAttempt[]
   agentCommissions          AgentAdCommission[]       @relation("AgentCommissionReceiver")
   generatedAgentCommissions AgentAdCommission[]       @relation("AgentCommissionSource")
   quizSessions              QuizSession[]
@@ -270,6 +271,23 @@ model AdRewardSettlement {
   @@index([userId, createdAt])
   @@index([format, createdAt])
   @@map("ad_reward_settlements")
+}
+
+/// 原生广告任务的一次性凭证；客户端展示事件只用于阶梯进度，不参与单次广告收益结算。
+model NativeAdTaskAttempt {
+  id                  String    @id @default(uuid()) @db.VarChar(36)
+  userId              BigInt    @map("user_id")
+  selectedNetworkId   String    @map("selected_network_id") @db.VarChar(4)
+  actualNetworkId     String?   @map("actual_network_id") @db.VarChar(4)
+  placementId         String    @map("placement_id") @db.VarChar(128)
+  adShowId            String?   @map("ad_show_id") @db.VarChar(100)
+  startedAt           DateTime  @default(now()) @map("started_at")
+  completedAt         DateTime? @map("completed_at")
+  user                User      @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@unique([placementId, adShowId])
+  @@index([userId, completedAt])
+  @@map("native_ad_task_attempts")
 }
 
 /// 代理从任意深度下级广告收益中获得的平台额外佣金；比例和金额均按结算时快照保存。

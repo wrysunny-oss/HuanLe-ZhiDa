@@ -46,6 +46,16 @@ export const verifiedAdImpressionSchema = z.object({
   adnName: z.string().trim().max(50).optional(),
 });
 
+export const startNativeAdTaskSchema = z.object({
+  selectedNetworkId: z.enum(["AUTO", "8", "15", "28", "49", "66"]),
+});
+
+export const completeNativeAdTaskSchema = z.object({
+  attemptId: z.string().uuid(),
+  actualNetworkId: z.enum(["8", "15", "28", "49", "66"]).optional(),
+  adShowId: z.string().trim().min(1).max(100).optional(),
+});
+
 export const goldenWatchProgressSchema = z.object({
   externalId: z.string().trim().regex(/^[1-9]\d{0,99}$/),
   episodeIndex: z.number().int().min(1).max(100_000),

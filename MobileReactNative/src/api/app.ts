@@ -115,6 +115,10 @@ export const appApi = {
     apiRequest<{awardedCoins: string; format: string}>('/rewards/ad-rewards/verified-impression', {method: 'POST', data}),
   /** 获取签到状态、广告完成次数和后台配置的每日广告上限。 */
   rewardCenter: () => apiRequest<RewardCenter>('/rewards/center'),
+  startNativeAdTask: (selectedNetworkId: 'AUTO' | '8' | '15' | '28' | '49' | '66') =>
+    apiRequest<{attemptId: string; placementId: string; minShowSeconds: number; expiresInSeconds: number}>('/rewards/native-ad-tasks/start', {method: 'POST', data: {selectedNetworkId}}),
+  completeNativeAdTask: (data: {attemptId: string; actualNetworkId?: string; adShowId?: string}) =>
+    apiRequest<{completed: boolean; awardedCoins: string; coinBalance: string; nativeAdCountToday: number}>('/rewards/native-ad-tasks/complete', {method: 'POST', data}),
   rewardLedgers: () =>
     apiRequest<{list: RewardLedger[]; total: number}>(
       '/rewards/ledgers?page=1&pageSize=100',

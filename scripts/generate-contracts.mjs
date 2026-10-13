@@ -85,6 +85,9 @@ export const createRewardMilestoneSchema = (maxCount: number) => z.object({
   count: z.number().int().min(1).max(maxCount),
   rewardCoins: z.number().int().min(1).max(${limits.rewardCoinsMax}),
   period: rewardMilestonePeriodSchema,
+  adFormat: z.enum(["REWARD", "NATIVE"]).optional(),
+  networkFirmId: z.enum(["AUTO", "8", "15", "28", "49", "66"]).optional(),
+  minIntervalSeconds: z.number().int().min(15).max(3600).optional(),
 });
 
 export const updateAdRewardConfigBaseSchema = z.object({
@@ -103,6 +106,9 @@ export interface RewardMilestoneDefinition {
   count: number;
   rewardCoins: number;
   period: RewardMilestonePeriod;
+  adFormat?: 'REWARD' | 'NATIVE';
+  networkFirmId?: 'AUTO' | '8' | '15' | '28' | '49' | '66';
+  minIntervalSeconds?: number;
 }
 
 export interface UpdateAdRewardConfig {

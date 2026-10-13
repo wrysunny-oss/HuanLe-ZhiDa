@@ -5,7 +5,7 @@ import { AppError } from "../../lib/http.js";
 import { prisma } from "../../lib/prisma.js";
 import { env } from "../../config.js";
 import type { GoldenWatchProgressInput, InviteRelationsQuery, RewardListQuery, VerifiedAdImpressionInput } from "./reward.schema.js";
-import { DAILY_REWARDED_AD_FORMATS, normalizeRewardMilestones, settleAdReward } from "../admin/admin.service.js";
+import { DAILY_REWARDED_AD_FORMATS, adMilestoneBizId, normalizeRewardMilestones, settleAdReward } from "../admin/admin.service.js";
 import { createDramaUnlockIntent } from "./ad-reward-intent.js";
 import { getAdRuntimeConfig } from "../operation/ad-runtime.service.js";
 import { groMoreEcpmToRevenueYuan } from "../webhook/webhook.service.js";
@@ -141,7 +141,7 @@ async function bindInviteInTx(tx: Tx, inviteeId: bigint, inviteCode: string) {
     tx.adRewardConfig.upsert({ where: { id: 1 }, create: { id: 1 }, update: {} }),
   ]);
   const inviteDate = inviteDay.start.toISOString().slice(0, 10);
-  const milestoneCandidates = normalizeRewardMilestones(taskConfig.inviteMilestones, 1_000_000).filter((item) => item.count <= (item.period === "DAILY" ? inviteCountToday : inviteCountLifetime));
+  const milestoneCandidates = normalizeRewardMilestones(taskConfig.inviteMilestones, 1_000_000, "invite").filter((item) => item.count <= (item.period === "DAILY" ? inviteCountToday : inviteCountLifetime));
   const milestoneBizId = (item: {count: number; period: "DAILY" | "LIFETIME"}) => `invite-milestone:${inviter.id}:${item.period === "DAILY" ? inviteDate : "lifetime"}:${item.count}`;
   const existingMilestones = milestoneCandidates.length > 0
     ? await tx.rewardLedger.findMany({ where: { type: "TASK", bizId: { in: milestoneCandidates.map(milestoneBizId) } }, select: { bizId: true } })
@@ -542,6 +542,21 @@ export async function getRewardCenter(userId: bigint) {
   });
   const claimedMilestones = new Set(milestoneLedgers.map((item) => item.bizId));
   const milestoneClaimed = (task: "ad" | "invite", item: {count: number; period: "DAILY" | "LIFETIME"}) => claimedMilestones.has(`${task}-milestone:${userId}:${item.period === "DAILY" ? milestoneDate : "lifetime"}:${item.count}`);
+  const adMilestones = normalizeRewardMilestones(adConfig.rewardedAdMilestones);
+  const [networkRewardSettlements, nativeAttempts] = await Promise.all([
+    prisma.adRewardSettlement.findMany({ where: { userId, format: "REWARD", awardedCoins: { gt: 0n }, source: { startsWith: "TAKU:" } }, select: { source: true, createdAt: true } }),
+    prisma.nativeAdTaskAttempt.findMany({ where: { userId, completedAt: { not: null } }, select: { actualNetworkId: true, completedAt: true } }),
+  ]);
+  const adProgress = (item: typeof adMilestones[number]) => {
+    const isDaily = item.period === "DAILY";
+    const network = item.networkFirmId ?? "AUTO";
+    if (item.adFormat === "NATIVE") return nativeAttempts.filter(attempt =>
+      (!isDaily || (attempt.completedAt! >= adDay.start && attempt.completedAt! < adDay.end)) &&
+      (network === "AUTO" || attempt.actualNetworkId === network)).length;
+    if (network === "AUTO") return isDaily ? rewardedAdCountToday : rewardedAdCountLifetime;
+    return networkRewardSettlements.filter(settlement => settlement.source === `TAKU:${network}` &&
+      (!isDaily || (settlement.createdAt >= adDay.start && settlement.createdAt < adDay.end))).length;
+  };
   // 只有最后一次签到发生在今天或昨天，历史 streak 才仍代表“连续签到”。
   const streak = latest && [today.getTime(), yesterday.getTime()].includes(latest.date.getTime()) ? latest.streak : 0;
   return {
@@ -558,8 +573,8 @@ export async function getRewardCenter(userId: bigint) {
     rewardedAdDailyLimit: adConfig.dailyRewardedAdLimit,
     rewardedVideoRewardEnabled: adConfig.rewardedVideoRewardEnabled,
     contentUnlockRewardEnabled: adConfig.dramaUnlockRewardEnabled,
-    rewardedAdMilestones: normalizeRewardMilestones(adConfig.rewardedAdMilestones).map((item) => ({ ...item, progress: item.period === "DAILY" ? rewardedAdCountToday : rewardedAdCountLifetime, completed: milestoneClaimed("ad", item) })),
-    inviteMilestones: normalizeRewardMilestones(adConfig.inviteMilestones, 1_000_000).map((item) => ({ ...item, progress: item.period === "DAILY" ? invitedCountToday : invitedCount, completed: milestoneClaimed("invite", item) })),
+    rewardedAdMilestones: adMilestones.map((item) => ({ ...item, progress: adProgress(item), completed: claimedMilestones.has(adMilestoneBizId(userId, milestoneDate, item)) })),
+    inviteMilestones: normalizeRewardMilestones(adConfig.inviteMilestones, 1_000_000, "invite").map((item) => ({ ...item, progress: item.period === "DAILY" ? invitedCountToday : invitedCount, completed: milestoneClaimed("invite", item) })),
     goldenWatch,
   };
 }

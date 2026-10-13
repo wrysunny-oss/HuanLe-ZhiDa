@@ -139,22 +139,45 @@ export const getAdRewardConfig = async () => {
     where: { id: 1 }, create: { id: 1 }, update: {},
   });
   const { dramaUnlockRewardEnabled, ...common } = config;
-  return { ...common, contentUnlockRewardEnabled: dramaUnlockRewardEnabled, rewardedAdMilestones: normalizeRewardMilestones(config.rewardedAdMilestones), inviteMilestones: normalizeRewardMilestones(config.inviteMilestones, 1_000_000), secureEcpmReady: Boolean(env.PANGLE_RSS_PRIVATE_KEY) };
+  return { ...common, contentUnlockRewardEnabled: dramaUnlockRewardEnabled, rewardedAdMilestones: normalizeRewardMilestones(config.rewardedAdMilestones), inviteMilestones: normalizeRewardMilestones(config.inviteMilestones, 1_000_000, "invite"), secureEcpmReady: Boolean(env.PANGLE_RSS_PRIVATE_KEY) };
 };
 
 /** 数据库 JSON 进入结算前统一清洗，旧数据或人工误改不会导致错误发币。 */
-export function normalizeRewardMilestones(value: Prisma.JsonValue | null | undefined, maxCount = 1_000): RewardMilestone[] {
+export function normalizeRewardMilestones(value: Prisma.JsonValue | null | undefined, maxCount = 1_000, kind: "ad" | "invite" = "ad"): RewardMilestone[] {
   if (!Array.isArray(value)) return [];
   const unique = new Map<string, RewardMilestone>();
   for (const item of value) {
     if (!item || typeof item !== "object" || Array.isArray(item)) continue;
-    const count = Number((item as Record<string, unknown>).count);
-    const rewardCoins = Number((item as Record<string, unknown>).rewardCoins);
-    const period = (item as Record<string, unknown>).period === "LIFETIME" ? "LIFETIME" : "DAILY";
+    const row = item as Record<string, unknown>;
+    const count = Number(row.count);
+    const rewardCoins = Number(row.rewardCoins);
+    const period = row.period === "LIFETIME" ? "LIFETIME" : "DAILY";
     if (!Number.isInteger(count) || count < 1 || count > maxCount || !Number.isInteger(rewardCoins) || rewardCoins < 1 || rewardCoins > 1_000_000_000) continue;
-    unique.set(`${period}:${count}`, { count, rewardCoins, period });
+    if (kind === "invite") {
+      unique.set(`${period}:${count}`, { count, rewardCoins, period });
+      continue;
+    }
+    const adFormat = row.adFormat === "NATIVE" ? "NATIVE" : "REWARD";
+    const networkFirmId = ["8", "15", "28", "49", "66"].includes(String(row.networkFirmId))
+      ? String(row.networkFirmId) as "8" | "15" | "28" | "49" | "66"
+      : "AUTO";
+    const interval = Number(row.minIntervalSeconds);
+    const minIntervalSeconds = Number.isInteger(interval) && interval >= 15 && interval <= 3600
+      ? interval
+      : 60;
+    unique.set(`${adFormat}:${networkFirmId}:${period}:${count}`, { count, rewardCoins, period, adFormat, networkFirmId, minIntervalSeconds });
   }
   return [...unique.values()].sort((left, right) => left.period.localeCompare(right.period) || left.count - right.count);
+}
+
+export function adMilestoneBizId(userId: bigint, day: string, item: RewardMilestone) {
+  const periodKey = item.period === "DAILY" ? day : "lifetime";
+  const format = item.adFormat ?? "REWARD";
+  const network = item.networkFirmId ?? "AUTO";
+  // 保留旧档位的幂等号，升级时不会重复给已领取的用户发币。
+  return format === "REWARD" && network === "AUTO"
+    ? `ad-milestone:${userId}:${periodKey}:${item.count}`
+    : `ad-milestone:${userId}:${periodKey}:${format}:${network}:${item.count}`;
 }
 
 /** 更新全局广告分成比例并记录审计；比例以万分比保存。 */
@@ -164,7 +187,7 @@ export async function updateAdRewardConfig(operatorId: bigint, rates: UpdateAdRe
     ...commonRates,
     dramaUnlockRewardEnabled: contentUnlockRewardEnabled,
     rewardedAdMilestones: normalizeRewardMilestones(rates.rewardedAdMilestones as unknown as Prisma.JsonValue) as unknown as Prisma.InputJsonValue,
-    inviteMilestones: normalizeRewardMilestones(rates.inviteMilestones as unknown as Prisma.JsonValue, 1_000_000) as unknown as Prisma.InputJsonValue,
+    inviteMilestones: normalizeRewardMilestones(rates.inviteMilestones as unknown as Prisma.JsonValue, 1_000_000, "invite") as unknown as Prisma.InputJsonValue,
   };
   const config = await prisma.$transaction(async (tx) => {
     const config = await tx.adRewardConfig.upsert({ where: { id: 1 }, create: { id: 1, ...normalizedRates }, update: normalizedRates });
@@ -172,7 +195,7 @@ export async function updateAdRewardConfig(operatorId: bigint, rates: UpdateAdRe
     return config;
   });
   const { dramaUnlockRewardEnabled, ...common } = config;
-  return { ...common, contentUnlockRewardEnabled: dramaUnlockRewardEnabled, rewardedAdMilestones: normalizeRewardMilestones(config.rewardedAdMilestones), inviteMilestones: normalizeRewardMilestones(config.inviteMilestones, 1_000_000), secureEcpmReady: Boolean(env.PANGLE_RSS_PRIVATE_KEY) };
+  return { ...common, contentUnlockRewardEnabled: dramaUnlockRewardEnabled, rewardedAdMilestones: normalizeRewardMilestones(config.rewardedAdMilestones), inviteMilestones: normalizeRewardMilestones(config.inviteMilestones, 1_000_000, "invite"), secureEcpmReady: Boolean(env.PANGLE_RSS_PRIVATE_KEY) };
 }
 
 /** 设置用户独立广告分成；null 恢复继承全局比例。 */
@@ -323,11 +346,22 @@ export function settleAdReward(operatorId: bigint | null, input: { requestId: st
       }
       currentUserId = ancestor.id;
     }
-    const milestoneCandidates = completedRewardedAds > 0
-      ? normalizeRewardMilestones(globalConfig.rewardedAdMilestones).filter((item) => item.count <= (item.period === "DAILY" ? completedRewardedAds : lifetimeRewardedAds))
+    const rewardMilestones = awardedCoins > 0n && format === "REWARD"
+      ? normalizeRewardMilestones(globalConfig.rewardedAdMilestones).filter((item) => item.adFormat === "REWARD")
       : [];
+    const milestoneProgress = await Promise.all(rewardMilestones.map(async (item) => {
+      const network = item.networkFirmId ?? "AUTO";
+      if (network !== "AUTO" && input.source !== `TAKU:${network}`) return 0;
+      if (network === "AUTO") return item.period === "DAILY" ? completedRewardedAds : lifetimeRewardedAds;
+      const count = await tx.adRewardSettlement.count({ where: {
+        userId: input.userId, format: "REWARD", source: `TAKU:${network}`, awardedCoins: { gt: 0n },
+        ...(item.period === "DAILY" ? { createdAt: { gte: rewardedDay.start, lt: rewardedDay.end } } : {}),
+      } });
+      return count + 1;
+    }));
+    const milestoneCandidates = rewardMilestones.filter((item, index) => item.count <= milestoneProgress[index]!);
     const rewardDate = rewardedDay.start.toISOString().slice(0, 10);
-    const milestoneBizId = (item: RewardMilestone) => `ad-milestone:${input.userId}:${item.period === "DAILY" ? rewardDate : "lifetime"}:${item.count}`;
+    const milestoneBizId = (item: RewardMilestone) => adMilestoneBizId(input.userId, rewardDate, item);
     const existingMilestoneLedgers = milestoneCandidates.length > 0
       ? await tx.rewardLedger.findMany({ where: { type: "TASK", bizId: { in: milestoneCandidates.map(milestoneBizId) } }, select: { bizId: true } })
       : [];

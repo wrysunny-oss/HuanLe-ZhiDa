@@ -22,6 +22,15 @@ const saving = ref(false);
 const form = reactive({ code: '', name: '', amount: '0', enabled: true });
 const adShare = reactive({ viewer: 50, direct: 0, indirect: 0, dailyLimit: 5, splashEnabled: false, feedEnabled: false, fullScreenEnabled: false, rewardedVideoEnabled: true, contentUnlockEnabled: contentType === 'shortDrama', rewardedAdMilestones: [] as RewardMilestone[], inviteMilestones: [] as RewardMilestone[] });
 const periodOptions = [{ label: '每日', value: 'DAILY' }, { label: '永久累计', value: 'LIFETIME' }];
+const adFormatOptions = [{ label: '激励视频', value: 'REWARD' }, { label: '原生广告', value: 'NATIVE' }];
+const adNetworkOptions = [
+  { label: 'Taku 自动分配', value: 'AUTO' },
+  { label: '穿山甲', value: '15' },
+  { label: '优量汇', value: '8' },
+  { label: '快手', value: '28' },
+  { label: '米盟', value: '49' },
+  { label: 'Taku ADX', value: '66' },
+];
 const goldenConfig = reactive({ enabled: true, requiredMinutes: 5, heartbeatSeconds: 15, firstStart: '12:00', firstEnd: '14:00', secondStart: '18:00', secondEnd: '22:00' });
 const columns: DataTableColumns<RewardRule> = [
   { title: '规则', key: 'name' },
@@ -35,7 +44,10 @@ function applyAdRewardConfig(config: Awaited<ReturnType<typeof getAdRewardConfig
   Object.assign(adShare, { viewer: config.defaultShareRateBps / 100, direct: config.directShareRateBps / 100, indirect: config.indirectShareRateBps / 100, dailyLimit: config.dailyRewardedAdLimit, splashEnabled: config.splashRewardEnabled, feedEnabled: config.feedRewardEnabled, fullScreenEnabled: config.fullScreenRewardEnabled, rewardedVideoEnabled: config.rewardedVideoRewardEnabled, contentUnlockEnabled: config.contentUnlockRewardEnabled, rewardedAdMilestones: (config.rewardedAdMilestones ?? []).map(item => ({...item})), inviteMilestones: (config.inviteMilestones ?? []).map(item => ({...item})) });
 }
 async function load() { loading.value = true; try { const [rules, config, systemConfigs] = await Promise.all([getRewardRulesApi(), getAdRewardConfigApi(), contentType === 'shortDrama' ? getSystemConfigsApi() : Promise.resolve([])]); rows.value = rules; applyAdRewardConfig(config); if (contentType !== 'shortDrama') adShare.contentUnlockEnabled = false; const value = systemConfigs.find(item => item.key === 'reward.golden_watch')?.value as any; if (value) Object.assign(goldenConfig, {enabled: value.enabled !== false, requiredMinutes: Math.max(1, Math.round(Number(value.requiredSeconds ?? 300) / 60)), heartbeatSeconds: Number(value.heartbeatSeconds ?? 15), firstStart: value.periods?.[0]?.start ?? '12:00', firstEnd: value.periods?.[0]?.end ?? '14:00', secondStart: value.periods?.[1]?.start ?? '18:00', secondEnd: value.periods?.[1]?.end ?? '22:00'}); } finally { loading.value = false; } }
-function addMilestone(target: 'inviteMilestones' | 'rewardedAdMilestones') { adShare[target].push({ count: 1, rewardCoins: 100, period: 'DAILY' }); }
+function addMilestone(target: 'inviteMilestones' | 'rewardedAdMilestones') {
+  if (target === 'rewardedAdMilestones') adShare[target].push({ count: 1, rewardCoins: 100, period: 'DAILY', adFormat: 'REWARD', networkFirmId: 'AUTO', minIntervalSeconds: 60 });
+  else adShare[target].push({ count: 1, rewardCoins: 100, period: 'DAILY' });
+}
 function removeMilestone(target: 'inviteMilestones' | 'rewardedAdMilestones', index: number) { adShare[target].splice(index, 1); }
 async function saveGoldenConfig() {
   const times = [goldenConfig.firstStart, goldenConfig.firstEnd, goldenConfig.secondStart, goldenConfig.secondEnd];
@@ -51,8 +63,10 @@ async function saveGlobalAdShare() {
   const allMilestones = [...adShare.rewardedAdMilestones, ...adShare.inviteMilestones];
   if (allMilestones.some(item => !Number.isInteger(item.count) || item.count < 1 || !Number.isInteger(item.rewardCoins) || item.rewardCoins < 1)) return message.error('阶梯次数和奖励金币必须是正整数');
   if (adShare.rewardedAdMilestones.some(item => item.period === 'DAILY' && item.count > adShare.dailyLimit)) return message.error('每日广告阶梯不能超过每日广告收益上限');
-  const hasDuplicate = (items: RewardMilestone[]) => new Set(items.map(item => `${item.period}:${item.count}`)).size !== items.length;
-  if (hasDuplicate(adShare.rewardedAdMilestones) || hasDuplicate(adShare.inviteMilestones)) return message.error('同一任务、周期和次数不能重复配置');
+  if (adShare.rewardedAdMilestones.some(item => item.adFormat === 'NATIVE' && (!Number.isInteger(item.minIntervalSeconds) || (item.minIntervalSeconds ?? 0) < 15 || (item.minIntervalSeconds ?? 0) > 3600))) return message.error('原生广告任务间隔须为 15–3600 秒');
+  const duplicateAds = new Set(adShare.rewardedAdMilestones.map(item => `${item.adFormat ?? 'REWARD'}:${item.networkFirmId ?? 'AUTO'}:${item.period}:${item.count}`)).size !== adShare.rewardedAdMilestones.length;
+  const duplicateInvites = new Set(adShare.inviteMilestones.map(item => `${item.period}:${item.count}`)).size !== adShare.inviteMilestones.length;
+  if (duplicateAds || duplicateInvites) return message.error('同一任务、广告类型、平台、周期和次数不能重复配置');
   savingAdConfig.value = true;
   try {
     const saved = await updateAdRewardConfigApi({ defaultShareRateBps: Math.round(adShare.viewer * 100), directShareRateBps: Math.round(adShare.direct * 100), indirectShareRateBps: Math.round(adShare.indirect * 100), dailyRewardedAdLimit: adShare.dailyLimit, splashRewardEnabled: adShare.splashEnabled, feedRewardEnabled: adShare.feedEnabled, fullScreenRewardEnabled: adShare.fullScreenEnabled, rewardedVideoRewardEnabled: adShare.rewardedVideoEnabled, contentUnlockRewardEnabled: contentType === 'shortDrama' && adShare.contentUnlockEnabled, rewardedAdMilestones: adShare.rewardedAdMilestones.map(item => ({...item})), inviteMilestones: adShare.inviteMilestones.map(item => ({...item})) });
@@ -111,12 +125,15 @@ onMounted(load);
     <NCard class="mb-4" title="阶梯任务配置">
       <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <div>
-          <div class="mb-3 flex items-center justify-between"><div><div class="font-medium">激励广告收益任务</div><div class="text-xs text-gray-500">按服务端确认成功的激励视频收益次数统计</div></div><NButton size="small" @click="addMilestone('rewardedAdMilestones')">新增档位</NButton></div>
+          <div class="mb-3 flex items-center justify-between"><div><div class="font-medium">广告任务</div><div class="text-xs text-gray-500">激励视频按服务端回调计数；原生广告依赖客户端曝光事件及服务端时长、间隔限制，存在伪造风险，仅在达到阶梯时发额外金币，不结算单次广告收益。</div></div><NButton size="small" @click="addMilestone('rewardedAdMilestones')">新增档位</NButton></div>
           <div v-if="!adShare.rewardedAdMilestones.length" class="rounded-lg border border-dashed border-gray-700 p-5 text-center text-gray-500">尚未配置阶梯档位</div>
-          <div v-for="(item, index) in adShare.rewardedAdMilestones" :key="`ad-${index}`" class="mb-2 grid grid-cols-[120px_1fr_1fr_auto] items-center gap-2 rounded-lg border border-gray-700 p-3">
-            <NSelect v-model:value="item.period" :options="periodOptions" />
-            <NInputNumber v-model:value="item.count" :min="1" :max="1000" :precision="0" placeholder="收益次数"><template #suffix>次</template></NInputNumber>
-            <NInputNumber v-model:value="item.rewardCoins" :min="1" :max="1000000000" :precision="0" placeholder="额外金币"><template #suffix>金币</template></NInputNumber>
+          <div v-for="(item, index) in adShare.rewardedAdMilestones" :key="`ad-${index}`" class="mb-2 flex flex-wrap items-center gap-2 rounded-lg border border-gray-700 p-3">
+            <NSelect v-model:value="item.adFormat" :options="adFormatOptions" class="w-32" />
+            <NSelect v-model:value="item.networkFirmId" :options="adNetworkOptions" class="w-40" />
+            <NSelect v-model:value="item.period" :options="periodOptions" class="w-28" />
+            <NInputNumber v-model:value="item.count" :min="1" :max="1000" :precision="0" class="w-32" placeholder="完成次数"><template #suffix>次</template></NInputNumber>
+            <NInputNumber v-model:value="item.rewardCoins" :min="1" :max="1000000000" :precision="0" class="w-36" placeholder="额外金币"><template #suffix>金币</template></NInputNumber>
+            <NInputNumber v-if="item.adFormat === 'NATIVE'" v-model:value="item.minIntervalSeconds" :min="15" :max="3600" :precision="0" class="w-40" placeholder="最短间隔"><template #suffix>秒</template></NInputNumber>
             <NButton quaternary type="error" @click="removeMilestone('rewardedAdMilestones', index)">删除</NButton>
           </div>
         </div>

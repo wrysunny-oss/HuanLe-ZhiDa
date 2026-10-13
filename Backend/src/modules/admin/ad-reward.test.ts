@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { calculateAdDistribution, calculateAgentCommission, calculateVerifiedCoinDistribution, normalizeRewardMilestones, usesDailyRewardedAdLimit } from "./admin.service.js";
+import { adMilestoneBizId, calculateAdDistribution, calculateAgentCommission, calculateVerifiedCoinDistribution, normalizeRewardMilestones, usesDailyRewardedAdLimit } from "./admin.service.js";
 import { updateAdRewardConfigSchema } from "./admin.schema.js";
 
 test("全局广告配置要求合法的每日次数上限", () => {
@@ -18,9 +18,19 @@ test("阶梯任务支持每日和永久周期并过滤非法配置", () => {
     { count: 5, rewardCoins: 100, period: "DAILY" },
     { count: 0, rewardCoins: 100, period: "DAILY" },
   ]), [
-    { count: 5, rewardCoins: 100, period: "DAILY" },
-    { count: 10, rewardCoins: 500, period: "LIFETIME" },
+    { count: 5, rewardCoins: 100, period: "DAILY", adFormat: "REWARD", networkFirmId: "AUTO", minIntervalSeconds: 60 },
+    { count: 10, rewardCoins: 500, period: "LIFETIME", adFormat: "REWARD", networkFirmId: "AUTO", minIntervalSeconds: 60 },
   ]);
+});
+
+test("原生广告档位与激励视频档位独立，旧奖励幂等号保持不变", () => {
+  const items = normalizeRewardMilestones([
+    { count: 1, rewardCoins: 100, period: "DAILY", adFormat: "NATIVE", networkFirmId: "8", minIntervalSeconds: 90 },
+    { count: 1, rewardCoins: 50, period: "DAILY", adFormat: "REWARD", networkFirmId: "AUTO" },
+  ]);
+  assert.equal(items.length, 2);
+  assert.equal(adMilestoneBizId(7n, "2026-10-13", items.find(item => item.adFormat === "NATIVE")!), "ad-milestone:7:2026-10-13:NATIVE:8:1");
+  assert.equal(adMilestoneBizId(7n, "2026-10-13", items.find(item => item.adFormat === "REWARD")!), "ad-milestone:7:2026-10-13:1");
 });
 
 test("任务激励与短剧解锁共用每日收益次数限制", () => {
