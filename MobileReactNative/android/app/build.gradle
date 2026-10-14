@@ -163,8 +163,8 @@ android {
         applicationId androidApplicationId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.2"
         manifestPlaceholders.appLabel = appDisplayName
         buildConfigField "String", "CONTENT_TYPE", buildConfigString(configuredContentType ?: "none")
         buildConfigField "String", "TAKU_APP_KEY", buildConfigString(takuEnabled ? takuAppKey : "")
